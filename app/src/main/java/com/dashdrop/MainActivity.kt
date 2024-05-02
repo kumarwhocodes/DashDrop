@@ -24,9 +24,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Screen(modifier: Modifier = Modifier) {
-
-
-}
