@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">DashDrop</string>
+    <string name="Sign_Up">Sign Up</string>
+    <string name="Sign_Up_Info">To get more advantages sign up your accounts by filling in some informations</string>
+    <string name="Other_Sign_Up">Other sign up options</string>
+    <string name="Name">Your Name</string>
+    <string name="Email_Address">Email Address</string>
+    <string name="Password">Enter Your Password</string>
+    <string name="Google">google_icon</string>
+    <string name="Sign_In">Sign In</string>
+    <string name="Sign_In_Info">Enter your email address and password to access your account or create an account</string>
+    <string name="Other_Sign_In">Other sign in options</string>
 </resources>

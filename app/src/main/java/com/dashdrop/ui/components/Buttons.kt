@@ -1,11 +1,14 @@
 package com.dashdrop.ui.components
 
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,22 +17,28 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DismissValue
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.dashdrop.R
 import com.dashdrop.ui.theme.DashDropTheme
+import com.dashdrop.ui.theme.bg
 
 @Preview
 @Composable
@@ -72,12 +81,12 @@ fun PrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shapes: RoundedCornerShape = RoundedCornerShape(percent = 50),
+    shapes: RoundedCornerShape = RoundedCornerShape(percent = 25),
     color: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-        disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
+        containerColor = bg,
+        contentColor = Color.White,
+        disabledContainerColor = bg.copy(alpha = 0.4f),
+        disabledContentColor = Color.White.copy(alpha = 0.8f)
     ),
     contentPadding: PaddingValues = PaddingValues(25.dp, 0.dp),
     content: @Composable (RowScope.() -> Unit)
@@ -100,7 +109,7 @@ fun SecondaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shapes: RoundedCornerShape = RoundedCornerShape(percent = 50),
+    shapes: RoundedCornerShape = RoundedCornerShape(percent = 25),
     color: ButtonColors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.onPrimary,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -146,6 +155,19 @@ fun FAB(
     }
 }
 
+@Composable
+fun LoginButton(value: String,onClick: () -> Unit) {
+    PrimaryButton(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = value,
+            fontSize = 15.sp
+        )
+    }
+}
 
 @Composable
 fun SmallCircularImageButton(
@@ -156,12 +178,14 @@ fun SmallCircularImageButton(
     Surface(
         modifier = Modifier.size(50.dp),
         shape = CircleShape,
-
+        color = Color.White
     ) {
         Image(
+            modifier = Modifier
+                .padding(10.dp)
+                .clickable(onClick = onClick),
             painter = image,
-            contentDescription = desc,
-            modifier = Modifier.clickable(onClick = onClick)
+            contentDescription = desc
         )
 
     }
