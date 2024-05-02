@@ -19,8 +19,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DashDropTheme {
-            //test
+
             }
         }
     }
+}
+
+@Composable
+fun Screen(modifier: Modifier = Modifier) {
+
+
 }
