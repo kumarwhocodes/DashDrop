@@ -154,11 +154,13 @@ fun FAB(
 }
 
 @Composable
-fun LoginButton(value: String, onClick: () -> Unit) {
+fun LoginButton(value: String, onClick: () -> Unit,
+                isEnabled:Boolean) {
     PrimaryButton(
         onClick = onClick,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        enabled = isEnabled
     ) {
         Text(
             text = value,

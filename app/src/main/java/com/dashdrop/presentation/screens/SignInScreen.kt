@@ -1,4 +1,4 @@
-package com.dashdrop.screens
+package com.dashdrop.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dashdrop.R
+import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.presentation.viewmodels.UIEvent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
 import com.dashdrop.ui.components.HeadingText
@@ -31,10 +34,9 @@ import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
 
-
-//TODO: Color Scheme bacha hai UI mein bss
+//TODO: New to here? Register wala button add krna hai
 @Composable
-fun SignUpScreen() {
+fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,18 +46,18 @@ fun SignUpScreen() {
     )
     {
         Column(
-            modifier = Modifier.padding(20.dp,0.dp),
+            modifier = Modifier.padding(20.dp, 0.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(35.dp))
             HeadingText(
-                value = stringResource(id = R.string.Sign_Up),
+                value = stringResource(id = R.string.Sign_In),
                 size = 30.sp,
                 weight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.height(10.dp))
             HeadingText(
-                value = stringResource(id = R.string.Sign_Up_Info),
+                value = stringResource(id = R.string.Sign_In_Info),
                 size = 16.sp,
                 weight = FontWeight.Normal
             )
@@ -77,43 +79,47 @@ fun SignUpScreen() {
                         .fillMaxSize()
                         .padding(12.dp, 0.dp),
                     verticalArrangement = Arrangement.Top,
-                    
-                ) {
+
+                    ) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    TextField_Text(labelValue = stringResource(id = R.string.Name))
-                    Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField {}
-                    Spacer(modifier = Modifier.height(15.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
                     Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField {}
+                    CustomInputField(onTextSelected = {
+                        signInViewModel.onEvent(UIEvent.EmailChanged(it))
+                    }, errorStatus = signInViewModel.registrationUIState.value.emailError)
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Password))
                     Spacer(modifier = Modifier.height(5.dp))
-                    PasswordTextField(onTextSelected = {})
+                    PasswordTextField(
+                        onTextSelected = {
+                            signInViewModel.onEvent(UIEvent.PasswordChanged(it))
+                        },
+                        errorStatus = signInViewModel.registrationUIState.value.passwordError
+                    )
                     Spacer(modifier = Modifier.height(30.dp))
 
                     LoginButton(
-                        value = stringResource(id = R.string.Sign_Up),
+                        value = stringResource(id = R.string.Sign_In),
                         onClick = {
 
-                        }
+                        },
+                        isEnabled = true
                     )
 
 
-                    Spacer(modifier = Modifier.height(40.dp))
+                    Spacer(modifier = Modifier.height(140.dp))
 
-                    DividerTextComponent(value = stringResource(id = R.string.Other_Sign_Up))
+                    DividerTextComponent(value = stringResource(id = R.string.Other_Sign_In))
 
                     Spacer(modifier = Modifier.height(8.dp))
                     Box(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         SmallCircularImageButton(
                             onClick = { },
                             image = painterResource(id = R.drawable.google),
-                            desc = stringResource(id = R.string.Google)
+                            desc = "google_icon"
                         )
                     }
                 }
@@ -126,9 +132,8 @@ fun SignUpScreen() {
     }
 }
 
-
 @Composable
 @Preview(showSystemUi = true)
-fun SignUpScreen_Preview() {
-    SignUpScreen()
+fun SignInScreen_Preview() {
+    SignInScreen()
 }

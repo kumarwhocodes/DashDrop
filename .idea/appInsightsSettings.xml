@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.dashdrop" />
+                  <option name="mobileSdkAppId" value="1:99427266266:android:672f620335d98533deffe3" />
+                  <option name="projectId" value="dashdrop-1d768" />
+                  <option name="projectNumber" value="99427266266" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

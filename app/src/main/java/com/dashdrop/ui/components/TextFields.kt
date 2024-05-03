@@ -49,10 +49,11 @@ fun HeadingText(value: String, size: TextUnit, weight: FontWeight) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTextField(onTextSelected: (String)->Unit){
+fun CustomTextField(onTextSelected: (String) -> Unit) {
     val value = remember { mutableStateOf("") }
-    OutlinedTextField(modifier = Modifier
-        .fillMaxWidth(),
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         value = value.value,
         singleLine = true,
@@ -63,26 +64,33 @@ fun CustomTextField(onTextSelected: (String)->Unit){
         maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedLabelColor = MaterialTheme.colorScheme.primary,
-            focusedTextColor =  MaterialTheme.colorScheme.secondary,
-            unfocusedLabelColor =  MaterialTheme.colorScheme.primary,
-            unfocusedTextColor =  MaterialTheme.colorScheme.secondary
-        ))
+            focusedTextColor = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedTextColor = MaterialTheme.colorScheme.secondary
+        )
+    )
 }
 
 @Composable
 fun TextField_Text(labelValue: String) {
-    Text(text = labelValue,
+    Text(
+        text = labelValue,
         fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
-        color = Color.Black)
+        color = Color.Black
+    )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomInputField(onTextSelected: (String)->Unit)
-{
+fun CustomInputField(
+    onTextSelected: (String) -> Unit,
+    errorStatus: Boolean
+) {
     val value = remember { mutableStateOf("") }
-    OutlinedTextField(modifier = Modifier
-        .fillMaxWidth(),
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         value = value.value,
         singleLine = true,
@@ -93,10 +101,11 @@ fun CustomInputField(onTextSelected: (String)->Unit)
         maxLines = 1,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedLabelColor = MaterialTheme.colorScheme.primary,
-            focusedTextColor =  MaterialTheme.colorScheme.secondary,
-            unfocusedLabelColor =  MaterialTheme.colorScheme.primary,
-            unfocusedTextColor =  MaterialTheme.colorScheme.secondary
-        ))
+            focusedTextColor = MaterialTheme.colorScheme.secondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedTextColor = MaterialTheme.colorScheme.secondary
+        ), isError = !errorStatus
+    )
 }
 
 @Composable
@@ -120,7 +129,10 @@ fun DividerTextComponent(value: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(onTextSelected: (String) -> Unit) {
+fun PasswordTextField(
+    onTextSelected: (String) -> Unit,
+    errorStatus: Boolean
+) {
 
     val localFocusManager = LocalFocusManager.current
 
@@ -130,10 +142,13 @@ fun PasswordTextField(onTextSelected: (String) -> Unit) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
+        ),
         singleLine = true,
         maxLines = 1,
-        keyboardActions = KeyboardActions{
+        keyboardActions = KeyboardActions {
             localFocusManager.clearFocus()
         },
         value = password.value,
@@ -149,15 +164,15 @@ fun PasswordTextField(onTextSelected: (String) -> Unit) {
         ),
         trailingIcon = {
 
-            val iconImage = if(passwordVisible.value){
+            val iconImage = if (passwordVisible.value) {
                 Icons.Filled.Visibility
-            }else{
+            } else {
                 Icons.Filled.VisibilityOff
             }
 
-            val description = if(passwordVisible.value){
+            val description = if (passwordVisible.value) {
                 "Hide Password"
-            }else{
+            } else {
                 "Show Password"
             }
 
@@ -171,25 +186,24 @@ fun PasswordTextField(onTextSelected: (String) -> Unit) {
             }
 
         },
-        visualTransformation = if(passwordVisible.value)
+        visualTransformation = if (passwordVisible.value)
             VisualTransformation.None
         else
             PasswordVisualTransformation(),
-
-    )
+        isError = !errorStatus)
 }
 
 
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Column (modifier = Modifier.padding(20.dp)){
+    Column(modifier = Modifier.padding(20.dp)) {
         TextField_Text(labelValue = "Your Name")
-        CustomTextField( onTextSelected = {})
+        CustomTextField(onTextSelected = {})
         TextField_Text(labelValue = "Email Address")
-        CustomInputField(onTextSelected = {})
+        CustomInputField(onTextSelected = {}, errorStatus = true)
         TextField_Text(labelValue = "Enter Your Password")
-        PasswordTextField(onTextSelected = {})
+        PasswordTextField(onTextSelected = {}, errorStatus = true)
         DividerTextComponent(value = "or sign up with")
     }
 
