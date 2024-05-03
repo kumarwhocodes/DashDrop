@@ -1,4 +1,4 @@
-package com.dashdrop.postOfficeApp
+package com.dashdrop.navigation
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,9 +13,9 @@ sealed class Screen(){
     object BillingScreen : Screen()
 }
 
-object PostOfficeAppRouter{
+object DashDropAppRouter{
 
-    val currentScreen: MutableState<Screen> = mutableStateOf(Screen.SignInScreen)
+    val currentScreen: MutableState<Screen> = mutableStateOf(Screen.SignUpScreen)
 
     fun navigateTo(destination : Screen){
         currentScreen.value = destination
