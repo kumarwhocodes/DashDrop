@@ -80,7 +80,7 @@ fun SignInScreen() {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
                     Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField() {}
+                    CustomInputField{}
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Password))
                     Spacer(modifier = Modifier.height(5.dp))

@@ -10,7 +10,7 @@ import com.dashdrop.ui.theme.DashDropTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
             DashDropTheme {
                 PostOfficeApp()

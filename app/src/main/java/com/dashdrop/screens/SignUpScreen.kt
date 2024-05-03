@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,13 +27,12 @@ import com.dashdrop.ui.components.DividerTextComponent
 import com.dashdrop.ui.components.HeadingText
 import com.dashdrop.ui.components.LoginButton
 import com.dashdrop.ui.components.PasswordTextField
-import com.dashdrop.ui.components.PrimaryButton
 import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
 
 
-//TODO: Color Scheme ka kal dekhenge aur bss cards wagera buttons wagera ko round krna hai side se
+//TODO: Color Scheme bacha hai UI mein bss
 @Composable
 fun SignUpScreen() {
     Column(
@@ -84,11 +82,11 @@ fun SignUpScreen() {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Name))
                     Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField() {}
+                    CustomInputField {}
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
                     Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField() {}
+                    CustomInputField {}
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField_Text(labelValue = stringResource(id = R.string.Password))
                     Spacer(modifier = Modifier.height(5.dp))
