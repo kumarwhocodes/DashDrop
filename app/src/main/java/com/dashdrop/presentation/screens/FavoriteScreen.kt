@@ -1,4 +1,4 @@
-package com.dashdrop.screens
+package com.dashdrop.presentation.screens
 
 import androidx.compose.runtime.Composable
 

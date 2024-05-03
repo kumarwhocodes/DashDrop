@@ -1,9 +1,9 @@
 package com.dashdrop.ui.components
 
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
@@ -17,22 +17,20 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.shapes
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -143,7 +141,7 @@ fun FAB(
         onClick = onClick,
         modifier = modifier,
         shape = shape,
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = bg,
         contentColor = MaterialTheme.colorScheme.onPrimary,
         elevation = elevation
     ) {
@@ -156,11 +154,13 @@ fun FAB(
 }
 
 @Composable
-fun LoginButton(value: String,onClick: () -> Unit) {
+fun LoginButton(value: String, onClick: () -> Unit,
+                isEnabled:Boolean) {
     PrimaryButton(
         onClick = onClick,
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        enabled = isEnabled
     ) {
         Text(
             text = value,
@@ -175,18 +175,27 @@ fun SmallCircularImageButton(
     image: Painter,
     desc: String
 ) {
-    Surface(
-        modifier = Modifier.size(50.dp),
-        shape = CircleShape,
-        color = Color.White
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(10.dp)
+            .border(
+                width = 2.dp,
+                color = Color.LightGray,
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Image(
             modifier = Modifier
-                .padding(10.dp)
+                .size(50.dp)
+                .clip(shape = CircleShape)
                 .clickable(onClick = onClick),
             painter = image,
             contentDescription = desc
         )
 
     }
+
 }
+
