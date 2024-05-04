@@ -23,8 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dashdrop.R
+import com.dashdrop.navigation.DashDropAppRouter
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.presentation.viewmodels.UIEvent
+import com.dashdrop.ui.components.ClickableLoginTextComponent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
 import com.dashdrop.ui.components.HeadingText
@@ -124,8 +127,15 @@ fun SignUpScreen(signInViewModel: SignInViewModel = viewModel()) {
                         isEnabled = signInViewModel.allValidationsPassed.value
                     )
 
+                    Spacer(modifier = Modifier.height(30.dp))
+                    ClickableLoginTextComponent(
+                        tryingToLogin = true,
+                        onTextSelected = {
+                            DashDropAppRouter.navigateTo(Screen.SignInScreen)
+                        }
+                    )
 
-                    Spacer(modifier = Modifier.height(40.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     DividerTextComponent(value = stringResource(id = R.string.Other_Sign_Up))
 
