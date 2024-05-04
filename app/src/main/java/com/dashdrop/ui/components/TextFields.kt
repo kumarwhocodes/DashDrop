@@ -45,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HeadingText(value: String, size: TextUnit, weight: FontWeight) {
+fun HeadingText(value: String, size: TextUnit, weight: FontWeight,color: Color) {
     Text(
         text = value,
         fontSize = size,
         fontWeight = weight,
-        color = Color.White,
+        color = color,
         textAlign = TextAlign.Center
     )
 }
@@ -206,6 +206,7 @@ fun PasswordTextField(
 @Composable
 private fun Preview() {
     Column(modifier = Modifier.padding(20.dp)) {
+        HeadingText(value = "Heading Text", size = 32.sp, weight = FontWeight.Bold, color = Color.Black)
         TextField_Text(labelValue = "Your Name")
         CustomTextField(onTextSelected = {})
         TextField_Text(labelValue = "Email Address")
