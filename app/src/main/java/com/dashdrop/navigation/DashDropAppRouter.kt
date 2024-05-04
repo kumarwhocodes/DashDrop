@@ -3,7 +3,7 @@ package com.dashdrop.navigation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
-sealed class Screen(){
+sealed class Screen() {
     object SignInScreen : Screen()
     object SignUpScreen : Screen()
     object HomeScreen : Screen()
@@ -13,11 +13,11 @@ sealed class Screen(){
     object BillingScreen : Screen()
 }
 
-object DashDropAppRouter{
+object DashDropAppRouter {
 
-    val currentScreen: MutableState<Screen> = mutableStateOf(Screen.SignUpScreen)
+    val currentScreen: MutableState<Screen> = mutableStateOf(Screen.SignInScreen)
 
-    fun navigateTo(destination : Screen){
+    fun navigateTo(destination: Screen) {
         currentScreen.value = destination
     }
 

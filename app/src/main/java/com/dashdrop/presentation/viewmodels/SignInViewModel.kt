@@ -1,101 +1,95 @@
 package com.dashdrop.presentation.viewmodels
 
-
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
-
-
-//TODO: First page signin wala set tha usko ham signup kiye hai...already have and account wala clickable button bnane k baad wapas se start destination ko signin wala krdena
 
 class SignInViewModel : ViewModel() {
 
     private lateinit var auth: FirebaseAuth
 
-    var registrationUIState = mutableStateOf(RegistrationUIState())
+    var loginUIState = mutableStateOf(LoginUIState())
 
     var allValidationsPassed = mutableStateOf(false)
 
-    fun onEvent(event: UIEvent) {
-        validateDataWithRules()
-        when (event) {
-            is UIEvent.NameChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
-                    name = event.name
-                )
-            }
+    var loginInProgress = mutableStateOf(false)
 
-            is UIEvent.EmailChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
+    fun onEvent(event: SignInUIEvent) {
+        validateLoginUIDataWithRules()
+        when (event) {
+            is SignInUIEvent.EmailChanged -> {
+                loginUIState.value = loginUIState.value.copy(
                     email = event.email
                 )
             }
 
-            is UIEvent.PasswordChanged -> {
-                registrationUIState.value = registrationUIState.value.copy(
+            is SignInUIEvent.PasswordChanged -> {
+                loginUIState.value = loginUIState.value.copy(
                     password = event.password
                 )
             }
 
-            is UIEvent.RegisterButtonClicked -> {
-                signUp()
+            is SignInUIEvent.LoginButtonClicked -> {
+                login(loginUIState.value.email, loginUIState.value.password)
             }
         }
     }
 
-    private fun signUp() {
-        createUserInFirebase(
-            email = registrationUIState.value.email,
-            password = registrationUIState.value.password
-        )
-    }
-
-    private fun validateDataWithRules() {
-        val nameResult = Validator.validateName(
-            name = registrationUIState.value.name
-        )
+    private fun validateLoginUIDataWithRules() {
         val emailResult = Validator.validateEmail(
-            email = registrationUIState.value.email
-        )
-        val passwordResult = Validator.validatePassword(
-            password = registrationUIState.value.password
+            email = loginUIState.value.email
         )
 
-        registrationUIState.value = registrationUIState.value.copy(
-            nameError = nameResult.status,
+        val passwordResult = Validator.validatePassword(
+            password = loginUIState.value.password
+        )
+
+        loginUIState.value = loginUIState.value.copy(
             emailError = emailResult.status,
             passwordError = passwordResult.status
-
         )
-        allValidationsPassed.value =
-            nameResult.status && emailResult.status && passwordResult.status
+
+        allValidationsPassed.value = emailResult.status && passwordResult.status
     }
 
-    private fun createUserInFirebase(
-        email: String,
-        password: String
-    ) {
+
+    private fun login(email: String, password: String) {
+        loginInProgress.value = true
         auth = Firebase.auth
         auth
-            .createUserWithEmailAndPassword(email, password)
+            .signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                Log.d("mera_tag", "hogya create user")
-                if(it.isSuccessful){
+                Log.d("mera_tag", "hogya login")
+                loginInProgress.value = false
+                if (it.isSuccessful) {
                     DashDropAppRouter.navigateTo(Screen.HomeScreen)
                 }
             }
             .addOnFailureListener {
-                Log.d("mera_tag", "nhi hua create")
+                loginInProgress.value = false
+                Log.d("mera_tag", "nhi hua login")
             }
-
-
     }
 
+    fun logout() {
+        auth = Firebase.auth
+        auth.signOut()
 
+        val authStateListener = AuthStateListener {
+            if (it.currentUser == null) {
+                Log.d("mera_tag", "hogya logout")
+                DashDropAppRouter.navigateTo(Screen.SignInScreen)
+            } else {
+                Log.d("mera_tag", "nhi hua logout")
+            }
+        }
+
+        auth.addAuthStateListener(authStateListener)
+    }
 }
