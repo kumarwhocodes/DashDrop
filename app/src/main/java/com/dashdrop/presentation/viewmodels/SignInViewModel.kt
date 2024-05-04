@@ -4,12 +4,14 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.dashdrop.navigation.DashDropAppRouter
+import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-//TODO: Signup krne k baad on complete listener k baad on failure wala bhi call horha hai
-//TODO: After signup, navigation ni horha
+
+
 //TODO: First page signin wala set tha usko ham signup kiye hai...already have and account wala clickable button bnane k baad wapas se start destination ko signin wala krdena
 
 class SignInViewModel : ViewModel() {
@@ -84,6 +86,9 @@ class SignInViewModel : ViewModel() {
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 Log.d("mera_tag", "hogya create user")
+                if(it.isSuccessful){
+                    DashDropAppRouter.navigateTo(Screen.HomeScreen)
+                }
             }
             .addOnFailureListener {
                 Log.d("mera_tag", "nhi hua create")
