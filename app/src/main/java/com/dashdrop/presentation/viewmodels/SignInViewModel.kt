@@ -10,8 +10,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
-
 //TODO: First page signin wala set tha usko ham signup kiye hai...already have and account wala clickable button bnane k baad wapas se start destination ko signin wala krdena
 
 class SignInViewModel : ViewModel() {

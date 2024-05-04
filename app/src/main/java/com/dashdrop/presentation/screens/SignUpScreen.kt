@@ -40,7 +40,6 @@ import com.dashdrop.ui.theme.bg
 
 
 //TODO: Color Scheme bacha hai UI mein bss
-//TODO: Already have an account wala clickable text add krna h
 
 @Composable
 fun SignUpScreen(signInViewModel: SignInViewModel = viewModel()) {

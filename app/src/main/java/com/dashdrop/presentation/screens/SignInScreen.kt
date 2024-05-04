@@ -38,7 +38,6 @@ import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
 
-//TODO: New to here? Register wala button add krna hai
 @Composable
 fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
     Column(
@@ -114,7 +113,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
 
                     Spacer(modifier = Modifier.height(30.dp))
                     ClickableLoginTextComponent(
-                        tryingToLogin = true,
+                        tryingToLogin = false,
                         onTextSelected = {
                             DashDropAppRouter.navigateTo(Screen.SignInScreen)
                         }
