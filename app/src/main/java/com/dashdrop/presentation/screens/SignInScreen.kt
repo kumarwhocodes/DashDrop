@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,8 +27,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dashdrop.R
 import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.viewmodels.LoginUIState
+import com.dashdrop.presentation.viewmodels.SignInUIEvent
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.viewmodels.UIEvent
+import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.ui.components.ClickableLoginTextComponent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
@@ -38,111 +41,129 @@ import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
 
-//TODO: New to here? Register wala button add krna hai
 @Composable
 fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = bg)
-            .padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
-        Column(
-            modifier = Modifier.padding(20.dp, 0.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(35.dp))
-            HeadingText(
-                value = stringResource(id = R.string.Sign_In),
-                size = 30.sp,
-                weight = FontWeight.ExtraBold,
-                color = Color.White
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = bg)
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            HeadingText(
-                value = stringResource(id = R.string.Sign_In_Info),
-                size = 16.sp,
-                weight = FontWeight.Normal,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(50.dp))
-        }
-
-        Card(
-            modifier = Modifier
-                .padding(5.dp),
-            elevation = CardDefaults.elevatedCardElevation(10.dp)
-        ) {
-            Surface {
+            {
                 Column(
-                    modifier = Modifier
-                        .padding(
-                            top = 10.dp, bottom = 10.dp,
-                            start = 5.dp, end = 5.dp
-                        )
-                        .fillMaxSize()
-                        .padding(12.dp, 0.dp),
-                    verticalArrangement = Arrangement.Top,
-
-                    ) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
-                    Spacer(modifier = Modifier.height(5.dp))
-                    CustomInputField(onTextSelected = {
-                        signInViewModel.onEvent(UIEvent.EmailChanged(it))
-                    }, errorStatus = signInViewModel.registrationUIState.value.emailError)
-                    Spacer(modifier = Modifier.height(15.dp))
-                    TextField_Text(labelValue = stringResource(id = R.string.Password))
-                    Spacer(modifier = Modifier.height(5.dp))
-                    PasswordTextField(
-                        onTextSelected = {
-                            signInViewModel.onEvent(UIEvent.PasswordChanged(it))
-                        },
-                        errorStatus = signInViewModel.registrationUIState.value.passwordError
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
-
-                    LoginButton(
+                    modifier = Modifier.padding(20.dp, 0.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(35.dp))
+                    HeadingText(
                         value = stringResource(id = R.string.Sign_In),
-                        onClick = {
-
-                        },
-                        isEnabled = true
+                        size = 30.sp,
+                        weight = FontWeight.ExtraBold,
+                        color = Color.White
                     )
-
-                    Spacer(modifier = Modifier.height(30.dp))
-                    ClickableLoginTextComponent(
-                        tryingToLogin = true,
-                        onTextSelected = {
-                            DashDropAppRouter.navigateTo(Screen.SignInScreen)
-                        }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    HeadingText(
+                        value = stringResource(id = R.string.Sign_In_Info),
+                        size = 16.sp,
+                        weight = FontWeight.Normal,
+                        color = Color.White
                     )
-
-                    Spacer(modifier = Modifier.height(100.dp))
-
-                    DividerTextComponent(value = stringResource(id = R.string.Other_Sign_In))
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        SmallCircularImageButton(
-                            onClick = { },
-                            image = painterResource(id = R.drawable.google),
-                            desc = "google_icon"
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(50.dp))
                 }
+
+                Card(
+                    modifier = Modifier
+                        .padding(5.dp),
+                    elevation = CardDefaults.elevatedCardElevation(10.dp)
+                ) {
+                    Surface {
+                        Column(
+                            modifier = Modifier
+                                .padding(
+                                    top = 10.dp, bottom = 10.dp,
+                                    start = 5.dp, end = 5.dp
+                                )
+                                .fillMaxSize()
+                                .padding(12.dp, 0.dp),
+                            verticalArrangement = Arrangement.Top,
+
+                            ) {
+
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
+                            Spacer(modifier = Modifier.height(5.dp))
+                            CustomInputField(onTextSelected = {
+                                signInViewModel.onEvent(SignInUIEvent.EmailChanged(it))
+                            }, errorStatus = signInViewModel.loginUIState.value.emailError)
+
+                            Spacer(modifier = Modifier.height(15.dp))
+
+                            TextField_Text(labelValue = stringResource(id = R.string.Password))
+                            Spacer(modifier = Modifier.height(5.dp))
+                            PasswordTextField(
+                                onTextSelected = {
+                                    signInViewModel.onEvent(SignInUIEvent.PasswordChanged(it))
+                                },
+                                errorStatus = signInViewModel.loginUIState.value.passwordError
+                            )
+
+                            Spacer(modifier = Modifier.height(30.dp))
+
+                            LoginButton(
+                                value = stringResource(id = R.string.Sign_In),
+                                onClick = {
+                                    signInViewModel.onEvent(SignInUIEvent.LoginButtonClicked)
+                                },
+                                isEnabled = signInViewModel.allValidationsPassed.value
+                            )
+
+                            Spacer(modifier = Modifier.height(30.dp))
+                            ClickableLoginTextComponent(
+                                tryingToLogin = false,
+                                onTextSelected = {
+                                    DashDropAppRouter.navigateTo(Screen.SignUpScreen)
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.height(100.dp))
+
+                            DividerTextComponent(value = stringResource(id = R.string.Other_Sign_In))
+
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                SmallCircularImageButton(
+                                    onClick = { },
+                                    image = painterResource(id = R.drawable.google),
+                                    desc = "google_icon"
+                                )
+                            }
+                        }
+                    }
+
+
+                }
+
+
             }
-
-
         }
 
-
+        if (signInViewModel.loginInProgress.value) {
+            CircularProgressIndicator(color = bg)
+        }
     }
+
+
 }
 
 @Composable
