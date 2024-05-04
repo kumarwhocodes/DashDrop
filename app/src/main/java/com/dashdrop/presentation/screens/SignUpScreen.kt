@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -125,8 +126,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                                 },
                                 errorStatus = signUpViewModel.registrationUIState.value.passwordError
                             )
-
-                            Spacer(modifier = Modifier.height(30.dp))
+                            Spacer(modifier = Modifier.height(20.dp))
 
                             LoginButton(
                                 value = stringResource(id = R.string.Sign_Up),
@@ -135,6 +135,8 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                                 },
                                 isEnabled = signUpViewModel.allValidationsPassed.value
                             )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Divider(thickness = 1.dp, color = Color.Black)
 
                             Spacer(modifier = Modifier.height(30.dp))
                             ClickableLoginTextComponent(
