@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -124,8 +125,9 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
                                 },
                                 isEnabled = signInViewModel.allValidationsPassed.value
                             )
-
-                            Spacer(modifier = Modifier.height(30.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Divider(thickness = 1.dp, color = Color.Black)
+                            Spacer(modifier = Modifier.height(20.dp))
                             ClickableLoginTextComponent(
                                 tryingToLogin = false,
                                 onTextSelected = {
@@ -133,11 +135,11 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
                                 }
                             )
 
-                            Spacer(modifier = Modifier.height(100.dp))
+                            Spacer(modifier = Modifier.height(90.dp))
 
                             DividerTextComponent(value = stringResource(id = R.string.Other_Sign_In))
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
