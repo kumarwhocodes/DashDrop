@@ -1,10 +1,13 @@
 package com.dashdrop.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,12 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -207,4 +215,41 @@ private fun Preview() {
         DividerTextComponent(value = "or sign up with")
     }
 
+}
+
+@Composable
+fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,onTextSelected: (String)->Unit) {
+
+    val initalText = if(tryingToLogin) "Already have an account? " else "Don't have an account yet? "
+    val LoginText = if(tryingToLogin) "Login" else "Register"
+
+    val annotatedString = buildAnnotatedString {
+        append(initalText)
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
+            pushStringAnnotation(tag = LoginText, annotation = LoginText)
+            append(LoginText)
+        }
+    }
+
+    ClickableText(
+        text = annotatedString,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 20.dp),
+        style = TextStyle(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = FontFamily.Default,
+            textAlign = TextAlign.Center
+        ),
+        onClick = {offset ->
+            annotatedString.getStringAnnotations(offset,offset)
+                .firstOrNull()?.also { span ->
+                    Log.d("ClickableTextComponent","{$span}")
+
+                    if(span.item == LoginText){
+                        onTextSelected(span.item)
+                    }
+                }
+        })
 }
