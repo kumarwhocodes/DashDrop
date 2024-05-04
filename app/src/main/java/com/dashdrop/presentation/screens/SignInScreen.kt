@@ -1,5 +1,10 @@
 package com.dashdrop.presentation.screens
 
+import android.content.Intent
+import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,9 +20,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,10 +39,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dashdrop.R
 import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
-import com.dashdrop.presentation.viewmodels.LoginUIState
 import com.dashdrop.presentation.viewmodels.SignInUIEvent
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.ui.components.ClickableLoginTextComponent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
@@ -41,9 +50,28 @@ import com.dashdrop.ui.components.PasswordTextField
 import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
+    var user by remember { mutableStateOf(Firebase.auth.currentUser) }
+
+    val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
+        user=result.user
+    },
+        onAuthError = {
+            user=null
+        })
+    val token = stringResource(id = R.string.web_client_id)
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -145,7 +173,17 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
                                 contentAlignment = Alignment.Center
                             ) {
                                 SmallCircularImageButton(
-                                    onClick = { },
+                                    onClick = {
+                                        val gso = GoogleSignInOptions.Builder(
+                                            GoogleSignInOptions.DEFAULT_SIGN_IN
+                                        )
+                                            .requestIdToken(token)
+                                            .requestEmail()
+                                            .build()
+
+                                        val googleSignInClient = GoogleSignIn.getClient(context,gso)
+                                        launcher.launch(googleSignInClient.signInIntent)
+                                    },
                                     image = painterResource(id = R.drawable.google),
                                     desc = "google_icon"
                                 )
@@ -169,7 +207,37 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
 }
 
 @Composable
-@Preview(showSystemUi = true)
+fun rememberFirebaseAuthLauncher(
+    onAuthComplete: (AuthResult) -> Unit,
+    onAuthError: (ApiException) -> Unit
+): ManagedActivityResultLauncher<Intent, androidx.activity.result.ActivityResult> {
+
+    val scope = rememberCoroutineScope()
+
+    return rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)!!
+            Log.d("mera_tag","account $account")
+
+            val credential = GoogleAuthProvider.getCredential(account.idToken!!,null)
+
+            scope.launch {
+                val authResult = Firebase.auth.signInWithCredential(credential).await()
+                onAuthComplete(authResult)
+                Log.d("mera_tag","${account.displayName}" + "ka hogya login")
+                DashDropAppRouter.navigateTo(Screen.HomeScreen)
+            }
+        } catch (e: ApiException) {
+            Log.d("mera_tag", e.toString() + "nhi hua google se login")
+            onAuthError(e)
+        }
+    }
+
+}
+
+@Composable
+@Preview
 fun SignInScreen_Preview() {
     SignInScreen()
 }
