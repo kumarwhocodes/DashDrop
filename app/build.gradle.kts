@@ -73,6 +73,12 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore:24.11.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.credentials:credentials:1.3.0-alpha03")
+    implementation ("com.google.android.gms:play-services-auth:20.1.0")
+
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha03")
 
 
 }

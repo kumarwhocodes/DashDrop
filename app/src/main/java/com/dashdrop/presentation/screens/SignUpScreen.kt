@@ -15,9 +15,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +44,10 @@ import com.dashdrop.ui.components.PasswordTextField
 import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlin.math.sign
 
 
@@ -46,6 +55,16 @@ import kotlin.math.sign
 
 @Composable
 fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
+    var user by remember { mutableStateOf(Firebase.auth.currentUser) }
+    val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
+        user = result.user
+    },
+        onAuthError = {
+            user = null
+        })
+    val token = stringResource(id = R.string.web_client_id)
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -156,7 +175,16 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                                 contentAlignment = Alignment.Center
                             ) {
                                 SmallCircularImageButton(
-                                    onClick = { //TODO: Yet to be implemented
+                                    onClick = {
+                                        val gso = GoogleSignInOptions.Builder(
+                                            GoogleSignInOptions.DEFAULT_SIGN_IN
+                                        )
+                                            .requestIdToken(token)
+                                            .requestEmail()
+                                            .build()
+
+                                        val googleSignInClient = GoogleSignIn.getClient(context,gso)
+                                        launcher.launch(googleSignInClient.signInIntent)
                                     },
                                     image = painterResource(id = R.drawable.google),
                                     desc = stringResource(id = R.string.Google)
@@ -184,3 +212,5 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
 fun SignUpScreen_Preview() {
     SignUpScreen()
 }
+
+//TODO: Google se logged in user ko bhi logged in rkhna hai
