@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HeadingText(value: String, size: TextUnit, weight: FontWeight,color: Color) {
+fun HeadingText(modifier: Modifier,value: String, size: TextUnit, weight: FontWeight,color: Color) {
     Text(
         text = value,
         fontSize = size,
@@ -55,32 +55,9 @@ fun HeadingText(value: String, size: TextUnit, weight: FontWeight,color: Color) 
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CustomTextField(onTextSelected: (String) -> Unit) {
-    val value = remember { mutableStateOf("") }
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        value = value.value,
-        singleLine = true,
-        onValueChange = {
-            value.value = it;
-            onTextSelected(it)
-        },
-        maxLines = 1,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedLabelColor = MaterialTheme.colorScheme.primary,
-            focusedTextColor = MaterialTheme.colorScheme.secondary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-            unfocusedTextColor = MaterialTheme.colorScheme.secondary
-        )
-    )
-}
 
 @Composable
-fun TextField_Text(labelValue: String) {
+fun TextField_Text(modifier: Modifier,labelValue: String) {
     Text(
         text = labelValue,
         fontSize = 16.sp,
@@ -202,21 +179,6 @@ fun PasswordTextField(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    Column(modifier = Modifier.padding(20.dp)) {
-        HeadingText(value = "Heading Text", size = 32.sp, weight = FontWeight.Bold, color = Color.Black)
-        TextField_Text(labelValue = "Your Name")
-        CustomTextField(onTextSelected = {})
-        TextField_Text(labelValue = "Email Address")
-        CustomInputField(onTextSelected = {}, errorStatus = true)
-        TextField_Text(labelValue = "Enter Your Password")
-        PasswordTextField(onTextSelected = {}, errorStatus = true)
-        DividerTextComponent(value = "or sign up with")
-    }
-
-}
 
 @Composable
 fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,
@@ -254,4 +216,35 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,
                     }
                 }
         })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    Column(modifier = Modifier.padding(20.dp)) {
+        HeadingText(modifier = Modifier, value = "Heading Text", size = 32.sp, weight = FontWeight.Bold, color = Color.Black)
+        TextField_Text(modifier = Modifier, labelValue = "Your Name")
+        CustomInputField(onTextSelected = {}, errorStatus = true)
+        TextField_Text(modifier = Modifier, labelValue = "Email Address")
+        CustomInputField(onTextSelected = {}, errorStatus = true)
+        TextField_Text(modifier = Modifier, labelValue = "Enter Your Password")
+        PasswordTextField(onTextSelected = {}, errorStatus = true)
+        DividerTextComponent(value = "or sign up with")
+
+        ClickableLoginTextComponent {
+
+        }
+    }
+
 }
