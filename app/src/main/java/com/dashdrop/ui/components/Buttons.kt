@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,11 +35,14 @@ import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -92,7 +97,9 @@ private fun ButtonsPreview() {
             ItemButton(
                 value = "Veggies",
                 image = painterResource(id = R.drawable.veggiess),
-                imagDesc = "veggies"
+                imagDesc = "veggies",
+                stars = painterResource(id = R.drawable.fourstars),
+                price = "$2.99"
             )
         }
     }
@@ -266,7 +273,55 @@ fun CatagoryButton(
 fun ItemButton(
     value: String,
     image: Painter,
-    imagDesc: String
+    imagDesc: String,
+    stars: Painter,
+    price: String
 ) {
-
+    Surface(
+        shape = RoundedCornerShape(7.dp)
+    ){
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(2.dp,2.dp,2.dp,5.dp)
+        ) {
+            Surface(
+                shape = RoundedCornerShape(7.dp)
+            ){
+                Image(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .background(bg)
+                        .padding(3.dp),
+                    painter = image,
+                    contentDescription = imagDesc
+                )
+            }
+            Column(){
+                Text(
+                    text = value,
+                    color = Color.Black.copy(),
+                    fontSize = 7.sp,
+                    fontWeight = FontWeight(550)
+                )
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth(0.55f),
+                    painter = stars,
+                    contentDescription = null
+                )
+                Row() {
+                    Text(
+                        text = price,
+                        color = Color.Green,
+                        fontSize = 6.sp
+                    )
+                    Text(
+                        text = "/KG",
+                        fontSize = 6.sp
+                    )
+                }
+            }
+        }
+    }
 }
