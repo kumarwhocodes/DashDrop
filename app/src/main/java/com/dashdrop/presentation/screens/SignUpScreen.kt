@@ -87,14 +87,16 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                         value = stringResource(id = R.string.Sign_Up),
                         size = 30.sp,
                         weight = FontWeight.ExtraBold,
-                        color = Color.White
+                        color = Color.White,
+                        modifier = Modifier
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     HeadingText(
                         value = stringResource(id = R.string.Sign_Up_Info),
                         size = 16.sp,
                         weight = FontWeight.Normal,
-                        color = Color.White
+                        color = Color.White,
+                        modifier = Modifier
                     )
                     Spacer(modifier = Modifier.height(50.dp))
                 }
@@ -118,7 +120,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                             ) {
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            TextField_Text(labelValue = stringResource(id = R.string.Name))
+                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Name))
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(
                                 onTextSelected = {
@@ -129,7 +131,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            TextField_Text(labelValue = stringResource(id = R.string.Email_Address))
+                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Email_Address))
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(onTextSelected = {
                                 signUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
@@ -137,7 +139,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            TextField_Text(labelValue = stringResource(id = R.string.Password))
+                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Password))
                             Spacer(modifier = Modifier.height(5.dp))
                             PasswordTextField(
                                 onTextSelected = {
