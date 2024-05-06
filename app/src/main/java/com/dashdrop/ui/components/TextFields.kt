@@ -45,19 +45,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HeadingText(modifier: Modifier,value: String, size: TextUnit, weight: FontWeight,color: Color) {
+fun HeadingText(
+    modifier: Modifier,
+    value: String,
+    size: TextUnit,
+    weight: FontWeight,
+    color: Color,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    lineHeight: TextUnit = TextUnit.Unspecified
+) {
     Text(
         text = value,
         fontSize = size,
         fontWeight = weight,
         color = color,
-        textAlign = TextAlign.Center
+        textAlign=textAlign,
+        lineHeight = lineHeight
     )
 }
 
 
 @Composable
-fun TextField_Text(modifier: Modifier,labelValue: String) {
+fun TextField_Text(modifier: Modifier, labelValue: String) {
     Text(
         text = labelValue,
         fontSize = 16.sp,
@@ -175,21 +184,24 @@ fun PasswordTextField(
             VisualTransformation.None
         else
             PasswordVisualTransformation(),
-        isError = !errorStatus)
+        isError = !errorStatus
+    )
 }
 
 
-
 @Composable
-fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,
-                                onTextSelected: (String)->Unit) {
+fun ClickableLoginTextComponent(
+    tryingToLogin: Boolean = true,
+    onTextSelected: (String) -> Unit
+) {
 
-    val initalText = if(tryingToLogin) "Already have an account? " else "Don't have an account yet? "
-    val LoginText = if(tryingToLogin) "Login" else "Register"
+    val initalText =
+        if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
+    val LoginText = if (tryingToLogin) "Login" else "Register"
 
     val annotatedString = buildAnnotatedString {
         append(initalText)
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
             pushStringAnnotation(tag = LoginText, annotation = LoginText)
             append(LoginText)
         }
@@ -206,12 +218,12 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,
             fontFamily = FontFamily.Default,
             textAlign = TextAlign.Center
         ),
-        onClick = {offset ->
-            annotatedString.getStringAnnotations(offset,offset)
+        onClick = { offset ->
+            annotatedString.getStringAnnotations(offset, offset)
                 .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent","{$span}")
+                    Log.d("ClickableTextComponent", "{$span}")
 
-                    if(span.item == LoginText){
+                    if (span.item == LoginText) {
                         onTextSelected(span.item)
                     }
                 }
@@ -219,21 +231,17 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true,
 }
 
 
-
-
-
-
-
-
-
-
-
-
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
     Column(modifier = Modifier.padding(20.dp)) {
-        HeadingText(modifier = Modifier, value = "Heading Text", size = 32.sp, weight = FontWeight.Bold, color = Color.Black)
+        HeadingText(
+            modifier = Modifier,
+            value = "Heading Text",
+            size = 32.sp,
+            weight = FontWeight.Bold,
+            color = Color.Black
+        )
         TextField_Text(modifier = Modifier, labelValue = "Your Name")
         CustomInputField(onTextSelected = {}, errorStatus = true)
         TextField_Text(modifier = Modifier, labelValue = "Email Address")

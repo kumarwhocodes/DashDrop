@@ -12,4 +12,13 @@
     <string name="Other_Sign_In">Other sign in options</string>
     <string name="web_client_id">99427266266-f343qcjsgevgv52p4rklnudqgkpampfc.apps.googleusercontent.com</string>
     <string name="star">star</string>
+    <string name="Home">Home</string>
+    <string name="Favourite">Favourite</string>
+    <string name="Cart">Cart</string>
+    <string name="Profile">Profile</string>
+    <string name="Product_Description">"Orange is a vibrant and juicy citrus fruit, known for its" +
+                            "refreshing flavor and bright color. With a tangy savory" +
+                            "sweetness. it adds a burst of freshness to both sweet" +
+                            "and savory dishes. The peel Of an orange is often used" +
+                            "in cooking and baking to impart a zesty."</string>
 </resources>
