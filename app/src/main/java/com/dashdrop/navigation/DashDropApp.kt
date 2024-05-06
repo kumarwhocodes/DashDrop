@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.dashdrop.presentation.screens.BillingScreen
 import com.dashdrop.presentation.screens.CartScreen
+import com.dashdrop.presentation.screens.DetailsScreen
 import com.dashdrop.presentation.screens.FavoriteScreen
 import com.dashdrop.presentation.screens.HomeScreen
 import com.dashdrop.presentation.screens.ProfileScreen
@@ -31,6 +32,7 @@ fun DashDropApp() {
                 Screen.ProfileScreen -> ProfileScreen()
                 Screen.SignInScreen -> SignInScreen()
                 Screen.SignUpScreen -> SignUpScreen()
+                Screen.DetailsScreen -> DetailsScreen()
             }
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
@@ -45,7 +47,8 @@ private fun ButtonsPreview() {
                 value = "Veggies",
                 image = painterResource(id = R.drawable.veggiess),
                 imageDesc = "veggies",
-                price = "$2.99"
+                price = "$2.99",
+                startCount = 2.0
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -90,55 +93,65 @@ fun CategoryButton(
     }
 }
 
+//TODO: Favorite Wala Button add karna hai top right side pa
 @Composable
 fun ItemButton(
     value: String,
     image: Painter,
     imageDesc: String?=null,
-    price: String
+    price: String,
+    startCount: Double
 ) {
     Surface(
-        shape = RoundedCornerShape(7.dp)
+        shape = RoundedCornerShape(7.dp),
+        modifier = Modifier.padding(2.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 5.dp)
+            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
         ) {
             Surface(
                 shape = RoundedCornerShape(7.dp)
             ) {
                 Image(
                     modifier = Modifier
-                        .size(60.dp)
+                        .size(180.dp)
                         .background(bg)
                         .padding(3.dp),
                     painter = image,
                     contentDescription = imageDesc
                 )
             }
-            Row(modifier = Modifier,
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
                 verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Absolute.SpaceAround) {
+                horizontalArrangement = Arrangement.Absolute.SpaceAround
+            ) {
                 Column {
                     Text(
                         text = value,
                         color = Color.Black.copy(),
-                        fontSize = 7.sp,
+                        fontSize = 22.sp,
                         fontWeight = FontWeight(550)
                     )
-                    StarsRow(starCount = 4.0)
+                    Spacer(modifier = Modifier.height(3.dp))
+                    StarsRow(starCount = startCount,22.dp)
+                    Spacer(modifier = Modifier.height(3.dp))
                     Row {
                         Text(
-                            text = price, color = Color.Green, fontSize = 6.sp
+                            text = price, color = Color.Green, fontSize = 18.sp
                         )
                         Text(
-                            text = "/KG", fontSize = 6.sp
+                            text = "/KG", fontSize = 18.sp
                         )
                     }
 
                 }
                 FAB(onClick = { /*TODO*/ },
-                    modifier = Modifier.padding(5.dp))
+                    modifier = Modifier
+                        .padding(30.dp,0.dp,0.dp,5.dp)
+                        .size(33.dp)
+                )
             }
 
         }
