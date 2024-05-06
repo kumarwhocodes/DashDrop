@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
+import com.dashdrop.ui.components.DetailsImage
 import com.dashdrop.ui.components.StarsRow
 import com.dashdrop.ui.theme.bg
 import java.nio.file.WatchEvent
@@ -31,13 +32,11 @@ import java.nio.file.WatchEvent
 fun DetailsScreen() {
     Surface() {
         Column {
-            Image(
-                painter = painterResource(R.drawable.veggiess),
-                contentDescription = "Veggies",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(280.dp)
-                    .background(bg.copy(0.5f))
+            DetailsImage(
+                image = painterResource(R.drawable.veggiess),
+                imagedesc = "Veggies",
+                size = 280.dp,
+                color = bg.copy(0.5f)
             )
             Surface(
                 modifier = Modifier.padding(10.dp)

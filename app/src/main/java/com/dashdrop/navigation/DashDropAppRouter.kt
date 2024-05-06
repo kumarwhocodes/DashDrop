@@ -7,7 +7,7 @@ sealed class Screen() {
     object SignInScreen : Screen()
     object SignUpScreen : Screen()
     object HomeScreen : Screen()
-    object FavoriteScreen : Screen()
+    object CategoryScreen : Screen()
     object CartScreen : Screen()
     object ProfileScreen : Screen()
     object BillingScreen : Screen()
