@@ -12,6 +12,7 @@ sealed class Screen() {
     object ProfileScreen : Screen()
     object BillingScreen : Screen()
     object DetailsScreen :Screen()
+    object FavouriteScreen : Screen()
 }
 
 object DashDropAppRouter {

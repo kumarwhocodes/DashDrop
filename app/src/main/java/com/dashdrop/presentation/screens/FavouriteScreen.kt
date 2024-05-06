@@ -13,29 +13,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dashdrop.R
+import com.dashdrop.presentation.viewmodels.BottomNavOptions
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ItemButton
+import com.dashdrop.ui.components.ScaffoldTop
 
 @Composable
-fun CategoryScreen(signInViewModel: SignInViewModel = viewModel()) {
+fun FavouriteScreen(signInViewModel: SignInViewModel = viewModel()) {
     Scaffold(
         modifier = Modifier,
         topBar = {
-            ScaffoldTop(toolbarTitle = "Veggies",
+            ScaffoldTop(toolbarTitle = "Favourites",
                 logOutButtonClicked = {
                     signInViewModel.logout()
                 },
                 navigationIconClicked = {
                     /*TODO: Back Button Logic*/
                 })
+        },
+        bottomBar = {
+            BottomNavBar(bottomMenu = BottomNavOptions.menuItems)
         }
     ) { paddingValues ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(8.dp)
+                .padding(10.dp)
         ) {
             LazyColumn() {
                 items(5){
@@ -60,8 +65,8 @@ fun CategoryScreen(signInViewModel: SignInViewModel = viewModel()) {
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview
 @Composable
 private fun Preview() {
-    CategoryScreen()
+    FavouriteScreen()
 }

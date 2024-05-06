@@ -10,6 +10,7 @@ import com.dashdrop.presentation.screens.BillingScreen
 import com.dashdrop.presentation.screens.CartScreen
 import com.dashdrop.presentation.screens.CategoryScreen
 import com.dashdrop.presentation.screens.DetailsScreen
+import com.dashdrop.presentation.screens.FavouriteScreen
 import com.dashdrop.presentation.screens.HomeScreen
 import com.dashdrop.presentation.screens.ProfileScreen
 import com.dashdrop.presentation.screens.SignInScreen
@@ -33,6 +34,7 @@ fun DashDropApp() {
                 Screen.SignInScreen -> SignInScreen()
                 Screen.SignUpScreen -> SignUpScreen()
                 Screen.DetailsScreen -> DetailsScreen()
+                Screen.FavouriteScreen -> FavouriteScreen()
             }
         }
     }
