@@ -68,16 +68,31 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.androidx.material.icons.extended)
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore:24.11.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.credentials:credentials:1.3.0-alpha03")
-    implementation ("com.google.android.gms:play-services-auth:20.1.0")
 
-    // optional - needed for credentials support from play services, for devices running
-    // Android 13 and below.
+    //Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+
+    //Firebase Auth
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    //Firestore and analytics
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+
+    implementation("com.google.firebase:firebase-analytics")
+
+    //ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+    //Google Play Services Auth
+    implementation ("com.google.android.gms:play-services-auth:20.1.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha03")
+
+    //To avoid Composition Local Error
+    debugImplementation ("androidx.customview:customview:1.2.0-alpha01")
+    debugImplementation ("androidx.customview:customview-poolingcontainer:1.0.0-alpha01")
+
+    // Coil
+    implementation(libs.coil.kt.compose)
 
 }

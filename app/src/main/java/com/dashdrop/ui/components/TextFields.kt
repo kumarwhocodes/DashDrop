@@ -51,7 +51,7 @@ fun HeadingText(
     size: TextUnit,
     weight: FontWeight,
     color: Color,
-    textAlign: TextAlign = TextAlign.Unspecified,
+    textAlign: TextAlign = TextAlign.Center,
     lineHeight: TextUnit = TextUnit.Unspecified
 ) {
     Text(
