@@ -36,8 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInUIEvent
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -61,7 +62,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 @Composable
-fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
+fun SignInScreen(
+    signInViewModel: SignInViewModel = viewModel(),
+    navController: NavController) {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
 
     val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
@@ -161,7 +164,7 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
                             ClickableLoginTextComponent(
                                 tryingToLogin = false,
                                 onTextSelected = {
-                                    DashDropAppRouter.navigateTo(Screen.SignUpScreen)
+                                   navController.navigate(Screen.SignUpScreen.route)
                                 }
                             )
 
@@ -211,7 +214,8 @@ fun SignInScreen(signInViewModel: SignInViewModel = viewModel()) {
 @Composable
 fun rememberFirebaseAuthLauncher(
     onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit
+    onAuthError: (ApiException) -> Unit,
+    navController: NavController = rememberNavController()
 ): ManagedActivityResultLauncher<Intent, androidx.activity.result.ActivityResult> {
 
     val scope = rememberCoroutineScope()
@@ -228,7 +232,7 @@ fun rememberFirebaseAuthLauncher(
                 val authResult = Firebase.auth.signInWithCredential(credential).await()
                 onAuthComplete(authResult)
                 Log.d("mera_tag","${account.displayName}" + "ka hogya login")
-                DashDropAppRouter.navigateTo(Screen.HomeScreen)
+                navController.navigate(Screen.HomeScreen.route)
             }
         } catch (e: ApiException) {
             Log.d("mera_tag", e.toString() + "nhi hua google se login")
@@ -241,5 +245,7 @@ fun rememberFirebaseAuthLauncher(
 @Composable
 @Preview
 fun SignInScreen_Preview() {
-    SignInScreen()
+    SignInScreen(
+        navController = rememberNavController()
+    )
 }

@@ -24,7 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dashdrop.navigation.DashDropAppRouter
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.presentation.viewmodels.BottomNavOptions
 import com.dashdrop.presentation.viewmodels.BottomNavOptions.Companion.menuItems
 import com.dashdrop.ui.theme.bg
@@ -82,29 +84,33 @@ fun ScaffoldTop(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavBar(
-    bottomMenu : List<BottomNavOptions>
+    bottomMenu : List<BottomNavOptions>,
+    navController: NavController = rememberNavController()
 ) {
 
     NavigationBar(
         modifier = Modifier,
         containerColor = Color.White
     ) {
+
+        val backStackEntry = navController.currentBackStackEntryAsState()
+
         for (menuitem in bottomMenu){
-            val selected = menuitem.route == DashDropAppRouter.currentScreen.value
+            val selected = menuitem.route.route == (backStackEntry.value?.destination?.route )
 
             NavigationBarItem(
                 selected = selected,
                 onClick = {
-                          menuitem.onOptionClicked(DashDropAppRouter)
+                          menuitem.onOptionClicked(navController)
                 },
                 icon = {
                     val currentIcon = if (selected)
                         menuitem.selectedIcon
                     else
                         menuitem.unselectedIcon
-                    
+
                     Icon(
-                        imageVector = currentIcon, 
+                        imageVector = currentIcon,
                         contentDescription = stringResource(id = menuitem.labelOfIcon)
                     )
                 },
