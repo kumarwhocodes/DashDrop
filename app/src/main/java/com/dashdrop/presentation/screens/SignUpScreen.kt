@@ -30,8 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.presentation.viewmodels.SignUpViewModel
@@ -48,13 +49,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlin.math.sign
 
 
 //TODO: Color Scheme bacha hai UI mein bss
 
 @Composable
-fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
+fun SignUpScreen(
+    signUpViewModel: SignUpViewModel = viewModel(),
+    navController: NavController) {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
     val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
         user = result.user
@@ -163,7 +165,7 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
                             ClickableLoginTextComponent(
                                 tryingToLogin = true,
                                 onTextSelected = {
-                                    DashDropAppRouter.navigateTo(Screen.SignInScreen)
+                                    navController.navigate(Screen.SignInScreen.route)
                                 }
                             )
 
@@ -212,7 +214,9 @@ fun SignUpScreen(signUpViewModel: SignUpViewModel = viewModel()) {
 @Composable
 @Preview(showSystemUi = true)
 fun SignUpScreen_Preview() {
-    SignUpScreen()
+    SignUpScreen(
+        navController = rememberNavController()
+    )
 }
 
 //TODO: Google se logged in user ko bhi logged in rkhna hai

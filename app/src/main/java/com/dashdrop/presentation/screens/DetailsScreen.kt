@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.DetailsImage
@@ -34,7 +36,8 @@ import com.dashdrop.ui.theme.bg
 
 @Composable
 fun DetailsScreen(
-    signInViewModel: SignInViewModel = viewModel()
+    signInViewModel: SignInViewModel = viewModel(),
+    navController: NavController
 ) {
     Scaffold(modifier = Modifier, topBar = {
         ScaffoldTop(
@@ -172,47 +175,10 @@ fun DetailsScreen(
 }
 
 
-//@Composable
-//fun DetailsScreen() {
-//    Surface() {
-//        Column {
-//            DetailsImage(
-//                image = painterResource(R.drawable.veggiess),
-//                imagedesc = "Veggies",
-//                size = 280.dp,
-//                color = bg.copy(0.5f)
-//            )
-//            Surface(
-//                modifier = Modifier.padding(10.dp)
-//            ){
-//                Column(){
-//                    Text(
-//                        text = "Veggies",
-//                        fontSize = 50.sp,
-//                        fontWeight = FontWeight.Bold
-//                    )
-//                    Spacer(modifier = Modifier.height(15.dp))
-//                    StarsRow(starCount = 2.0, 30.dp)
-//                    Spacer(modifier = Modifier.height(15.dp))
-//                    Row {
-//                        Text(
-//                            text = "150", color = Color.Green, fontSize = 25.sp
-//                        )
-//                        Text(
-//                            text = "/KG", fontSize = 25.sp
-//                        )
-//                    }
-//                    Text(
-//                        text = ""
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
-
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    DetailsScreen()
+    DetailsScreen(
+        navController = rememberNavController()
+    )
 }
