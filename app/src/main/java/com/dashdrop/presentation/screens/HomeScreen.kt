@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
@@ -37,7 +39,9 @@ import com.dashdrop.ui.theme.bg
 import com.dashdrop.presentation.viewmodels.BottomNavOptions.Companion.menuItems
 
 @Composable
-fun HomeScreen(signInViewModel: SignInViewModel = viewModel()) {
+fun HomeScreen(
+    signInViewModel: SignInViewModel = viewModel(),
+    navController: NavController) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -145,5 +149,7 @@ fun HomeScreen(signInViewModel: SignInViewModel = viewModel()) {
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    HomeScreen()
+    HomeScreen(
+        navController = rememberNavController()
+    )
 }

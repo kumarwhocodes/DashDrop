@@ -3,7 +3,8 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.dashdrop.navigation.DashDropAppRouter
+import androidx.navigation.NavController
+import com.dashdrop.navigation.HOME_GRAPH_ROUTE
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -59,7 +60,10 @@ class SignInViewModel : ViewModel() {
     }
 
 
-    private fun login(email: String, password: String) {
+    private fun login(
+        email: String,
+        password: String
+    ) {
         loginInProgress.value = true
         auth = Firebase.auth
         auth
@@ -68,7 +72,7 @@ class SignInViewModel : ViewModel() {
                 Log.d("mera_tag", "hogya login")
                 loginInProgress.value = false
                 if (it.isSuccessful) {
-                    DashDropAppRouter.navigateTo(Screen.HomeScreen)
+                    //Toast
                 }
             }
             .addOnFailureListener {
@@ -84,7 +88,6 @@ class SignInViewModel : ViewModel() {
         val authStateListener = AuthStateListener {
             if (it.currentUser == null) {
                 Log.d("mera_tag", "hogya logout")
-                DashDropAppRouter.navigateTo(Screen.SignInScreen)
             } else {
                 Log.d("mera_tag", "nhi hua logout")
             }
