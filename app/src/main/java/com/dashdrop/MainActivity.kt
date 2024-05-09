@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.dashdrop.navigation.DashDropNavGraph
+import com.dashdrop.presentation.screens.SplashScreen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.presentation.viewmodels.SignUpViewModel
 import com.dashdrop.ui.theme.DashDropTheme
