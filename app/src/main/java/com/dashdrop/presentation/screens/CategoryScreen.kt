@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -52,7 +54,8 @@ fun CategoryScreen(
                         value = "Veggies",
                         image = painterResource(id = R.drawable.veggiess),
                         price = "150",
-                        startCount = 2.0
+                        startCount = 2.0,
+                        icon = Icons.Filled.Add
                     )
                 }
             }
