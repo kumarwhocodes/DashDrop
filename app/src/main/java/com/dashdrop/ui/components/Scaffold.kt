@@ -3,7 +3,13 @@ package com.dashdrop.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Logout
@@ -22,9 +28,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dashdrop.navigation.Screen
 import com.dashdrop.ui.theme.bg
@@ -149,22 +161,126 @@ fun BottomNavBar(
     }
 }
 
+@Composable
+fun AddToCartBottomBar(
+    addToCartButtonClicked: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 0.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier, verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            HeadingText(
+                modifier = Modifier,
+                value = "Total Price",
+                size = 16.sp,
+                weight = FontWeight.Normal,
+                color = Color.Black.copy(0.5f)
+            )
+            Row(modifier = Modifier
+                .padding(bottom = 2.dp)) {
+                Text(
+                    text = "₹14.99", color = Color.Green, fontSize = 24.sp
+                )
+                Text(
+                    text = "/KG", fontSize = 24.sp
+                )
+            }
 
-//@Preview(showBackground = true)
-//@Composable
-//private fun Preview() {
-//    Column {
-//        ScaffoldTop(toolbarTitle = "Home",
-//            logOutButtonClicked = {},
-//            navigationIconClicked = {}
-//        )
-//        Spacer(modifier = Modifier.height(100.dp))
-//
-//        BottomNavBar(
-//            bottomMenu = menuItems
-//        )
-//
-//    }
-//
-//
-//}
+        }
+
+        PrimaryButton(
+            onClick = {
+                      addToCartButtonClicked()
+            },
+            shapes = RoundedCornerShape(50.dp)
+        ) {
+            Text(
+                text = "Add to Cart",
+                fontSize = 16.sp,
+                modifier = Modifier.width(150.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+
+    }
+    
+}
+
+@Composable
+fun CheckoutBottomBar(
+    checkoutButton: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 0.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier, verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            HeadingText(
+                modifier = Modifier,
+                value = "Total Price",
+                size = 16.sp,
+                weight = FontWeight.Normal,
+                color = Color.Black.copy(0.5f)
+            )
+            Row(modifier = Modifier
+                .padding(bottom = 2.dp)) {
+                Text(
+                    text = "₹14.99", color = Color.Green, fontSize = 24.sp
+                )
+                Text(
+                    text = "/KG", fontSize = 24.sp
+                )
+            }
+
+        }
+
+        PrimaryButton(
+            onClick = {
+                checkoutButton()
+            },
+            shapes = RoundedCornerShape(50.dp)
+        ) {
+            Text(
+                text = "Checkout",
+                fontSize = 16.sp,
+                modifier = Modifier.width(150.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+
+    }
+
+}
+
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    Column {
+        ScaffoldTop(toolbarTitle = "Home",
+            logOutButtonClicked = {},
+            navigationIconClicked = {}
+        )
+        Spacer(modifier = Modifier.height(100.dp))
+
+        BottomNavBar(
+            navController = NavController(context = LocalContext.current)
+        )
+
+        AddToCartBottomBar {
+
+        }
+
+    }
+
+
+}

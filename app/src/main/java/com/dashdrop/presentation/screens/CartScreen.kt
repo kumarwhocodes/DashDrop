@@ -12,19 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.ui.components.AddToCartBottomBar
 import com.dashdrop.ui.components.BottomNavBar
+import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.ScaffoldTop
 
 @Composable
 fun CartScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController,
+    onCheckoutButtonClicked: () -> Unit={}
+) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -36,11 +42,12 @@ fun CartScreen(
                     navController.navigate(Screen.HomeScreen.route){
                         popUpTo(Screen.HomeScreen.route){inclusive = true}
                     }
-//                    navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 })
         },
         bottomBar = {
-            BottomNavBar(navController = navController)
+           CheckoutBottomBar {
+                onCheckoutButtonClicked()
+           }
         }
     ) { paddingValues ->
         Surface(
@@ -56,12 +63,17 @@ fun CartScreen(
                         image = painterResource(id = R.drawable.veggiess),
                         price = "150",
                         startCount = 2.0,
-                        //TODO: Replace the Add button to Subtract
-                        icon = Icons.Filled.Add
+                        icon = painterResource(id = R.drawable.minus)
                     )
                 }
             }
         }
 
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun Preview() {
+    CartScreen(navController = rememberNavController())
 }

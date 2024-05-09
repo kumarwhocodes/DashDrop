@@ -5,15 +5,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -28,9 +37,10 @@ import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.ui.components.AddToCartBottomBar
 import com.dashdrop.ui.components.DetailsImage
+import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.HeadingText
-import com.dashdrop.ui.components.PrimaryButton
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.StarsRow
 import com.dashdrop.ui.theme.bg
@@ -38,29 +48,41 @@ import com.dashdrop.ui.theme.bg
 @Composable
 fun DetailsScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController
+    navController: NavController,
+    addToCart: () -> Unit = {}
 ) {
-    Scaffold(modifier = Modifier, topBar = {
-        ScaffoldTop(
-            toolbarTitle = "Details",
-            logOutButtonClicked = {
-                signInViewModel.logout(navController)
-            },
-            navigationIconClicked = {
-                navController.popBackStack(Screen.CategoryScreen.route, inclusive = false)
-            },
-            containerColor = bg.copy(0.25f),
-            contentColor = Color.Black.copy(0.75f),
-            iconColor = bg
-        )
-    }) { paddingValues ->
+    var quantity by remember {
+        mutableIntStateOf(0)
+    }
+    Scaffold(modifier = Modifier,
+        topBar = {
+            ScaffoldTop(
+                toolbarTitle = "Details",
+                logOutButtonClicked = {
+                    signInViewModel.logout(navController)
+                },
+                navigationIconClicked = {
+                    navController.popBackStack(Screen.CategoryScreen.route, inclusive = false)
+                },
+                containerColor = bg.copy(0.25f),
+                contentColor = Color.Black.copy(0.75f),
+                iconColor = bg
+            )
+        },
+        bottomBar = {
+            AddToCartBottomBar(
+                addToCartButtonClicked = addToCart
+            )
+        }
+    ) { paddingValues ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top
             ) {
                 DetailsImage(
                     image = painterResource(R.drawable.veggiess),
@@ -93,13 +115,46 @@ fun DetailsScreen(
                     Spacer(
                         modifier = Modifier.height(10.dp)
                     )
-                    Row {
+                    Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = "₹14.99", color = Color.Green, fontSize = 24.sp
                         )
                         Text(
                             text = "/KG", fontSize = 24.sp
                         )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 4.dp),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+
+                            FAB(
+                                onClick = { quantity-- },
+                                icon = painterResource(id = R.drawable.minus),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .width(8.dp)
+                            )
+                            Text(
+                                text = "$quantity KG",
+                                fontSize = 24.sp,
+                                color = Color.Black.copy(0.5f)
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .width(8.dp)
+                            )
+                            FAB(
+                                onClick = { quantity++ },
+                                icon = painterResource(id = R.drawable.add),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                        }
                     }
                     Spacer(
                         modifier = Modifier.height(24.dp)
@@ -111,56 +166,26 @@ fun DetailsScreen(
                         weight = FontWeight.Bold,
                         color = Color.Black
                     )
+
                     Spacer(
-                        modifier = Modifier.height(16.dp)
+                        modifier = Modifier.height(8.dp)
                     )
-                    HeadingText(
-                        modifier = Modifier,
-                        value = "Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More",
-                        size = 16.sp,
-                        textAlign = TextAlign.Left,
-                        weight = FontWeight.Normal,
-                        color = Color.Black.copy(0.5f),
-                        lineHeight = 20.sp
-                    )
-
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
                     ) {
-                        Column(
-                            modifier = Modifier, verticalArrangement = Arrangement.spacedBy(5.dp)
-                        ) {
-                            HeadingText(
-                                modifier = Modifier,
-                                value = "Total Price",
-                                size = 16.sp,
-                                weight = FontWeight.Normal,
-                                color = Color.Black.copy(0.5f)
-                            )
-                            Row {
-                                Text(
-                                    text = "₹14.99", color = Color.Green, fontSize = 24.sp
-                                )
-                                Text(
-                                    text = "/KG", fontSize = 24.sp
-                                )
-                            }
-
-                        }
-
-                        PrimaryButton(
-                            onClick = { /*TODO: Add to Cart Logic*/ },
-                            shapes = RoundedCornerShape(50.dp)) {
-                            Text(
-                                text = "Add to Cart",
-                                fontSize = 16.sp,
-                                modifier = Modifier.width(150.dp),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-
+                        HeadingText(
+                            modifier = Modifier,
+                            value = "Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read MoreOrange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More",
+                            size = 16.sp,
+                            textAlign = TextAlign.Left,
+                            weight = FontWeight.Normal,
+                            color = Color.Black.copy(0.5f),
+                            lineHeight = 20.sp
+                        )
                     }
 
 

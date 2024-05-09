@@ -51,7 +51,6 @@ fun ProfileScreen(
                     navController.navigate(Screen.HomeScreen.route){
                         popUpTo(Screen.HomeScreen.route){inclusive = true}
                     }
-//                    navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 })
         },
         bottomBar = {
