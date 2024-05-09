@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.DetailsImage
 import com.dashdrop.ui.components.HeadingText
@@ -43,10 +44,10 @@ fun DetailsScreen(
         ScaffoldTop(
             toolbarTitle = "Details",
             logOutButtonClicked = {
-                signInViewModel.logout()
+                signInViewModel.logout(navController)
             },
             navigationIconClicked = {
-                /*TODO: Back Button Logic*/
+                navController.popBackStack(Screen.CategoryScreen.route, inclusive = false)
             },
             containerColor = bg.copy(0.25f),
             contentColor = Color.Black.copy(0.75f),

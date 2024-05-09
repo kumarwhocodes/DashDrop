@@ -3,14 +3,12 @@ package com.dashdrop.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -30,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.dashdrop.MainActivity
 import com.dashdrop.R
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ScaffoldTop
@@ -40,7 +40,6 @@ import com.dashdrop.ui.components.ItemBanner
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.SearchBox
 import com.dashdrop.ui.theme.bg
-import com.dashdrop.presentation.viewmodels.BottomNavOptions.Companion.menuItems
 
 @Composable
 fun HomeScreen(
@@ -51,14 +50,14 @@ fun HomeScreen(
         topBar = {
             ScaffoldTop(toolbarTitle = "Home Screen",
                 logOutButtonClicked = {
-                    signInViewModel.logout()
+                    signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    /*TODO: Back Button Logic*/
+                    //TODO: How to exit app
                 })
         },
         bottomBar = {
-            BottomNavBar(bottomMenu = menuItems)
+            BottomNavBar(navController = navController)
         }
     ) { paddingValues ->
         Surface(

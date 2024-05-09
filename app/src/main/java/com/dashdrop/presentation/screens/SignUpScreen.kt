@@ -126,7 +126,7 @@ fun SignUpScreen(
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(
                                 onTextSelected = {
-                                    signUpViewModel.onEvent(SignUpUIEvent.NameChanged(it))
+                                    signUpViewModel.onEvent(SignUpUIEvent.NameChanged(it),navController)
                                 },
                                 errorStatus = signUpViewModel.registrationUIState.value.nameError
                             )
@@ -136,7 +136,10 @@ fun SignUpScreen(
                             TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Email_Address))
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(onTextSelected = {
-                                signUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
+                                signUpViewModel.onEvent(
+                                    SignUpUIEvent.EmailChanged(it),
+                                    navController
+                                )
                             }, errorStatus = signUpViewModel.registrationUIState.value.emailError)
 
                             Spacer(modifier = Modifier.height(15.dp))
@@ -145,7 +148,10 @@ fun SignUpScreen(
                             Spacer(modifier = Modifier.height(5.dp))
                             PasswordTextField(
                                 onTextSelected = {
-                                    signUpViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
+                                    signUpViewModel.onEvent(
+                                        SignUpUIEvent.PasswordChanged(it),
+                                        navController
+                                    )
                                 },
                                 errorStatus = signUpViewModel.registrationUIState.value.passwordError
                             )
@@ -154,7 +160,10 @@ fun SignUpScreen(
                             LoginButton(
                                 value = stringResource(id = R.string.Sign_Up),
                                 onClick = {
-                                    signUpViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)
+                                    signUpViewModel.onEvent(
+                                        SignUpUIEvent.RegisterButtonClicked,
+                                        navController
+                                    )
                                 },
                                 isEnabled = signUpViewModel.allValidationsPassed.value
                             )

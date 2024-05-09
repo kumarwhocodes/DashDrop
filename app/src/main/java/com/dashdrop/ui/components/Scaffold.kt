@@ -1,34 +1,32 @@
 package com.dashdrop.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.dashdrop.presentation.viewmodels.BottomNavOptions
-import com.dashdrop.presentation.viewmodels.BottomNavOptions.Companion.menuItems
+import com.dashdrop.navigation.Screen
 import com.dashdrop.ui.theme.bg
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,69 +82,89 @@ fun ScaffoldTop(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavBar(
-    bottomMenu : List<BottomNavOptions>,
-    navController: NavController = rememberNavController()
+    navController: NavController
 ) {
 
     NavigationBar(
         modifier = Modifier,
         containerColor = Color.White
     ) {
-
-        val backStackEntry = navController.currentBackStackEntryAsState()
-
-        for (menuitem in bottomMenu){
-            val selected = menuitem.route.route == (backStackEntry.value?.destination?.route )
-
-            NavigationBarItem(
-                selected = selected,
-                onClick = {
-                          menuitem.onOptionClicked(navController)
-                },
-                icon = {
-                    val currentIcon = if (selected)
-                        menuitem.selectedIcon
-                    else
-                        menuitem.unselectedIcon
-
-                    Icon(
-                        imageVector = currentIcon,
-                        contentDescription = stringResource(id = menuitem.labelOfIcon)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            IconButton(onClick = { navController.navigate(Screen.HomeScreen.route) },
+                colors = IconButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.White
                     )
-                },
-                label = {
-                   if (selected){
-                       Text(text = stringResource(id = menuitem.labelOfIcon))
-                   }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = bg,
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    selectedTextColor = bg,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = Color.White
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Home,
+                    contentDescription = "Home"
                 )
-            )
+            }
+            IconButton(onClick = { navController.navigate(Screen.FavouriteScreen.route) },
+                colors = IconButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.White
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Favourite"
+                )
+            }
+            IconButton(onClick = { navController.navigate(Screen.CartScreen.route) },
+                colors = IconButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.White
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.ShoppingCart,
+                    contentDescription = "Cart"
+                )
+            }
+            IconButton(onClick = { navController.navigate(Screen.ProfileScreen.route) },
+                colors = IconButtonColors(
+                    contentColor = Color.Black,
+                    containerColor = Color.White,
+                    disabledContentColor = Color.Black,
+                    disabledContainerColor = Color.White
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = "Profile"
+                )
+            }
         }
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    Column {
-        ScaffoldTop(toolbarTitle = "Home",
-            logOutButtonClicked = {},
-            navigationIconClicked = {}
-        )
-        Spacer(modifier = Modifier.height(100.dp))
-
-        BottomNavBar(
-            bottomMenu = menuItems
-        )
-
-    }
-
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun Preview() {
+//    Column {
+//        ScaffoldTop(toolbarTitle = "Home",
+//            logOutButtonClicked = {},
+//            navigationIconClicked = {}
+//        )
+//        Spacer(modifier = Modifier.height(100.dp))
+//
+//        BottomNavBar(
+//            bottomMenu = menuItems
+//        )
+//
+//    }
+//
+//
+//}

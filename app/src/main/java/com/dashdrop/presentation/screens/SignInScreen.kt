@@ -135,7 +135,10 @@ fun SignInScreen(
                             TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Email_Address))
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(onTextSelected = {
-                                signInViewModel.onEvent(SignInUIEvent.EmailChanged(it))
+                                signInViewModel.onEvent(
+                                    SignInUIEvent.EmailChanged(it),
+                                    navController
+                                )
                             }, errorStatus = signInViewModel.loginUIState.value.emailError)
 
                             Spacer(modifier = Modifier.height(15.dp))
@@ -144,7 +147,10 @@ fun SignInScreen(
                             Spacer(modifier = Modifier.height(5.dp))
                             PasswordTextField(
                                 onTextSelected = {
-                                    signInViewModel.onEvent(SignInUIEvent.PasswordChanged(it))
+                                    signInViewModel.onEvent(
+                                        SignInUIEvent.PasswordChanged(it),
+                                        navController
+                                    )
                                 },
                                 errorStatus = signInViewModel.loginUIState.value.passwordError
                             )
@@ -154,7 +160,7 @@ fun SignInScreen(
                             LoginButton(
                                 value = stringResource(id = R.string.Sign_In),
                                 onClick = {
-                                    signInViewModel.onEvent(SignInUIEvent.LoginButtonClicked)
+                                    signInViewModel.onEvent(SignInUIEvent.LoginButtonClicked,navController)
                                 },
                                 isEnabled = signInViewModel.allValidationsPassed.value
                             )
