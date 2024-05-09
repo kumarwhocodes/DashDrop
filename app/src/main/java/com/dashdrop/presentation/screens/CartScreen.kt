@@ -8,7 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-<<<<<<<<< Temporary merge branch 1
+import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,8 +45,8 @@ fun CartScreen(signInViewModel: SignInViewModel = viewModel()) {
                 .padding(10.dp)
         ) {
             LazyColumn() {
-                items(5){
-                    Row(){
+                items(5) {
+                    Row() {
                         CartButton(
                             value = "Veggies",
                             image = painterResource(id = R.drawable.veggiess),
@@ -63,20 +63,5 @@ fun CartScreen(signInViewModel: SignInViewModel = viewModel()) {
                 }
             }
         }
-=========
-import androidx.navigation.NavController
-
-@Composable
-fun CartScreen(
-    navController: NavController
-) {
->>>>>>>>> Temporary merge branch 2
-
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    CartScreen()
 }
