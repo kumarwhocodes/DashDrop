@@ -44,7 +44,8 @@ import com.dashdrop.ui.theme.bg
 @Composable
 fun HomeScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController,
+    onBackPressed: () -> Unit = {}) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -53,7 +54,7 @@ fun HomeScreen(
                     signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    //TODO: How to exit app
+                    onBackPressed()
                 })
         },
         bottomBar = {
@@ -124,7 +125,7 @@ fun HomeScreen(
                                 image = painterResource(id = R.drawable.veggiess),
                                 price = "150",
                                 startCount = 2.0,
-                                icon = Icons.Filled.Add
+                                icon = painterResource(id = R.drawable.add)
                             )
                         }
                     }

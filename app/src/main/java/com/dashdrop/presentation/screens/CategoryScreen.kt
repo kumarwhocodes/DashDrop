@@ -53,7 +53,7 @@ fun CategoryScreen(
                         image = painterResource(id = R.drawable.veggiess),
                         price = "150",
                         startCount = 2.0,
-                        icon = Icons.Filled.Add
+                        icon = painterResource(id = R.drawable.add)
                     )
                 }
             }

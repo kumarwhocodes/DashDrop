@@ -13,11 +13,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DashDropTheme {
-//                DashDropNavGraph(
-//                    signInViewModel = SignInViewModel(),
-//                    signUpViewModel = SignUpViewModel(),
-//                    isUserLoggedIn = false
-//                )
                 val navController = rememberNavController()
                 Navigation(navController)
             }

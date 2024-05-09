@@ -56,14 +56,16 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun SignUpScreen(
     signUpViewModel: SignUpViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController
+) {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
-    val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
+    val launcher = rememberFirebaseAuthLauncher(onAuthComplete = { result ->
         user = result.user
-    },
+        },
         onAuthError = {
             user = null
-        })
+        }
+    )
     val token = stringResource(id = R.string.web_client_id)
     val context = LocalContext.current
 
@@ -122,18 +124,27 @@ fun SignUpScreen(
                             ) {
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Name))
+                            TextField_Text(
+                                modifier = Modifier,
+                                labelValue = stringResource(id = R.string.Name)
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(
                                 onTextSelected = {
-                                    signUpViewModel.onEvent(SignUpUIEvent.NameChanged(it),navController)
+                                    signUpViewModel.onEvent(
+                                        SignUpUIEvent.NameChanged(it),
+                                        navController
+                                    )
                                 },
                                 errorStatus = signUpViewModel.registrationUIState.value.nameError
                             )
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Email_Address))
+                            TextField_Text(
+                                modifier = Modifier,
+                                labelValue = stringResource(id = R.string.Email_Address)
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(onTextSelected = {
                                 signUpViewModel.onEvent(
@@ -144,7 +155,10 @@ fun SignUpScreen(
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Password))
+                            TextField_Text(
+                                modifier = Modifier,
+                                labelValue = stringResource(id = R.string.Password)
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             PasswordTextField(
                                 onTextSelected = {
@@ -196,7 +210,8 @@ fun SignUpScreen(
                                             .requestEmail()
                                             .build()
 
-                                        val googleSignInClient = GoogleSignIn.getClient(context,gso)
+                                        val googleSignInClient =
+                                            GoogleSignIn.getClient(context, gso)
                                         launcher.launch(googleSignInClient.signInIntent)
                                     },
                                     image = painterResource(id = R.drawable.google),
@@ -212,7 +227,7 @@ fun SignUpScreen(
 
         }
 
-        if (signUpViewModel.signUpInProgress.value){
+        if (signUpViewModel.signUpInProgress.value) {
             CircularProgressIndicator(color = bg)
         }
     }
@@ -228,4 +243,3 @@ fun SignUpScreen_Preview() {
     )
 }
 
-//TODO: Google se logged in user ko bhi logged in rkhna hai

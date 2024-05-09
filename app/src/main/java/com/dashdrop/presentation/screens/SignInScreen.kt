@@ -2,8 +2,10 @@ package com.dashdrop.presentation.screens
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -64,17 +66,23 @@ import kotlinx.coroutines.tasks.await
 @Composable
 fun SignInScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController
+) {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
-
-    val launcher = rememberFirebaseAuthLauncher(onAuthComplete = {result ->
-        user=result.user
-    },
-        onAuthError = {
-            user=null
-        })
-    val token = stringResource(id = R.string.web_client_id)
     val context = LocalContext.current
+    val launcher = rememberFirebaseAuthLauncher(
+        onAuthComplete = { result ->
+            user = result.user
+            navController.navigate(Screen.HomeScreen.route)
+            Toast.makeText(context,"Login Successful",Toast.LENGTH_SHORT).show()
+        },
+        onAuthError = {
+            user = null
+            Toast.makeText(context,"Login Failed",Toast.LENGTH_SHORT).show()
+        }
+    )
+    val token = stringResource(id = R.string.web_client_id)
+
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -132,7 +140,10 @@ fun SignInScreen(
 
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Email_Address))
+                            TextField_Text(
+                                modifier = Modifier,
+                                labelValue = stringResource(id = R.string.Email_Address)
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomInputField(onTextSelected = {
                                 signInViewModel.onEvent(
@@ -143,7 +154,10 @@ fun SignInScreen(
 
                             Spacer(modifier = Modifier.height(15.dp))
 
-                            TextField_Text(modifier = Modifier, labelValue = stringResource(id = R.string.Password))
+                            TextField_Text(
+                                modifier = Modifier,
+                                labelValue = stringResource(id = R.string.Password)
+                            )
                             Spacer(modifier = Modifier.height(5.dp))
                             PasswordTextField(
                                 onTextSelected = {
@@ -160,7 +174,10 @@ fun SignInScreen(
                             LoginButton(
                                 value = stringResource(id = R.string.Sign_In),
                                 onClick = {
-                                    signInViewModel.onEvent(SignInUIEvent.LoginButtonClicked,navController)
+                                    signInViewModel.onEvent(
+                                        SignInUIEvent.LoginButtonClicked,
+                                        navController
+                                    )
                                 },
                                 isEnabled = signInViewModel.allValidationsPassed.value
                             )
@@ -170,7 +187,7 @@ fun SignInScreen(
                             ClickableLoginTextComponent(
                                 tryingToLogin = false,
                                 onTextSelected = {
-                                   navController.navigate(Screen.SignUpScreen.route)
+                                    navController.navigate(Screen.SignUpScreen.route)
                                 }
                             )
 
@@ -192,7 +209,8 @@ fun SignInScreen(
                                             .requestEmail()
                                             .build()
 
-                                        val googleSignInClient = GoogleSignIn.getClient(context,gso)
+                                        val googleSignInClient =
+                                            GoogleSignIn.getClient(context, gso)
                                         launcher.launch(googleSignInClient.signInIntent)
                                     },
                                     image = painterResource(id = R.drawable.google),
@@ -220,9 +238,8 @@ fun SignInScreen(
 @Composable
 fun rememberFirebaseAuthLauncher(
     onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit,
-    navController: NavController = rememberNavController()
-): ManagedActivityResultLauncher<Intent, androidx.activity.result.ActivityResult> {
+    onAuthError: (ApiException) -> Unit
+): ManagedActivityResultLauncher<Intent, ActivityResult> {
 
     val scope = rememberCoroutineScope()
 
@@ -230,15 +247,14 @@ fun rememberFirebaseAuthLauncher(
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             val account = task.getResult(ApiException::class.java)!!
-            Log.d("mera_tag","account $account")
+            Log.d("mera_tag", "account $account")
 
-            val credential = GoogleAuthProvider.getCredential(account.idToken!!,null)
+            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
 
             scope.launch {
                 val authResult = Firebase.auth.signInWithCredential(credential).await()
                 onAuthComplete(authResult)
-                Log.d("mera_tag","${account.displayName}" + "ka hogya login")
-                navController.navigate(Screen.HomeScreen.route)
+                Log.d("mera_tag", "${account.displayName}" + "ka hogya login")
             }
         } catch (e: ApiException) {
             Log.d("mera_tag", e.toString() + "nhi hua google se login")

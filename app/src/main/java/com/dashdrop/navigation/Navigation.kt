@@ -1,10 +1,13 @@
 package com.dashdrop.navigation
 
+import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dashdrop.MainActivity
@@ -22,26 +25,35 @@ fun Navigation(navController: NavHostController) {
     var initialScreen: String = "signin"
     signInViewModel.checkForActiveSession()
 
-    if(signInViewModel.isUserLoggedIn.value == true){
+    if (signInViewModel.isUserLoggedIn.value == true) {
         initialScreen = "home"
     }
+
+    val activity = (LocalContext.current as? Activity)
     NavHost(navController = navController, startDestination = initialScreen) {
-        composable(route = "signin"){
+        composable(route = "signin") {
             SignInScreen(navController = navController)
         }
-        composable(route = "signup"){
+        composable(route = "signup") {
             SignUpScreen(navController = navController)
         }
-        composable(route = "home"){
-            HomeScreen(navController = navController)
+        composable(route = "home") {
+            HomeScreen(navController = navController,
+                onBackPressed = {
+                    if (signInViewModel.isUserLoggedIn.value == true) {
+                        activity?.finish()
+                    } else {
+                        navController.popBackStack()
+                    }
+                })
         }
-        composable(route = "favourite"){
+        composable(route = "favourite") {
             FavouriteScreen(navController = navController)
         }
-        composable(route = "cart"){
+        composable(route = "cart") {
             CartScreen(navController = navController)
         }
-        composable(route = "profile"){
+        composable(route = "profile") {
             ProfileScreen(navController = navController)
         }
     }
