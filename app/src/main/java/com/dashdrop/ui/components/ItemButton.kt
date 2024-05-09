@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,7 +51,8 @@ private fun ButtonsPreview() {
                 image = painterResource(id = R.drawable.veggiess),
                 imageDesc = "veggies",
                 price = "$2.99",
-                startCount = 2.0
+                startCount = 2.0,
+                icon = Icons.Filled.Add
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -100,7 +104,8 @@ fun ItemButton(
     image: Painter,
     imageDesc: String?=null,
     price: String,
-    startCount: Double
+    startCount: Double,
+    icon :ImageVector
 ) {
     Surface(
         shape = RoundedCornerShape(7.dp),
@@ -150,7 +155,8 @@ fun ItemButton(
                 FAB(onClick = { /*TODO*/ },
                     modifier = Modifier
                         .padding(30.dp,0.dp,0.dp,5.dp)
-                        .size(33.dp)
+                        .size(33.dp),
+                    icon = icon
                 )
             }
 

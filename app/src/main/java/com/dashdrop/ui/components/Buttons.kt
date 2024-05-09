@@ -67,7 +67,8 @@ private fun ButtonsPreview() {
             }
 
             FAB(
-                onClick = {}
+                onClick = {},
+                icon = Icons.Filled.Add
             )
 
             SmallCircularImageButton(
@@ -141,7 +142,7 @@ fun FAB(
     shape: RoundedCornerShape = RoundedCornerShape(percent = 100),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     contentDescription: String = "ADD REVIEW BUTTON",
-    icon: ImageVector = Icons.Filled.Add
+    icon: ImageVector
 ) {
     FloatingActionButton(
         onClick = onClick,
