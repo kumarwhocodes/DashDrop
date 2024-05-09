@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -24,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
@@ -37,7 +41,9 @@ import com.dashdrop.ui.theme.bg
 import com.dashdrop.presentation.viewmodels.BottomNavOptions.Companion.menuItems
 
 @Composable
-fun HomeScreen(signInViewModel: SignInViewModel = viewModel()) {
+fun HomeScreen(
+    signInViewModel: SignInViewModel = viewModel(),
+    navController: NavController) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -110,22 +116,14 @@ fun HomeScreen(signInViewModel: SignInViewModel = viewModel()) {
                         modifier = Modifier
                     )
 
-                    LazyColumn() {
+                    LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
                         items(5){
-                            Row(){
-                                ItemButton(
-                                    value = "Veggies",
-                                    image = painterResource(id = R.drawable.veggiess),
-                                    price = "150",
-                                    startCount = 2.0
-                                )
-                                ItemButton(
-                                    value = "Veggies",
-                                    image = painterResource(id = R.drawable.veggiess),
-                                    price = "150",
-                                    startCount = 3.0
-                                )
-                            }
+                            ItemButton(
+                                value = "Veggies",
+                                image = painterResource(id = R.drawable.veggiess),
+                                price = "150",
+                                startCount = 2.0
+                            )
                         }
                     }
 
@@ -145,5 +143,7 @@ fun HomeScreen(signInViewModel: SignInViewModel = viewModel()) {
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    HomeScreen()
+    HomeScreen(
+        navController = rememberNavController()
+    )
 }

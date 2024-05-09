@@ -11,10 +11,9 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material.icons.sharp.Home
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
 import com.dashdrop.R
-import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
 
 sealed class BottomNavOptions(
@@ -22,7 +21,7 @@ sealed class BottomNavOptions(
     @StringRes val labelOfIcon: Int,
     val unselectedIcon: ImageVector,
     val selectedIcon: ImageVector,
-    val onOptionClicked: (DashDropAppRouter) -> Unit
+    val onOptionClicked: (NavController) -> Unit
 ) {
 
     companion object {
@@ -40,7 +39,7 @@ sealed class BottomNavOptions(
         unselectedIcon = Icons.Outlined.Home,
         selectedIcon = Icons.Filled.Home,
         onOptionClicked = {
-            it.navigateTo(Screen.HomeScreen)
+            it.navigate(Screen.HomeScreen.route)
         }
     )
 
@@ -50,7 +49,9 @@ sealed class BottomNavOptions(
         unselectedIcon = Icons.Outlined.FavoriteBorder,
         selectedIcon = Icons.Filled.Favorite,
         onOptionClicked = {
-            it.navigateTo(Screen.FavouriteScreen)
+            it.navigate(Screen.FavouriteScreen.route){
+
+            }
         }
     )
 
@@ -60,7 +61,7 @@ sealed class BottomNavOptions(
         unselectedIcon = Icons.Outlined.ShoppingCart,
         selectedIcon = Icons.Filled.ShoppingCart,
         onOptionClicked = {
-            it.navigateTo(Screen.CartScreen)
+            it.navigate(Screen.CartScreen.route)
         }
     )
 
@@ -70,7 +71,7 @@ sealed class BottomNavOptions(
         unselectedIcon = Icons.Outlined.Person,
         selectedIcon = Icons.Filled.Person,
         onOptionClicked = {
-            it.navigateTo(Screen.ProfileScreen)
+            it.navigate(Screen.ProfileScreen.route)
         }
     )
 }

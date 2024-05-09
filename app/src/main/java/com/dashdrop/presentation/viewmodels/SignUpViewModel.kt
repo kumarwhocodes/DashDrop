@@ -4,7 +4,6 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.dashdrop.navigation.DashDropAppRouter
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -88,7 +87,7 @@ class SignUpViewModel : ViewModel() {
                 Log.d("mera_tag", "hogya create user")
                 signUpInProgress.value = false
                 if (it.isSuccessful) {
-                    DashDropAppRouter.navigateTo(Screen.HomeScreen)
+//                    DashDropAppRouter.navigateTo(Screen.HomeScreen)
                 }
             }
             .addOnFailureListener {
