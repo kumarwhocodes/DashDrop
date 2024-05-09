@@ -67,6 +67,7 @@ fun CategoryButton(
 ) {
     Surface(
         shape = RoundedCornerShape(50.dp, 50.dp, 20.dp, 20.dp),
+        modifier = Modifier.padding(2.dp)
     ) {
         Column(
             modifier = Modifier.padding(5.dp),
@@ -157,6 +158,72 @@ fun ItemButton(
                         .padding(30.dp,0.dp,0.dp,5.dp)
                         .size(33.dp),
                     icon = icon
+                )
+            }
+
+        }
+    }
+}
+
+
+//TODO: FAB ma subtract wala icon chahiye
+@Composable
+fun CartButton(
+    value: String,
+    image: Painter,
+    imageDesc: String?=null,
+    price: String,
+    startCount: Double
+) {
+    Surface(
+        shape = RoundedCornerShape(7.dp),
+        modifier = Modifier.padding(2.dp)
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
+        ) {
+            Surface(
+                shape = RoundedCornerShape(7.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .background(bg)
+                        .padding(3.dp),
+                    painter = image,
+                    contentDescription = imageDesc
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Absolute.SpaceAround
+            ) {
+                Column {
+                    Text(
+                        text = value,
+                        color = Color.Black.copy(),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight(550)
+                    )
+                    Spacer(modifier = Modifier.height(3.dp))
+                    StarsRow(starCount = startCount,22.dp)
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Row {
+                        Text(
+                            text = price, color = Color.Green, fontSize = 18.sp
+                        )
+                        Text(
+                            text = "/KG", fontSize = 18.sp
+                        )
+                    }
+
+                }
+                FAB(onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .padding(30.dp,0.dp,0.dp,5.dp)
+                        .size(33.dp)
                 )
             }
 
