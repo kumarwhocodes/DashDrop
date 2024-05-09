@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
@@ -45,7 +46,7 @@ sealed class BottomNavOptions(
     object FavouriteOption : BottomNavOptions(
         route = Screen.FavouriteScreen,
         labelOfIcon = R.string.Favourite,
-        unselectedIcon = Icons.Outlined.Favorite,
+        unselectedIcon = Icons.Outlined.FavoriteBorder,
         selectedIcon = Icons.Filled.Favorite,
         onOptionClicked = {
             it.navigate(Screen.FavouriteScreen.route){
