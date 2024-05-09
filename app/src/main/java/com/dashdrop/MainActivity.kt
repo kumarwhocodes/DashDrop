@@ -3,10 +3,8 @@ package com.dashdrop
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.dashdrop.navigation.DashDropNavGraph
-import com.dashdrop.presentation.screens.SplashScreen
-import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.viewmodels.SignUpViewModel
+import androidx.navigation.compose.rememberNavController
+import com.dashdrop.navigation.Navigation
 import com.dashdrop.ui.theme.DashDropTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,11 +13,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DashDropTheme {
-                DashDropNavGraph(
-                    signInViewModel = SignInViewModel(),
-                    signUpViewModel = SignUpViewModel(),
-                    isUserLoggedIn = false
-                )
+//                DashDropNavGraph(
+//                    signInViewModel = SignInViewModel(),
+//                    signUpViewModel = SignUpViewModel(),
+//                    isUserLoggedIn = false
+//                )
+                val navController = rememberNavController()
+                Navigation(navController)
             }
         }
     }

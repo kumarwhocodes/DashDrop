@@ -4,6 +4,7 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,7 +21,7 @@ class SignUpViewModel : ViewModel() {
 
     var signUpInProgress = mutableStateOf(false)
 
-    fun onEvent(event: SignUpUIEvent) {
+    fun onEvent(event: SignUpUIEvent, navController: NavController) {
         validateDataWithRules()
         when (event) {
             is SignUpUIEvent.NameChanged -> {
@@ -42,15 +43,16 @@ class SignUpViewModel : ViewModel() {
             }
 
             is SignUpUIEvent.RegisterButtonClicked -> {
-                signUp()
+                signUp(navController)
             }
         }
     }
 
-    private fun signUp() {
+    private fun signUp(navController: NavController) {
         createUserInFirebase(
             email = registrationUIState.value.email,
-            password = registrationUIState.value.password
+            password = registrationUIState.value.password,
+            navController
         )
     }
 
@@ -77,7 +79,8 @@ class SignUpViewModel : ViewModel() {
 
     private fun createUserInFirebase(
         email: String,
-        password: String
+        password: String,
+        navController: NavController
     ) {
         signUpInProgress.value = true
         auth = Firebase.auth
@@ -87,7 +90,9 @@ class SignUpViewModel : ViewModel() {
                 Log.d("mera_tag", "hogya create user")
                 signUpInProgress.value = false
                 if (it.isSuccessful) {
-//                    DashDropAppRouter.navigateTo(Screen.HomeScreen)
+                    navController.navigate(Screen.HomeScreen.route){
+                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    }
                 }
             }
             .addOnFailureListener {

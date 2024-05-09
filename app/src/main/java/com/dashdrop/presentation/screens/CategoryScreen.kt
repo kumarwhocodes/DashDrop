@@ -1,11 +1,8 @@
 package com.dashdrop.presentation.screens
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -20,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.ItemButton
@@ -33,10 +31,10 @@ fun CategoryScreen(
         topBar = {
             ScaffoldTop(toolbarTitle = "Veggies",
                 logOutButtonClicked = {
-                    signInViewModel.logout()
+                    signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    /*TODO: Back Button Logic*/
+                    navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 })
         }
     ) { paddingValues ->

@@ -2,9 +2,9 @@ package com.dashdrop.presentation.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.dashdrop.navigation.HOME_GRAPH_ROUTE
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -21,7 +21,7 @@ class SignInViewModel : ViewModel() {
 
     var loginInProgress = mutableStateOf(false)
 
-    fun onEvent(event: SignInUIEvent) {
+    fun onEvent(event: SignInUIEvent, navController: NavController) {
         validateLoginUIDataWithRules()
         when (event) {
             is SignInUIEvent.EmailChanged -> {
@@ -37,7 +37,7 @@ class SignInViewModel : ViewModel() {
             }
 
             is SignInUIEvent.LoginButtonClicked -> {
-                login(loginUIState.value.email, loginUIState.value.password)
+                login(loginUIState.value.email, loginUIState.value.password,navController)
             }
         }
     }
@@ -62,7 +62,8 @@ class SignInViewModel : ViewModel() {
 
     private fun login(
         email: String,
-        password: String
+        password: String,
+        navController: NavController
     ) {
         loginInProgress.value = true
         auth = Firebase.auth
@@ -72,7 +73,9 @@ class SignInViewModel : ViewModel() {
                 Log.d("mera_tag", "hogya login")
                 loginInProgress.value = false
                 if (it.isSuccessful) {
-                    //Toast
+                    navController.navigate(Screen.HomeScreen.route){
+                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    }
                 }
             }
             .addOnFailureListener {
@@ -81,13 +84,14 @@ class SignInViewModel : ViewModel() {
             }
     }
 
-    fun logout() {
+    fun logout(navController: NavController) {
         auth = Firebase.auth
         auth.signOut()
 
         val authStateListener = AuthStateListener {
             if (it.currentUser == null) {
                 Log.d("mera_tag", "hogya logout")
+                navController.navigate(Screen.SignUpScreen.route)
             } else {
                 Log.d("mera_tag", "nhi hua logout")
             }
@@ -95,4 +99,17 @@ class SignInViewModel : ViewModel() {
 
         auth.addAuthStateListener(authStateListener)
     }
+
+    val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
+
+    fun checkForActiveSession() {
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            Log.d("Is Login", "Valid Session")
+            isUserLoggedIn.value = true
+        } else {
+            Log.d("is Login", "User is not logged in")
+            isUserLoggedIn.value = false
+        }
+    }
+
 }

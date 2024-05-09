@@ -223,7 +223,8 @@ fun CartButton(
                 FAB(onClick = { /*TODO*/ },
                     modifier = Modifier
                         .padding(30.dp,0.dp,0.dp,5.dp)
-                        .size(33.dp)
+                        .size(33.dp),
+                    icon = Icons.Filled.Add
                 )
             }
 
