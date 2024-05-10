@@ -3,19 +3,23 @@ package com.dashdrop.domain.models
 import com.google.firebase.auth.FirebaseUser
 
 data class LocalUser(
-    val userName: String?,
+    val name: String?,
+    val username: String?,
     val uid: String,
     val email: String,
     val photoUrl: String?,
-    val phoneNumber: String?
+    val phone_number: String?,
+    val password: String?
 )
 
 fun FirebaseUser.toLocalUser(): LocalUser {
     return LocalUser(
+        name = displayName,
         uid = uid,
-        userName = displayName,
+        username = displayName,
         email = email ?: "",
         photoUrl = photoUrl?.toString(),
-        phoneNumber = phoneNumber
+        phone_number = phoneNumber,
+        password = null
     )
 }

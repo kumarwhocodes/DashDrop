@@ -44,6 +44,7 @@ import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInUIEvent
 import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.presentation.viewmodels.checkAndStoreUser
 import com.dashdrop.ui.components.ClickableLoginTextComponent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
@@ -74,11 +75,12 @@ fun SignInScreen(
         onAuthComplete = { result ->
             user = result.user
             navController.navigate(Screen.HomeScreen.route)
-            Toast.makeText(context,"Login Successful",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Sign In Successful",Toast.LENGTH_SHORT).show()
+            checkAndStoreUser(user)
         },
         onAuthError = {
             user = null
-            Toast.makeText(context,"Login Failed",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"Sign Up Failed",Toast.LENGTH_SHORT).show()
         }
     )
     val token = stringResource(id = R.string.web_client_id)

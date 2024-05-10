@@ -53,6 +53,7 @@ android {
 
 dependencies {
 
+    implementation(libs.firebase.firestore)
     val nav_version = "2.7.7"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

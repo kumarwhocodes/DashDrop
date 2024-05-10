@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.presentation.viewmodels.SignUpViewModel
+import com.dashdrop.presentation.viewmodels.checkAndStoreUser
 import com.dashdrop.ui.components.ClickableLoginTextComponent
 import com.dashdrop.ui.components.CustomInputField
 import com.dashdrop.ui.components.DividerTextComponent
@@ -58,16 +60,20 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel = viewModel(),
     navController: NavController
 ) {
+    val context = LocalContext.current
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
     val launcher = rememberFirebaseAuthLauncher(onAuthComplete = { result ->
         user = result.user
-        },
+        checkAndStoreUser(user)
+        Toast.makeText(context,"Sign Up Successful", Toast.LENGTH_SHORT).show()
+    },
         onAuthError = {
             user = null
+            Toast.makeText(context,"Sign Up Failed",Toast.LENGTH_SHORT).show()
+
         }
     )
     val token = stringResource(id = R.string.web_client_id)
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize(),
