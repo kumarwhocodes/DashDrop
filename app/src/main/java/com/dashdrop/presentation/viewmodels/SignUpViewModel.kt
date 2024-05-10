@@ -1,13 +1,18 @@
 package com.dashdrop.presentation.viewmodels
 
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.dashdrop.domain.models.toLocalUser
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 //TODO: NavGraph theek krna hai
@@ -20,6 +25,8 @@ class SignUpViewModel : ViewModel() {
     var allValidationsPassed = mutableStateOf(false)
 
     var signUpInProgress = mutableStateOf(false)
+
+    val db = Firebase.firestore
 
     fun onEvent(event: SignUpUIEvent, navController: NavController) {
         validateDataWithRules()
@@ -93,6 +100,7 @@ class SignUpViewModel : ViewModel() {
                     navController.navigate(Screen.HomeScreen.route){
                         popUpTo(Screen.HomeScreen.route){inclusive = true}
                     }
+                    checkAndStoreUser(user = auth.currentUser)
                 }
             }
             .addOnFailureListener {

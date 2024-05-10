@@ -1,6 +1,7 @@
 package com.dashdrop.presentation.viewmodels
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+
 
 class SignInViewModel : ViewModel() {
 
@@ -76,6 +78,11 @@ class SignInViewModel : ViewModel() {
                     navController.navigate(Screen.HomeScreen.route){
                         popUpTo(Screen.HomeScreen.route){inclusive = true}
                     }
+                    checkAndStoreUser(user = auth.currentUser)
+                }
+                else {
+                    // Show a failure toast message.
+
                 }
             }
             .addOnFailureListener {
