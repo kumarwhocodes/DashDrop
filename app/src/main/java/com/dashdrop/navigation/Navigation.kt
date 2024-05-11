@@ -1,22 +1,22 @@
 package com.dashdrop.navigation
 
 import android.app.Activity
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dashdrop.MainActivity
+import com.dashdrop.presentation.screens.BillingScreen
 import com.dashdrop.presentation.screens.CartScreen
+import com.dashdrop.presentation.screens.CategoryScreen
+import com.dashdrop.presentation.screens.DetailsScreen
 import com.dashdrop.presentation.screens.FavouriteScreen
 import com.dashdrop.presentation.screens.HomeScreen
 import com.dashdrop.presentation.screens.ProfileScreen
 import com.dashdrop.presentation.screens.SignInScreen
 import com.dashdrop.presentation.screens.SignUpScreen
+import com.dashdrop.presentation.screens.SplashScreen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 
 @Composable
@@ -47,6 +47,12 @@ fun Navigation(navController: NavHostController) {
                     }
                 })
         }
+        composable(route = "category") {
+            CategoryScreen(navController = navController)
+        }
+        composable(route = "DetailsScreen") {
+            DetailsScreen(navController = navController)
+        }
         composable(route = "favourite") {
             FavouriteScreen(navController = navController)
         }
@@ -55,6 +61,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(route = "profile") {
             ProfileScreen(navController = navController)
+        }
+        composable(route = "billing") {
+            BillingScreen(navController = navController)
         }
     }
 }
