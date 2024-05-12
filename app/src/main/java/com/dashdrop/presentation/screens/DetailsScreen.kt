@@ -110,7 +110,7 @@ fun DetailsScreen(
                         modifier = Modifier.height(10.dp)
                     )
                     StarsRow(
-                        starCount = 4.0, size = 24.dp
+                        starCount = 4, size = 24.dp
                     )
                     Spacer(
                         modifier = Modifier.height(10.dp)

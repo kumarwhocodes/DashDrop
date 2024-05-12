@@ -58,7 +58,7 @@ fun DetailsName(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(15.dp))
-            StarsRow(starCount = 2.0, 30.dp)
+            StarsRow(starCount = 2, 30.dp)
             Spacer(modifier = Modifier.height(15.dp))
             Row {
                 Text(

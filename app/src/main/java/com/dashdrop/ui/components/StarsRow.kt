@@ -1,6 +1,7 @@
 package com.dashdrop.ui.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,32 +21,21 @@ import kotlin.math.roundToInt
 
 @Composable
 fun StarsRow(
-    starCount: Double,
+    starCount: Int,
     size: Dp
 ) {
 
-    val stars = starCount.roundToInt()
     Box(){
-        LazyRow() {
-            items(5) {
-                Icon(
-                    imageVector = Icons.Outlined.StarOutline,
-                    contentDescription = stringResource(R.string.star),
-                    modifier = Modifier
-                        .size(size),
-                    tint = starColor
-                )
-            }
+        Row(){
+            Icon(imageVector = Icons.Outlined.StarOutline, contentDescription = "empty star")
+            Icon(imageVector = Icons.Outlined.StarOutline, contentDescription = "empty star")
+            Icon(imageVector = Icons.Outlined.StarOutline, contentDescription = "empty star")
+            Icon(imageVector = Icons.Outlined.StarOutline, contentDescription = "empty star")
+            Icon(imageVector = Icons.Outlined.StarOutline, contentDescription = "empty star")
         }
-        LazyRow() {
-            items(stars) {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = stringResource(R.string.star),
-                    modifier = Modifier
-                        .size(size),
-                    tint = starColor
-                )
+        Row(){
+            repeat(starCount) {
+                Icon(imageVector = Icons.Filled.Star, contentDescription = "filled star", tint = starColor)
             }
         }
     }
@@ -55,6 +45,6 @@ fun StarsRow(
 @Composable
 private fun Preview() {
 
-    StarsRow(starCount = 4.0,53.dp)
+    StarsRow(starCount = 4,53.dp)
 
 }

@@ -57,7 +57,7 @@ fun FavouriteScreen(
                         value = "Veggies",
                         image = painterResource(id = R.drawable.veggiess),
                         price = "150",
-                        startCount = 2.0,
+                        startCount = 2,
                         icon = painterResource(id = R.drawable.add)
                     )
                 }

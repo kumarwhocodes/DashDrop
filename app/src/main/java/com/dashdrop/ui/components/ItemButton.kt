@@ -2,6 +2,7 @@ package com.dashdrop.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.dashdrop.R
 import com.dashdrop.ui.theme.DashDropTheme
 import com.dashdrop.ui.theme.bg
+import com.google.android.play.integrity.internal.o
 
 @Preview
 @Composable
@@ -37,8 +39,9 @@ private fun ButtonsPreview() {
         DashDropTheme {
             CategoryButton(
                 value = "Veggies",
-                image = painterResource(id = R.drawable.veggiess),
-                imageDesc = "veggies"
+                image = R.drawable.veggiess,
+                imageDesc = "veggies",
+                onClick = {}
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -48,7 +51,7 @@ private fun ButtonsPreview() {
                 image = painterResource(id = R.drawable.veggiess),
                 imageDesc = "veggies",
                 price = "$2.99",
-                startCount = 2.0,
+                startCount = 2,
                 icon = painterResource(id = R.drawable.add)
             )
 
@@ -60,11 +63,15 @@ private fun ButtonsPreview() {
 
 @Composable
 fun CategoryButton(
-    value: String, image: Painter, imageDesc: String?=null
+    value: String, image: Int, imageDesc: String?=null,
+    onClick: ()-> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(50.dp, 50.dp, 20.dp, 20.dp),
-        modifier = Modifier.padding(2.dp)
+        modifier = Modifier
+            .padding(2.dp)
+            .clickable(onClick = onClick),
+        color = Color.White.copy(0.8f)
     ) {
         Column(
             modifier = Modifier.padding(5.dp),
@@ -79,7 +86,7 @@ fun CategoryButton(
                         .size(60.dp)
                         .background(bg.copy(0.5f))
                         .padding(3.dp),
-                    painter = image,
+                    painter = painterResource(id = image),
                     contentDescription = imageDesc
                 )
             }
@@ -102,7 +109,7 @@ fun ItemButton(
     image: Painter,
     imageDesc: String?=null,
     price: String,
-    startCount: Double,
+    startCount: Int,
     icon :Painter
 ) {
     Surface(
@@ -171,7 +178,7 @@ fun CartButton(
     image: Painter,
     imageDesc: String?=null,
     price: String,
-    startCount: Double
+    startCount: Int
 ) {
     Surface(
         shape = RoundedCornerShape(7.dp),

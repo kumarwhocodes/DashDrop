@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +13,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +37,9 @@ import com.dashdrop.MainActivity
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.presentation.viewmodels.categoryList
+import com.dashdrop.presentation.viewmodels.getItemList
+import com.dashdrop.presentation.viewmodels.itemList
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.CategoryButton
@@ -40,6 +48,7 @@ import com.dashdrop.ui.components.ItemBanner
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.SearchBox
 import com.dashdrop.ui.theme.bg
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -101,13 +110,23 @@ fun HomeScreen(
                         modifier = Modifier
                     )
                     LazyRow() {
-                        items(10) {
-                            CategoryButton(value = "Veggies",
-                                image = painterResource(id = R.drawable.veggiess),
-                                imageDesc = null)
+                        items(categoryList) {
+                            CategoryButton(
+                                value = it.category_name,
+                                image = R.drawable.veggiess,
+                                onClick = {
+                                    getItemList(it.categoryId)
+//                                    navController.navigate(Screen.CategoryScreen.route)
+                                }
+                            )
                         }
                     }
-
+                    Button(onClick = {
+                        Log.d("size", itemList.size.toString())
+                        navController.navigate(Screen.CategoryScreen.route)
+                    }) {
+                        Text("Click here to go in Category Screen")
+                    }
                     Spacer(modifier = Modifier
                         .height(20.dp))
 
@@ -124,7 +143,7 @@ fun HomeScreen(
                                 value = "Veggies",
                                 image = painterResource(id = R.drawable.veggiess),
                                 price = "150",
-                                startCount = 2.0,
+                                startCount = 2,
                                 icon = painterResource(id = R.drawable.add)
                             )
                         }
