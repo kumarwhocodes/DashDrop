@@ -1,35 +1,38 @@
 package com.dashdrop.presentation.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.ui.components.AddToCartBottomBar
-import com.dashdrop.ui.components.BottomNavBar
+import com.dashdrop.ui.components.CartItem
 import com.dashdrop.ui.components.CheckoutBottomBar
-import com.dashdrop.ui.components.ItemButton
+import com.dashdrop.ui.components.PricingCard
 import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.ui.theme.bg
 
 @Composable
 fun CartScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
-    onCheckoutButtonClicked: () -> Unit={}
+    onCheckoutButtonClicked: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier,
@@ -39,15 +42,15 @@ fun CartScreen(
                     signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    navController.navigate(Screen.HomeScreen.route){
-                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.HomeScreen.route) { inclusive = true }
                     }
                 })
         },
         bottomBar = {
-           CheckoutBottomBar {
+            CheckoutBottomBar {
                 onCheckoutButtonClicked()
-           }
+            }
         }
     ) { paddingValues ->
         Surface(
@@ -55,17 +58,33 @@ fun CartScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(10.dp)
+                .verticalScroll(rememberScrollState())
+
         ) {
-            LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
-                items(5){
-                    ItemButton(
-                        value = "Veggies",
-                        image = painterResource(id = R.drawable.veggiess),
-                        price = "150",
-                        startCount = 2,
-                        icon = painterResource(id = R.drawable.minus)
-                    )
-                }
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CartItem(
+                    image = painterResource(id = R.drawable.orange),
+                    name = "Orange",
+                    category = "Fruits",
+                    price = "100"
+                )
+                CartItem(
+                    image = painterResource(id = R.drawable.orange),
+                    name = "Orange",
+                    category = "Fruits",
+                    price = "100"
+                )
+                CartItem(
+                    image = painterResource(id = R.drawable.orange),
+                    name = "Orange",
+                    category = "Fruits",
+                    price = "100"
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                PricingCard()
+
             }
         }
 
