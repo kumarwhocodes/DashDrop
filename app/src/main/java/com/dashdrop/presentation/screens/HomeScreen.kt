@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.dashdrop.fireStore.cartList
 import com.dashdrop.R
+import com.dashdrop.fireStore.cartListID
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.fireStore.categoryList
 import com.dashdrop.fireStore.getItemList
@@ -120,8 +120,8 @@ fun HomeScreen(
                     }
                     Row(){
                         Button(onClick = {
-                            Log.d("size", cartList.size.toString())
-                            for(i in cartList){
+                            Log.d("size", cartListID.size.toString())
+                            for(i in cartListID){
                                 getcartList(i.item_id, i.category_id)
                             }
                         }) {
