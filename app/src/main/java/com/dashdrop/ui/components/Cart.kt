@@ -33,15 +33,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dashdrop.fireStore.CartItems
 import com.dashdrop.R
 import com.dashdrop.ui.theme.bg
 
 @Composable
 fun CartItem(
     image: Painter,
-    name: String,
-    category: String,
-    price: String
+    item_Id: CartItems,
 ) {
     Card(
         modifier = Modifier
@@ -84,20 +83,20 @@ fun CartItem(
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Text(
-                        text = name,
+                        text = item_Id.item_name,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 24.sp,
                         color = Color.Black
                     )
 
                     Text(
-                        text = category,
+                        text = item_Id.item_category,
                         fontSize = 16.sp
                     )
 
                     Row {
                         Text(
-                            text = "₹$price",
+                            text = "₹${item_Id.item_price}",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 24.sp,
                             color = bg
@@ -300,9 +299,12 @@ private fun Preview() {
     Column {
         CartItem(
             image = painterResource(id = R.drawable.orange),
-            name = "Orange",
-            category = "Fruit",
-            price = "100"
+            item_Id = CartItems(
+                item_id = "Orange",
+                item_category = "Fruits",
+                item_name = "cff",
+                item_price = "fd"
+            )
         )
         Spacer(modifier = Modifier.height(50.dp))
         PromoCode()

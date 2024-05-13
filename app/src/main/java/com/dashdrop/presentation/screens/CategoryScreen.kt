@@ -9,21 +9,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,19 +32,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.dashdrop.fireStore.addcart
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.viewmodels.getItemDetails
-import com.dashdrop.presentation.viewmodels.getItemList
-import com.dashdrop.presentation.viewmodels.itemDetailsList
-import com.dashdrop.presentation.viewmodels.itemList
+import com.dashdrop.fireStore.getItemDetails
+import com.dashdrop.fireStore.itemDetailsList
+import com.dashdrop.fireStore.itemList
 import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.ScaffoldTop
-import com.dashdrop.ui.components.ItemButton
-import com.dashdrop.ui.components.StarsRow
 import com.dashdrop.ui.theme.bg
-import com.dashdrop.ui.theme.starColor
 
 @Composable
 fun CategoryScreen(
@@ -75,38 +64,42 @@ fun CategoryScreen(
                 .padding(paddingValues)
                 .padding(8.dp)
         ) {
-            Button(onClick = {
-                Log.d("size", itemDetailsList.size.toString())
-                navController.navigate(Screen.DetailsScreen.route)
-            }) {
-                Text("Click here to go in Details Screen")
-            }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(count = 2)
             ) {
                 items(itemList){
                     Surface(
                         shape = RoundedCornerShape(7.dp),
-                        modifier = Modifier.padding(2.dp)
+                        modifier = Modifier
+                            .padding(2.dp)
                             .clickable(onClick = {
-                                getItemDetails(it.item_id)
+                                getItemDetails(it.item_id, it.item_category,navController)
+                                Log.d("size", it.item_name)
                             })
                     ) {
                         Column(
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
                         ) {
+                            Button(onClick = {
+                                navController.navigate(Screen.DetailsScreen.route)
+                                Log.d("size", itemDetailsList.size.toString())
+                            }) {
+                                Text("Click here to go in Details Screen")
+                            }
                             Surface(
                                 shape = RoundedCornerShape(7.dp)
                             ) {
-                                Image(
-                                    modifier = Modifier
-                                        .size(180.dp)
-                                        .background(bg)
-                                        .padding(3.dp),
-                                    painter = painterResource(id = R.drawable.veggiess),
-                                    contentDescription = null
-                                )
+                                Box(){
+                                    Image(
+                                        modifier = Modifier
+                                            .size(180.dp)
+                                            .background(bg)
+                                            .padding(3.dp),
+                                        painter = painterResource(id = R.drawable.veggiess),
+                                        contentDescription = null
+                                    )
+                                }
                             }
                             Spacer(modifier = Modifier.height(8.dp))
                             Row(
@@ -126,6 +119,9 @@ fun CategoryScreen(
                                     Spacer(modifier = Modifier.height(3.dp))
                                     Row {
                                         Text(
+                                            text = "₹", fontSize = 24.sp
+                                        )
+                                        Text(
                                             text = it.item_price, color = Color.Green, fontSize = 18.sp
                                         )
                                         Text(
@@ -135,7 +131,9 @@ fun CategoryScreen(
 
                                 }
                                 FAB(
-                                    onClick = { /*TODO*/ },
+                                    onClick = {
+                                        addcart(it.item_id,it.item_category)
+                                    },
                                     modifier = Modifier
                                         .padding(30.dp, 0.dp, 0.dp, 5.dp)
                                         .size(33.dp),

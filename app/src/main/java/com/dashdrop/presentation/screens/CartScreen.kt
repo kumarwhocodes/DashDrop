@@ -1,14 +1,10 @@
 package com.dashdrop.presentation.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -19,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.dashdrop.fireStore.cartItemList
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -26,7 +23,6 @@ import com.dashdrop.ui.components.CartItem
 import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.PricingCard
 import com.dashdrop.ui.components.ScaffoldTop
-import com.dashdrop.ui.theme.bg
 
 @Composable
 fun CartScreen(
@@ -48,8 +44,11 @@ fun CartScreen(
                 })
         },
         bottomBar = {
-            CheckoutBottomBar {
-                onCheckoutButtonClicked()
+            Column{
+                PricingCard()
+                CheckoutBottomBar {
+                    onCheckoutButtonClicked()
+                }
             }
         }
     ) { paddingValues ->
@@ -58,32 +57,19 @@ fun CartScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(10.dp)
-                .verticalScroll(rememberScrollState())
 
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                CartItem(
-                    image = painterResource(id = R.drawable.orange),
-                    name = "Orange",
-                    category = "Fruits",
-                    price = "100"
-                )
-                CartItem(
-                    image = painterResource(id = R.drawable.orange),
-                    name = "Orange",
-                    category = "Fruits",
-                    price = "100"
-                )
-                CartItem(
-                    image = painterResource(id = R.drawable.orange),
-                    name = "Orange",
-                    category = "Fruits",
-                    price = "100"
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                PricingCard()
+                LazyColumn {
+                    items(cartItemList){
+                        CartItem(
+                            image = painterResource(id = R.drawable.orange),
+                            item_Id = it
+                        )
+                    }
+                }
 
             }
         }

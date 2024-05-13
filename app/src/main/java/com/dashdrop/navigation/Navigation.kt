@@ -50,7 +50,7 @@ fun Navigation(navController: NavHostController) {
         composable(route = "category") {
             CategoryScreen(navController = navController)
         }
-        composable(route = "DetailsScreen") {
+        composable(route = "details") {
             DetailsScreen(navController = navController)
         }
         composable(route = "favourite") {
