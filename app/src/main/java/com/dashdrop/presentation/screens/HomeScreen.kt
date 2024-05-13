@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,14 +15,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,13 +31,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.dashdrop.MainActivity
+import com.dashdrop.fireStore.cartList
 import com.dashdrop.R
-import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.viewmodels.categoryList
-import com.dashdrop.presentation.viewmodels.getItemList
-import com.dashdrop.presentation.viewmodels.itemList
+import com.dashdrop.fireStore.categoryList
+import com.dashdrop.fireStore.getItemList
+import com.dashdrop.fireStore.getcartList
+import com.dashdrop.fireStore.itemList
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.CategoryButton
@@ -48,7 +46,6 @@ import com.dashdrop.ui.components.ItemBanner
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.SearchBox
 import com.dashdrop.ui.theme.bg
-import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -115,17 +112,21 @@ fun HomeScreen(
                                 value = it.category_name,
                                 image = R.drawable.veggiess,
                                 onClick = {
-                                    getItemList(it.categoryId)
-//                                    navController.navigate(Screen.CategoryScreen.route)
+                                    getItemList(it.categoryId,navController)
+                                    Log.d("size", itemList.size.toString())
                                 }
                             )
                         }
                     }
-                    Button(onClick = {
-                        Log.d("size", itemList.size.toString())
-                        navController.navigate(Screen.CategoryScreen.route)
-                    }) {
-                        Text("Click here to go in Category Screen")
+                    Row(){
+                        Button(onClick = {
+                            Log.d("size", cartList.size.toString())
+                            for(i in cartList){
+                                getcartList(i.item_id, i.category_id)
+                            }
+                        }) {
+                            Text("Cart Screen")
+                        }
                     }
                     Spacer(modifier = Modifier
                         .height(20.dp))

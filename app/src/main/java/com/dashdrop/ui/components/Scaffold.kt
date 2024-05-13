@@ -1,5 +1,6 @@
 package com.dashdrop.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dashdrop.navigation.Screen
+import com.dashdrop.fireStore.cartList
 import com.dashdrop.ui.theme.bg
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,7 +132,10 @@ fun BottomNavBar(
                 )
             }
             IconButton(
-                onClick = { navController.navigate(Screen.CartScreen.route) },
+                onClick = {
+                    navController.navigate(Screen.CartScreen.route)
+                    Log.d("size", cartList.size.toString())
+                          },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
@@ -163,7 +168,8 @@ fun BottomNavBar(
 
 @Composable
 fun AddToCartBottomBar(
-    addToCartButtonClicked: () -> Unit
+    addToCartButtonClicked: () -> Unit,
+    price: String = "₹"
 ) {
     Row(
         modifier = Modifier
@@ -186,7 +192,7 @@ fun AddToCartBottomBar(
                     .padding(bottom = 2.dp)
             ) {
                 Text(
-                    text = "₹14.99", color = bg, fontSize = 24.sp
+                    text = price, color = bg, fontSize = 24.sp
                 )
                 Text(
                     text = "/KG", fontSize = 24.sp
@@ -278,9 +284,7 @@ private fun Preview() {
             navController = NavController(context = LocalContext.current)
         )
 
-        AddToCartBottomBar {
-
-        }
+        AddToCartBottomBar(addToCartButtonClicked = {  }, price = "b")
         CheckoutBottomBar {
 
         }

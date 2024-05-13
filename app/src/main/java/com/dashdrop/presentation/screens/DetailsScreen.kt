@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,12 +34,12 @@ import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
+import com.dashdrop.fireStore.itemDetailsList
 import com.dashdrop.ui.components.AddToCartBottomBar
 import com.dashdrop.ui.components.DetailsImage
 import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.HeadingText
 import com.dashdrop.ui.components.ScaffoldTop
-import com.dashdrop.ui.components.StarsRow
 import com.dashdrop.ui.theme.bg
 
 @Composable
@@ -71,7 +68,8 @@ fun DetailsScreen(
         },
         bottomBar = {
             AddToCartBottomBar(
-                addToCartButtonClicked = addToCart
+                addToCartButtonClicked = addToCart,
+                price = itemDetailsList[0].item_price
             )
         }
     ) { paddingValues ->
@@ -93,7 +91,6 @@ fun DetailsScreen(
                 Spacer(
                     modifier = Modifier.height(10.dp)
                 )
-
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -101,23 +98,26 @@ fun DetailsScreen(
                 ) {
                     HeadingText(
                         modifier = Modifier,
-                        value = "Fresh Orange",
+                        value = itemDetailsList[0].item_name,
                         size = 32.sp,
                         weight = FontWeight.Bold,
                         color = Color.Black
                     )
-                    Spacer(
-                        modifier = Modifier.height(10.dp)
-                    )
-                    StarsRow(
-                        starCount = 4, size = 24.dp
-                    )
+//                    Spacer(
+//                        modifier = Modifier.height(10.dp)
+//                    )
+//                    StarsRow(
+//                        starCount = itemDetailsList[0].item_star.toInt(), size = 24.dp
+//                    )
                     Spacer(
                         modifier = Modifier.height(10.dp)
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = "₹14.99", color = Color.Green, fontSize = 24.sp
+                            text = "₹", fontSize = 24.sp
+                        )
+                        Text(
+                            text = itemDetailsList[0].item_price, color = Color.Green, fontSize = 24.sp
                         )
                         Text(
                             text = "/KG", fontSize = 24.sp
@@ -179,7 +179,7 @@ fun DetailsScreen(
                     ) {
                         HeadingText(
                             modifier = Modifier,
-                            value = "Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read MoreOrange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More Orange is a vibrant and juicy citrus fruit, known for its refreshing flavor and bright color. With a tangy savory sweetness. it adds a burst of freshness to both sweet and savory dishes. The peel Of an orange is often used in cooking and baking to impart a zesty Read More",
+                            value = itemDetailsList[0].item_detail,
                             size = 16.sp,
                             textAlign = TextAlign.Left,
                             weight = FontWeight.Normal,
