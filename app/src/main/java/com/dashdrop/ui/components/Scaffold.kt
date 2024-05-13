@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,9 +24,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -104,21 +100,23 @@ fun BottomNavBar(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-            IconButton(onClick = { navController.navigate(Screen.HomeScreen.route) },
+        ) {
+            IconButton(
+                onClick = { navController.navigate(Screen.HomeScreen.route) },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
                     disabledContentColor = Color.White,
                     disabledContainerColor = Color.White
-                    )
+                )
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Home,
                     contentDescription = "Home"
                 )
             }
-            IconButton(onClick = { navController.navigate(Screen.FavouriteScreen.route) },
+            IconButton(
+                onClick = { navController.navigate(Screen.FavouriteScreen.route) },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
@@ -131,7 +129,8 @@ fun BottomNavBar(
                     contentDescription = "Favourite"
                 )
             }
-            IconButton(onClick = { navController.navigate(Screen.CartScreen.route) },
+            IconButton(
+                onClick = { navController.navigate(Screen.CartScreen.route) },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
@@ -144,7 +143,8 @@ fun BottomNavBar(
                     contentDescription = "Cart"
                 )
             }
-            IconButton(onClick = { navController.navigate(Screen.ProfileScreen.route) },
+            IconButton(
+                onClick = { navController.navigate(Screen.ProfileScreen.route) },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
@@ -181,10 +181,12 @@ fun AddToCartBottomBar(
                 weight = FontWeight.Normal,
                 color = Color.Black.copy(0.5f)
             )
-            Row(modifier = Modifier
-                .padding(bottom = 2.dp)) {
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 2.dp)
+            ) {
                 Text(
-                    text = "₹14.99", color = Color.Green, fontSize = 24.sp
+                    text = "₹14.99", color = bg, fontSize = 24.sp
                 )
                 Text(
                     text = "/KG", fontSize = 24.sp
@@ -195,7 +197,7 @@ fun AddToCartBottomBar(
 
         PrimaryButton(
             onClick = {
-                      addToCartButtonClicked()
+                addToCartButtonClicked()
             },
             shapes = RoundedCornerShape(50.dp)
         ) {
@@ -208,7 +210,7 @@ fun AddToCartBottomBar(
         }
 
     }
-    
+
 }
 
 @Composable
@@ -231,13 +233,13 @@ fun CheckoutBottomBar(
                 weight = FontWeight.Normal,
                 color = Color.Black.copy(0.5f)
             )
-            Row(modifier = Modifier
-                .padding(bottom = 2.dp)) {
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 2.dp)
+            ) {
                 Text(
-                    text = "₹14.99", color = Color.Green, fontSize = 24.sp
-                )
-                Text(
-                    text = "/KG", fontSize = 24.sp
+                    text = "₹14.99", color = bg, fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -277,6 +279,9 @@ private fun Preview() {
         )
 
         AddToCartBottomBar {
+
+        }
+        CheckoutBottomBar {
 
         }
 
