@@ -6,15 +6,8 @@ data class CategoryData(
 )
 
 data class ItemData(
+    val index: Int,
     val item_category: String,
-    val item_name: String,
-    val item_id: String,
-    val item_price: String,
-    val item_star: String,
-    var item_favourite: String
-)
-
-data class ItemDetails(
     val item_name: String,
     val item_id: String,
     val item_price: String,
@@ -33,4 +26,15 @@ data class CartItems(
     val item_name: String,
     val item_id: String,
     val item_price: String
+)
+
+data class FavItemsId(
+    val category_id: String,
+    val item_id: String,
+)
+
+data class FavItems(
+    val item_name: String,
+    val item_price: String,
+    val item_star: String,
 )

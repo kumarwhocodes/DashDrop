@@ -1,6 +1,5 @@
 package com.dashdrop.presentation.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +15,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,11 +36,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.fireStore.addcart
 import com.dashdrop.R
+import com.dashdrop.fireStore.cartListID
+import com.dashdrop.fireStore.changeFav
+import com.dashdrop.fireStore.getcartList
+import com.dashdrop.fireStore.getfavList
+import com.dashdrop.fireStore.itemList
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.fireStore.getItemDetails
-import com.dashdrop.fireStore.itemDetailsList
-import com.dashdrop.fireStore.itemList
 import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.theme.bg
@@ -46,17 +50,21 @@ import com.dashdrop.ui.theme.bg
 @Composable
 fun CategoryScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController,
+    item_category: String?
+) {
     Scaffold(
         modifier = Modifier,
         topBar = {
-            ScaffoldTop(toolbarTitle = "Veggies",
-                logOutButtonClicked = {
-                    signInViewModel.logout(navController)
-                },
-                navigationIconClicked = {
-                    navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
-                })
+            if (item_category != null) {
+                ScaffoldTop(toolbarTitle = item_category,
+                    logOutButtonClicked = {
+                        signInViewModel.logout(navController)
+                    },
+                    navigationIconClicked = {
+                        navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
+                    })
+            }
         }
     ) { paddingValues ->
         Surface(
@@ -73,20 +81,13 @@ fun CategoryScreen(
                         modifier = Modifier
                             .padding(2.dp)
                             .clickable(onClick = {
-                                getItemDetails(it.item_id, it.item_category,navController)
-                                Log.d("size", it.item_name)
+                                navController.navigate("details/${it.index}")
                             })
                     ) {
                         Column(
                             verticalArrangement = Arrangement.Center,
                             modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
                         ) {
-                            Button(onClick = {
-                                navController.navigate(Screen.DetailsScreen.route)
-                                Log.d("size", itemDetailsList.size.toString())
-                            }) {
-                                Text("Click here to go in Details Screen")
-                            }
                             Surface(
                                 shape = RoundedCornerShape(7.dp)
                             ) {
@@ -99,6 +100,14 @@ fun CategoryScreen(
                                         painter = painterResource(id = R.drawable.veggiess),
                                         contentDescription = null
                                     )
+                                    IconButton(
+                                        onClick = {
+                                            changeFav(it.item_name)
+                                            getfavList()
+                                        }
+                                    ) {
+                                        Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = null)
+                                    }
                                 }
                             }
                             Spacer(modifier = Modifier.height(8.dp))
@@ -109,7 +118,7 @@ fun CategoryScreen(
                                 Column {
                                     Text(
                                         text = it.item_name,
-                                        color = Color.Black.copy(),
+                                        color = Color.Black,
                                         fontSize = 22.sp,
                                         fontWeight = FontWeight(550)
                                     )
@@ -133,6 +142,9 @@ fun CategoryScreen(
                                 FAB(
                                     onClick = {
                                         addcart(it.item_id,it.item_category)
+                                        for(i in cartListID){
+                                            getcartList(i.item_id)
+                                        }
                                     },
                                     modifier = Modifier
                                         .padding(30.dp, 0.dp, 0.dp, 5.dp)
@@ -154,6 +166,7 @@ fun CategoryScreen(
 @Composable
 private fun Preview() {
     CategoryScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        item_category = "items_category"
     )
 }

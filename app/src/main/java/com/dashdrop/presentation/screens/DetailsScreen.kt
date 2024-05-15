@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.fireStore.itemDetailsList
+import com.dashdrop.fireStore.itemList
 import com.dashdrop.ui.components.AddToCartBottomBar
 import com.dashdrop.ui.components.DetailsImage
 import com.dashdrop.ui.components.FAB
@@ -46,7 +46,8 @@ import com.dashdrop.ui.theme.bg
 fun DetailsScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
-    addToCart: () -> Unit = {}
+    addToCart: () -> Unit = {},
+    itemIndex: Int
 ) {
     var quantity by remember {
         mutableIntStateOf(0)
@@ -69,7 +70,7 @@ fun DetailsScreen(
         bottomBar = {
             AddToCartBottomBar(
                 addToCartButtonClicked = addToCart,
-                price = itemDetailsList[0].item_price
+                price = itemList[itemIndex].item_price
             )
         }
     ) { paddingValues ->
@@ -98,7 +99,7 @@ fun DetailsScreen(
                 ) {
                     HeadingText(
                         modifier = Modifier,
-                        value = itemDetailsList[0].item_name,
+                        value = itemList[itemIndex].item_name,
                         size = 32.sp,
                         weight = FontWeight.Bold,
                         color = Color.Black
@@ -117,7 +118,7 @@ fun DetailsScreen(
                             text = "₹", fontSize = 24.sp
                         )
                         Text(
-                            text = itemDetailsList[0].item_price, color = Color.Green, fontSize = 24.sp
+                            text = itemList[itemIndex].item_price, color = Color.Green, fontSize = 24.sp
                         )
                         Text(
                             text = "/KG", fontSize = 24.sp
@@ -179,7 +180,7 @@ fun DetailsScreen(
                     ) {
                         HeadingText(
                             modifier = Modifier,
-                            value = itemDetailsList[0].item_detail,
+                            value = itemList[itemIndex].item_detail,
                             size = 16.sp,
                             textAlign = TextAlign.Left,
                             weight = FontWeight.Normal,
@@ -205,6 +206,7 @@ fun DetailsScreen(
 @Composable
 private fun Preview() {
     DetailsScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        itemIndex = 0
     )
 }

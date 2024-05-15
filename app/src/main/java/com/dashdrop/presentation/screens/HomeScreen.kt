@@ -37,7 +37,9 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.fireStore.categoryList
 import com.dashdrop.fireStore.getItemList
 import com.dashdrop.fireStore.getcartList
+import com.dashdrop.fireStore.getfavList
 import com.dashdrop.fireStore.itemList
+import com.dashdrop.navigation.Screen
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.CategoryButton
@@ -112,21 +114,17 @@ fun HomeScreen(
                                 value = it.category_name,
                                 image = R.drawable.veggiess,
                                 onClick = {
-                                    getItemList(it.categoryId,navController)
-                                    Log.d("size", itemList.size.toString())
+                                    getItemList(it.category_name,navController)
                                 }
                             )
                         }
                     }
-                    Row(){
-                        Button(onClick = {
-                            Log.d("size", cartListID.size.toString())
-                            for(i in cartListID){
-                                getcartList(i.item_id, i.category_id)
-                            }
-                        }) {
-                            Text("Cart Screen")
+                    Button(
+                        onClick = {
+                            getfavList()
                         }
+                    ) {
+                        Text("get fav data")
                     }
                     Spacer(modifier = Modifier
                         .height(20.dp))
