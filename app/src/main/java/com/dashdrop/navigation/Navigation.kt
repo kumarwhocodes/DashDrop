@@ -5,8 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.dashdrop.presentation.screens.BillingScreen
 import com.dashdrop.presentation.screens.CartScreen
 import com.dashdrop.presentation.screens.CategoryScreen
@@ -16,7 +18,6 @@ import com.dashdrop.presentation.screens.HomeScreen
 import com.dashdrop.presentation.screens.ProfileScreen
 import com.dashdrop.presentation.screens.SignInScreen
 import com.dashdrop.presentation.screens.SignUpScreen
-import com.dashdrop.presentation.screens.SplashScreen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 
 @Composable
@@ -47,11 +48,33 @@ fun Navigation(navController: NavHostController) {
                     }
                 })
         }
-        composable(route = "category") {
-            CategoryScreen(navController = navController)
+        composable(
+            route = "category/{items_category}",
+            arguments = listOf(
+                navArgument(name = "items_category"){
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            CategoryScreen(
+                navController = navController,
+                item_category = it.arguments?.getString("items_category")
+            )
         }
-        composable(route = "details") {
-            DetailsScreen(navController = navController)
+        composable(
+            route = "details/{itemIndex}",
+            arguments = listOf(
+                navArgument(name = "itemIndex"){
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            it.arguments?.getInt("itemIndex")?.let { it1 ->
+                DetailsScreen(
+                    navController = navController,
+                    itemIndex = it1
+                )
+            }
         }
         composable(route = "favourite") {
             FavouriteScreen(navController = navController)

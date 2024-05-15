@@ -10,8 +10,6 @@ val categoryList = arrayListOf<CategoryData>()
 
 val itemList = arrayListOf<ItemData>()
 
-val itemDetailsList = arrayListOf<ItemDetails>()
-
 fun getCategoryList(){
     categoryList.clear()
     val db = Firebase.firestore
@@ -37,52 +35,33 @@ fun getCategoryList(){
 fun getItemList(path: String, navController: NavController){
     itemList.clear()
     val db = Firebase.firestore
-    db.collection(path)
+    db.collection("products")
         .get()
         .addOnSuccessListener { documents ->
+            var a:Int =0
             for (document in documents) {
-                val data = ItemData(
-                    item_category = path,
-                    item_id = document.id,
-                    item_name = document.getString("item_name") ?: "",
-                    item_price = document.getString("price") ?: "",
-                    item_favourite = document.getString("favourite") ?: "",
-                    item_star = document.getString("star") ?: ""
-                )
-                itemList.add(
-                    data
-                )
-                Log.d("Data", itemList.size.toString())
-            }
-            navController.navigate(Screen.CategoryScreen.route)
-        }
-        .addOnFailureListener { exception ->
-            Log.w("Can't Get The Data", "Error getting documents.", exception)
-        }
-}
-
-fun getItemDetails(productId: String, itemCategory: String, navController: NavController){
-    itemDetailsList.clear()
-    val db = Firebase.firestore
-    db.collection(itemCategory)
-        .get()
-        .addOnSuccessListener { documents ->
-            for (document in documents) {
-                if(document.id == productId){
-                    val data = ItemDetails(
+                val t = document.getString("category_name") ?: ""
+                Log.d("data category name",t)
+                Log.d("data given category name",path)
+                if(t == path){
+                    val data = ItemData(
+                        index = a,
+                        item_category = path,
                         item_id = document.id,
-                        item_name = document.getString("item_name") ?: "",
+                        item_name = document.getString("name") ?: "",
                         item_price = document.getString("price") ?: "",
                         item_favourite = document.getString("favourite") ?: "",
-                        item_star = document.getString("star") ?: "",
-                        item_detail = document.getString("detail") ?: ""
+                        item_star = document.getString("stars") ?: "",
+                        item_detail = document.getString("details") ?: ""
                     )
-                    itemDetailsList.add(
+                    itemList.add(
                         data
                     )
+                    Log.d("data itemList size", itemList.size.toString())
+                    a++
                 }
-                Log.d("Data", itemDetailsList.size.toString())
             }
+            navController.navigate("category/$path")
         }
         .addOnFailureListener { exception ->
             Log.w("Can't Get The Data", "Error getting documents.", exception)
