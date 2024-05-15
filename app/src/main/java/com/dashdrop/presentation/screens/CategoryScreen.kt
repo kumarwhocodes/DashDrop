@@ -34,12 +34,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.dashdrop.fireStore.addcart
 import com.dashdrop.R
-import com.dashdrop.fireStore.cartListID
 import com.dashdrop.fireStore.changeFav
+import com.dashdrop.fireStore.getFavList
 import com.dashdrop.fireStore.getcartList
-import com.dashdrop.fireStore.getfavList
 import com.dashdrop.fireStore.itemList
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -103,7 +101,7 @@ fun CategoryScreen(
                                     IconButton(
                                         onClick = {
                                             changeFav(it.item_name)
-                                            getfavList()
+                                            getFavList()
                                         }
                                     ) {
                                         Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = null)

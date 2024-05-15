@@ -32,6 +32,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,6 +52,7 @@ fun HeadingText(
     size: TextUnit,
     weight: FontWeight,
     color: Color,
+    style: TextStyle = TextStyle.Default,
     textAlign: TextAlign = TextAlign.Center,
     lineHeight: TextUnit = TextUnit.Unspecified
 ) {
@@ -60,6 +62,7 @@ fun HeadingText(
         fontWeight = weight,
         color = color,
         textAlign=textAlign,
+        style = style,
         lineHeight = lineHeight
     )
 }

@@ -32,18 +32,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.fireStore.cartListID
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.fireStore.categoryList
+import com.dashdrop.fireStore.getFavList
 import com.dashdrop.fireStore.getItemList
 import com.dashdrop.fireStore.getcartList
-import com.dashdrop.fireStore.getfavList
 import com.dashdrop.fireStore.itemList
 import com.dashdrop.navigation.Screen
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.CategoryButton
 import com.dashdrop.ui.components.HeadingText
+import com.dashdrop.ui.components.ImageSliderWithIndicator
 import com.dashdrop.ui.components.ItemBanner
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.SearchBox
@@ -54,6 +54,11 @@ fun HomeScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
     onBackPressed: () -> Unit = {}) {
+    val images = listOf(
+        R.drawable.banner,
+        R.drawable.banner2,
+        R.drawable.banner3
+    )
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -85,7 +90,7 @@ fun HomeScreen(
                         .background(color = bg)
                 ) {
 
-                    SearchBox(input = "Search your products",
+                    SearchBox(input = "",
                         onInputChanged = {}) {
                         /*TODO: Search Button Logic*/
                     }
@@ -96,8 +101,7 @@ fun HomeScreen(
                         .fillMaxHeight()
                         .padding(10.dp)
                         .background(color = Color.White)){
-                    ItemBanner(image = painterResource(id = R.drawable.food),
-                        contentDescription = "GET FLAT 30% OFF ON GROCERIES!!")
+                    ImageSliderWithIndicator(images = images)
 
                     Spacer(modifier = Modifier
                         .height(20.dp))
@@ -110,6 +114,7 @@ fun HomeScreen(
                     )
                     LazyRow() {
                         items(categoryList) {
+                            Log.d("mera_tag", "HomeScreen: $categoryList}")
                             CategoryButton(
                                 value = it.category_name,
                                 image = R.drawable.veggiess,
@@ -121,7 +126,7 @@ fun HomeScreen(
                     }
                     Button(
                         onClick = {
-                            getfavList()
+                            getFavList()
                         }
                     ) {
                         Text("get fav data")
