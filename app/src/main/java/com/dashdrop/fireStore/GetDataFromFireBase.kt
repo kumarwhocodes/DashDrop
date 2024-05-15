@@ -2,7 +2,6 @@ package com.dashdrop.fireStore
 
 import android.util.Log
 import androidx.navigation.NavController
-import com.dashdrop.navigation.Screen
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
@@ -10,9 +9,10 @@ val categoryList = arrayListOf<CategoryData>()
 
 val itemList = arrayListOf<ItemData>()
 
-fun getCategoryList(){
+fun getCategoryList() {
     categoryList.clear()
     val db = Firebase.firestore
+
     db.collection("Category")
         .get()
         .addOnSuccessListener { documents ->
@@ -26,24 +26,25 @@ fun getCategoryList(){
                 )
                 Log.d("Data", categoryList.size.toString())
             }
+
         }
         .addOnFailureListener { exception ->
             Log.w("Can't Get The Data", "Error getting documents.", exception)
         }
 }
 
-fun getItemList(path: String, navController: NavController){
+fun getItemList(path: String, navController: NavController) {
     itemList.clear()
     val db = Firebase.firestore
     db.collection("products")
         .get()
         .addOnSuccessListener { documents ->
-            var a:Int =0
+            var a: Int = 0
             for (document in documents) {
                 val t = document.getString("category_name") ?: ""
-                Log.d("data category name",t)
-                Log.d("data given category name",path)
-                if(t == path){
+                Log.d("data category name", t)
+                Log.d("data given category name", path)
+                if (t == path) {
                     val data = ItemData(
                         index = a,
                         item_category = path,
