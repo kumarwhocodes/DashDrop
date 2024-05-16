@@ -1,7 +1,7 @@
 package com.dashdrop.presentation.viewmodels
 
 import android.util.Log
-import com.dashdrop.domain.models.toLocalUser
+import com.dashdrop.data.model.toLocalUser
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 

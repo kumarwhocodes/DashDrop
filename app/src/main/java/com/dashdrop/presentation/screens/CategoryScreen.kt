@@ -38,7 +38,6 @@ import com.dashdrop.R
 import com.dashdrop.fireStore.changeFav
 import com.dashdrop.fireStore.getFavList
 import com.dashdrop.fireStore.getcartList
-import com.dashdrop.fireStore.itemList
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.FAB
@@ -70,91 +69,91 @@ fun CategoryScreen(
                 .padding(paddingValues)
                 .padding(8.dp)
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(count = 2)
-            ) {
-                items(itemList){
-                    Surface(
-                        shape = RoundedCornerShape(7.dp),
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .clickable(onClick = {
-                                navController.navigate("details/${it.index}")
-                            })
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
-                        ) {
-                            Surface(
-                                shape = RoundedCornerShape(7.dp)
-                            ) {
-                                Box(){
-                                    Image(
-                                        modifier = Modifier
-                                            .size(180.dp)
-                                            .background(bg)
-                                            .padding(3.dp),
-                                        painter = painterResource(id = R.drawable.veggiess),
-                                        contentDescription = null
-                                    )
-                                    IconButton(
-                                        onClick = {
-                                            changeFav(it.item_name)
-                                            getFavList()
-                                        }
-                                    ) {
-                                        Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = null)
-                                    }
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                verticalAlignment = Alignment.Bottom,
-                                horizontalArrangement = Arrangement.Absolute.SpaceAround
-                            ) {
-                                Column {
-                                    Text(
-                                        text = it.item_name,
-                                        color = Color.Black,
-                                        fontSize = 22.sp,
-                                        fontWeight = FontWeight(550)
-                                    )
-                                    Spacer(modifier = Modifier.height(3.dp))
-                                    //TODO: Star wala lana se app crash ho ja raha hai, error "AnimatedContentKt$AnimatedContent"
-//                                    StarsRow(starCount = it.item_star.toInt(),22.dp)
-                                    Spacer(modifier = Modifier.height(3.dp))
-                                    Row {
-                                        Text(
-                                            text = "₹", fontSize = 24.sp
-                                        )
-                                        Text(
-                                            text = it.item_price, color = Color.Green, fontSize = 18.sp
-                                        )
-                                        Text(
-                                            text = "/KG", fontSize = 18.sp
-                                        )
-                                    }
-
-                                }
-                                FAB(
-                                    onClick = {
-                                        addcart(it.item_id,it.item_category)
-                                        for(i in cartListID){
-                                            getcartList(i.item_id)
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .padding(30.dp, 0.dp, 0.dp, 5.dp)
-                                        .size(33.dp),
-                                    icon = painterResource(id = R.drawable.add)
-                                )
-                            }
-
-                        }
-                    }
-                }
-            }
+//            LazyVerticalGrid(
+//                columns = GridCells.Fixed(count = 2)
+//            ) {
+//                items(itemList){
+//                    Surface(
+//                        shape = RoundedCornerShape(7.dp),
+//                        modifier = Modifier
+//                            .padding(2.dp)
+//                            .clickable(onClick = {
+//                                navController.navigate("details/${it.index}")
+//                            })
+//                    ) {
+//                        Column(
+//                            verticalArrangement = Arrangement.Center,
+//                            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
+//                        ) {
+//                            Surface(
+//                                shape = RoundedCornerShape(7.dp)
+//                            ) {
+//                                Box(){
+//                                    Image(
+//                                        modifier = Modifier
+//                                            .size(180.dp)
+//                                            .background(bg)
+//                                            .padding(3.dp),
+//                                        painter = painterResource(id = R.drawable.veggiess),
+//                                        contentDescription = null
+//                                    )
+//                                    IconButton(
+//                                        onClick = {
+//                                            changeFav(it.item_name)
+//                                            getFavList()
+//                                        }
+//                                    ) {
+//                                        Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = null)
+//                                    }
+//                                }
+//                            }
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Row(
+//                                verticalAlignment = Alignment.Bottom,
+//                                horizontalArrangement = Arrangement.Absolute.SpaceAround
+//                            ) {
+//                                Column {
+//                                    Text(
+//                                        text = it.item_name,
+//                                        color = Color.Black,
+//                                        fontSize = 22.sp,
+//                                        fontWeight = FontWeight(550)
+//                                    )
+//                                    Spacer(modifier = Modifier.height(3.dp))
+//                                    //TODO: Star wala lana se app crash ho ja raha hai, error "AnimatedContentKt$AnimatedContent"
+////                                    StarsRow(starCount = it.item_star.toInt(),22.dp)
+//                                    Spacer(modifier = Modifier.height(3.dp))
+//                                    Row {
+//                                        Text(
+//                                            text = "₹", fontSize = 24.sp
+//                                        )
+//                                        Text(
+//                                            text = it.item_price, color = Color.Green, fontSize = 18.sp
+//                                        )
+//                                        Text(
+//                                            text = "/KG", fontSize = 18.sp
+//                                        )
+//                                    }
+//
+//                                }
+//                                FAB(
+//                                    onClick = {
+//                                        addcart(it.item_id,it.item_category)
+//                                        for(i in cartListID){
+//                                            getcartList(i.item_id)
+//                                        }
+//                                    },
+//                                    modifier = Modifier
+//                                        .padding(30.dp, 0.dp, 0.dp, 5.dp)
+//                                        .size(33.dp),
+//                                    icon = painterResource(id = R.drawable.add)
+//                                )
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
         }
 
     }

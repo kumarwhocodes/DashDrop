@@ -1,20 +1,16 @@
 package com.dashdrop.presentation.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,20 +28,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.fireStore.categoryList
 import com.dashdrop.fireStore.getFavList
-import com.dashdrop.fireStore.getItemList
-import com.dashdrop.fireStore.getcartList
-import com.dashdrop.fireStore.itemList
-import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.viewmodels.HomeViewModel
+import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
-import com.dashdrop.ui.components.ScaffoldTop
-import com.dashdrop.ui.components.CategoryButton
+import com.dashdrop.ui.components.CategoryList
 import com.dashdrop.ui.components.HeadingText
 import com.dashdrop.ui.components.ImageSliderWithIndicator
-import com.dashdrop.ui.components.ItemBanner
 import com.dashdrop.ui.components.ItemButton
+import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.SearchBox
 import com.dashdrop.ui.theme.bg
 
@@ -53,7 +44,9 @@ import com.dashdrop.ui.theme.bg
 fun HomeScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
-    onBackPressed: () -> Unit = {}) {
+    onBackPressed: () -> Unit = {},
+    homeViewModel: HomeViewModel = viewModel()
+) {
     val images = listOf(
         R.drawable.banner,
         R.drawable.banner2,
@@ -100,30 +93,35 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .fillMaxHeight()
                         .padding(10.dp)
-                        .background(color = Color.White)){
+                        .background(color = Color.White)
+                ) {
                     ImageSliderWithIndicator(images = images)
 
-                    Spacer(modifier = Modifier
-                        .height(20.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .height(20.dp)
+                    )
 
-                    HeadingText(value = "Categories",
+                    HeadingText(
+                        value = "Categories",
                         size = 24.sp,
                         weight = FontWeight.Bold,
                         color = Color.Black,
                         modifier = Modifier
                     )
-                    LazyRow() {
-                        items(categoryList) {
-                            Log.d("mera_tag", "HomeScreen: $categoryList}")
-                            CategoryButton(
-                                value = it.category_name,
-                                image = R.drawable.veggiess,
-                                onClick = {
-                                    getItemList(it.category_name,navController)
-                                }
-                            )
-                        }
-                    }
+//                    LazyRow() {
+//                        items(categoryList) {
+//                            Log.d("mera_tag", "HomeScreen: $categoryList}")
+//                            CategoryButton(
+//                                value = it.category_name,
+//                                image = R.drawable.veggiess,
+//                                onClick = {
+//                                    getItemList(it.category_name,navController)
+//                                }
+//                            )
+//                        }
+//                    }
+                    CategoryList(navController = navController, homeViewModel = homeViewModel)
                     Button(
                         onClick = {
                             getFavList()
@@ -131,10 +129,13 @@ fun HomeScreen(
                     ) {
                         Text("get fav data")
                     }
-                    Spacer(modifier = Modifier
-                        .height(20.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .height(20.dp)
+                    )
 
-                    HeadingText(value = "Popular",
+                    HeadingText(
+                        value = "Popular",
                         size = 24.sp,
                         weight = FontWeight.Bold,
                         color = Color.Black,
@@ -142,7 +143,7 @@ fun HomeScreen(
                     )
 
                     LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
-                        items(5){
+                        items(5) {
                             ItemButton(
                                 value = "Veggies",
                                 image = painterResource(id = R.drawable.veggiess),
@@ -155,7 +156,6 @@ fun HomeScreen(
 
 
                 }
-
 
 
             }

@@ -117,5 +117,4 @@ dependencies {
     // Jetpack Compose Integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
-    implementation("androidx.core:core-splashscreen:1.0.1")
 }
