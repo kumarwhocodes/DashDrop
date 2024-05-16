@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dashdrop.navigation.Screen
-import com.dashdrop.fireStore.cartListID
+
 import com.dashdrop.ui.theme.bg
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,7 +134,7 @@ fun BottomNavBar(
             IconButton(
                 onClick = {
                     navController.navigate(Screen.CartScreen.route)
-                    Log.d("size", cartListID.size.toString())
+//                    Log.d("size", cartListID.size.toString())
                           },
                 colors = IconButtonColors(
                     contentColor = Color.Black,

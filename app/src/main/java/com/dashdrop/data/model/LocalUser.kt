@@ -1,4 +1,4 @@
-package com.dashdrop.domain.models
+package com.dashdrop.data.model
 
 import com.google.firebase.auth.FirebaseUser
 

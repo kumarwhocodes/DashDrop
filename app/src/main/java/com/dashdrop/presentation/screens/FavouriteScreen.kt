@@ -36,11 +36,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.fireStore.addcart
-import com.dashdrop.fireStore.cartListID
 import com.dashdrop.fireStore.favItemList
 import com.dashdrop.fireStore.getcartList
-import com.dashdrop.fireStore.itemList
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar

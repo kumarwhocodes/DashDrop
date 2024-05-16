@@ -1,7 +1,6 @@
 package com.dashdrop
 
 import android.app.Application
-import com.dashdrop.fireStore.getCategoryList
 import com.google.firebase.FirebaseApp
 
 class DashDrop: Application() {
