@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dashdrop.R
@@ -20,7 +21,7 @@ import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 
 @Composable
-fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = viewModel()) {
+fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
     var categoryRowList = emptyList<Category>()
 
@@ -54,7 +55,8 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = vi
                 value = it.category_name,
                 image = R.drawable.veggiess,
                 onClick = {
-//                    homeViewModel.getAllItems(it.category_name, navController)
+                    homeViewModel.getAllItems(it.category_name, navController)
+                    Log.d("mera_tag", "HomeScreen: ${it.category_name}")
                 }
             )
         }

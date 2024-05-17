@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -45,7 +46,7 @@ fun HomeScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
     onBackPressed: () -> Unit = {},
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val images = listOf(
         R.drawable.banner,
@@ -109,18 +110,6 @@ fun HomeScreen(
                         color = Color.Black,
                         modifier = Modifier
                     )
-//                    LazyRow() {
-//                        items(categoryList) {
-//                            Log.d("mera_tag", "HomeScreen: $categoryList}")
-//                            CategoryButton(
-//                                value = it.category_name,
-//                                image = R.drawable.veggiess,
-//                                onClick = {
-//                                    getItemList(it.category_name,navController)
-//                                }
-//                            )
-//                        }
-//                    }
                     CategoryList(navController = navController, homeViewModel = homeViewModel)
                     Button(
                         onClick = {
