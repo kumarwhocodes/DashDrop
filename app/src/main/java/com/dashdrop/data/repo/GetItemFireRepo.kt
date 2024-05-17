@@ -2,56 +2,22 @@ package com.dashdrop.data.repo
 
 import android.util.Log
 import androidx.navigation.NavController
-import com.dashdrop.data.model.Category
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.utils.UiState
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class GetFireRepo {
-    val categoryList = arrayListOf<Category>()
+class GetItemFireRepo @Inject constructor(
+    private val query2: Query
+) {
 
     val itemList = arrayListOf<Item>()
 
-    suspend fun getCategoryList(): UiState<ArrayList<Category>> {
-        categoryList.clear()
-        val db = Firebase.firestore
-
-        db.collection("Category")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val data = Category(
-                        category_name = document.getString("category_name") ?: "",
-                        categoryId = document.id
-                    )
-                    categoryList.add(
-                        data
-                    )
-                    Log.d("Data", categoryList.size.toString())
-                }
-
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Can't Get The Data", "Error getting documents.", exception)
-            }
-            .await()
-
-        return if (categoryList.isNotEmpty()) {
-            UiState.Success(categoryList)
-        } else {
-            UiState.Error("No Data Found")
-        }
-    }
-
-
     suspend fun getItemList(path: String, navController: NavController): UiState<ArrayList<Item>> {
         itemList.clear()
-        val db = Firebase.firestore
-        db.collection("products")
-            .get()
-            .addOnSuccessListener { documents ->
+
+        query2.get().addOnSuccessListener { documents ->
                 var a: Int = 0
                 for (document in documents) {
                     val t = document.getString("category_name") ?: ""
@@ -75,16 +41,16 @@ class GetFireRepo {
                         a++
                     }
                 }
-                navController.navigate("category/$path")
+//                navController.navigate("category/$path")
             }
             .addOnFailureListener { exception ->
                 Log.w("Can't Get The Data", "Error getting documents.", exception)
             }
             .await()
 
-        return if (itemList.isNotEmpty()){
+        return if (itemList.isNotEmpty()) {
             UiState.Success(itemList)
-        }else{
+        } else {
             UiState.Error("No Data Found")
         }
 
