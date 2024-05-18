@@ -40,7 +40,6 @@ import com.dashdrop.data.model.Item
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.fireStore.changeFav
-import com.dashdrop.fireStore.getFavList
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.ui.theme.bg
 
@@ -109,7 +108,6 @@ fun ItemList(
                             IconButton(
                                 onClick = {
                                     changeFav(it.item_id)
-                                    getFavList()
                                 }
                             ) {
                                 Icon(

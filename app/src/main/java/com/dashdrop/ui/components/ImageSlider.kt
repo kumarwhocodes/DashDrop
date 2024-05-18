@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,10 +42,10 @@ fun ImageSliderItem(
 ) {
     Image(
         painter = painterResource(id = image), contentDescription = null,
-        contentScale = ContentScale.Crop,
+//        contentScale = ContentScale.FillHeight,
         modifier = Modifier
             .clip(shape = RoundedCornerShape(20.dp))
-            .height(200.dp)
+            .size(width = 400.dp, height = 200.dp)
     )
 }
 
@@ -80,8 +81,7 @@ fun ImageSliderWithIndicator(
 
     Box(modifier = Modifier
         .fillMaxWidth()
-        .height(200.dp)
-        .padding(10.dp)) {
+        .height(200.dp)) {
         ImageSliderItem(image = images[currentIndex.value])
 
     }
@@ -99,33 +99,6 @@ fun ImageSliderWithIndicator(
             }
         }
     }
-
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(200.dp)
-//    ) {
-//        Box(
-//            modifier = Modifier
-//                .padding(10.dp)
-////                .weight(1f)
-//        )
-//        {
-//            ImageSliderItem(image = images[currentIndex.value])
-//        }
-//        Row(
-//            modifier = Modifier
-////                .padding(start = 170.dp, bottom = 550.dp)
-//        ) {
-//            images.forEachIndexed { index, i ->
-//                Indicator(active = index == currentIndex.value)
-//                if (index < images.size - 1) {
-//                    Spacer(modifier = Modifier.width(5.dp))
-//                }
-//            }
-//        }
-//    }
-
 }
 
 @Preview(showSystemUi = true)

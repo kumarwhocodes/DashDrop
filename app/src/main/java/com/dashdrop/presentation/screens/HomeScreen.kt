@@ -29,7 +29,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.fireStore.getFavList
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
@@ -48,11 +47,6 @@ fun HomeScreen(
     onBackPressed: () -> Unit = {},
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val images = listOf(
-        R.drawable.banner,
-        R.drawable.banner2,
-        R.drawable.banner3
-    )
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -93,7 +87,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .padding(10.dp)
+                        .padding(5.dp)
                         .background(color = Color.White)
                 ) {
 

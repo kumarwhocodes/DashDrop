@@ -32,15 +32,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
-import com.dashdrop.fireStore.favItemList
 import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.viewmodels.FavViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.FAB
+import com.dashdrop.ui.components.FavouriteList
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.StarsRow
@@ -49,7 +51,9 @@ import com.dashdrop.ui.theme.bg
 @Composable
 fun FavouriteScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    navController: NavController) {
+    navController: NavController,
+    favViewModel: FavViewModel = hiltViewModel()
+) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -58,10 +62,9 @@ fun FavouriteScreen(
                     signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    navController.navigate(Screen.HomeScreen.route){
-                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.HomeScreen.route) { inclusive = true }
                     }
-//                    navController.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 })
         },
         bottomBar = {
@@ -74,69 +77,8 @@ fun FavouriteScreen(
                 .padding(paddingValues)
                 .padding(10.dp)
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(count = 2)
-            ) {
-                items(favItemList){
-                    Surface(
-                        shape = RoundedCornerShape(7.dp),
-                        modifier = Modifier
-                            .padding(2.dp)
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
-                        ) {
-                            Surface(
-                                shape = RoundedCornerShape(7.dp)
-                            ) {
-                                Box(){
-                                    Image(
-                                        modifier = Modifier
-                                            .size(180.dp)
-                                            .background(bg)
-                                            .padding(3.dp),
-                                        painter = painterResource(id = R.drawable.veggiess),
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                verticalAlignment = Alignment.Bottom,
-                                horizontalArrangement = Arrangement.Absolute.SpaceAround
-                            ) {
-                                Column {
-                                    Text(
-                                        text = it.item_name,
-                                        color = Color.Black,
-                                        fontSize = 22.sp,
-                                        fontWeight = FontWeight(550)
-                                    )
-//                                    Spacer(modifier = Modifier.height(3.dp))
-                                    //TODO: Star wala lana se app crash ho ja raha hai, error "AnimatedContentKt$AnimatedContent"
-//                                    StarsRow(starCount = it.item_star.toInt(),22.dp)
-                                    Spacer(modifier = Modifier.height(3.dp))
-                                    Row {
-                                        Text(
-                                            text = "₹", fontSize = 24.sp
-                                        )
-                                        Text(
-                                            text = it.item_price, color = Color.Green, fontSize = 18.sp
-                                        )
-                                        Text(
-                                            text = "/KG", fontSize = 18.sp
-                                        )
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
+            FavouriteList(navController = navController, favViewModel = favViewModel)
         }
-
     }
 }
 

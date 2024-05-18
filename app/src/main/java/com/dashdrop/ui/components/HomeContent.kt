@@ -31,7 +31,6 @@ import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.fireStore.getFavList
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 
 @Composable
@@ -94,13 +93,6 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
                     }
                 )
             }
-        }
-        Button(
-            onClick = {
-                getFavList()
-            }
-        ) {
-            Text("get fav data")
         }
         Spacer(
             modifier = Modifier
