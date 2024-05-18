@@ -54,7 +54,6 @@ import com.dashdrop.R
 import com.dashdrop.data.model.Cart
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.fireStore.CartItems
 import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.HomeViewModel

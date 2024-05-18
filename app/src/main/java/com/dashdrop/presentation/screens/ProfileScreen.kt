@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,11 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +37,7 @@ import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ProfileScreenItem
 import com.dashdrop.ui.components.ScaffoldTop
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 @Composable
@@ -40,6 +47,32 @@ fun ProfileScreen(
 ) {
     val user = Firebase.auth.currentUser
 
+    val db = Firebase.firestore
+
+    var userName by remember { mutableStateOf("") }
+    var userEmail by remember { mutableStateOf("") }
+    var userPhoneNumber by remember { mutableStateOf("") }
+
+    LaunchedEffect(user) {
+        user?.let {
+            db.collection("users").document(it.uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        userName = document.getString("name").orEmpty()
+                        userEmail = document.getString("email").orEmpty()
+                        userPhoneNumber = document.getString("phoneNumber").orEmpty()
+                    }
+                    else{
+                        Log.d("mera_tag","data hi nhi hai firebase pe")
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("mera_tag", "data hi nhi hai firebase pe")
+                }
+        }
+    }
+
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -48,8 +81,8 @@ fun ProfileScreen(
                     signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    navController.navigate(Screen.HomeScreen.route){
-                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.HomeScreen.route) { inclusive = true }
                     }
                 })
         },
@@ -82,28 +115,23 @@ fun ProfileScreen(
                 ProfileScreenItem(
                     title = "Name",
                     icon = Icons.Filled.Person,
-                    itemValue = user?.displayName.toString()
+                    itemValue = userName
                 )
 
                 ProfileScreenItem(
                     title = "Email",
                     icon = Icons.Filled.Mail,
-                    itemValue = user?.email.toString()
+                    itemValue = userEmail
                 )
 
                 ProfileScreenItem(
                     title = "Phone Number",
                     icon = Icons.Filled.Phone,
-                    itemValue = user?.phoneNumber.toString()
+                    itemValue = userPhoneNumber
                 )
-
-
             }
         }
-
     }
-
-
 }
 
 
