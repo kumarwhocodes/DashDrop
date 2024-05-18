@@ -207,22 +207,22 @@ fun SignUpScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                SmallCircularImageButton(
-                                    onClick = {
-                                        val gso = GoogleSignInOptions.Builder(
-                                            GoogleSignInOptions.DEFAULT_SIGN_IN
-                                        )
-                                            .requestIdToken(token)
-                                            .requestEmail()
-                                            .build()
-
-                                        val googleSignInClient =
-                                            GoogleSignIn.getClient(context, gso)
-                                        launcher.launch(googleSignInClient.signInIntent)
+                                GoogleSignInButton(
+                                    context = context,
+                                    onAuthComplete = { result ->
+                                        user = result.user
+                                        checkAndStoreUser(user)
+                                        navController.navigate(Screen.HomeScreen.route)
+                                        Toast.makeText(context,"Sign Up Successful", Toast.LENGTH_SHORT).show()
                                     },
-                                    image = painterResource(id = R.drawable.google),
-                                    desc = stringResource(id = R.string.Google)
+                                    onAuthError = {
+                                        user = null
+                                        Toast.makeText(context,"Sign Up Failed",Toast.LENGTH_SHORT).show()
+
+                                    },
+                                    token = token
                                 )
+
                             }
                         }
                     }
