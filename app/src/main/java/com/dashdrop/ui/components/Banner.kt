@@ -71,7 +71,9 @@ fun ItemBanner(
                     .width(160.dp)
                     .align(Alignment.BottomStart)
                     .padding(start = 20.dp, end = 0.dp, top = 30.dp, bottom = 10.dp),
-                    onClick = { /*TODO*/ }) {
+                    onClick = {
+
+                    }) {
                     Text(
                         text = "Shop Now!", fontSize = 16.sp
                     )

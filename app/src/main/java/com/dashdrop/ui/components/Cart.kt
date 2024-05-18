@@ -125,12 +125,12 @@ fun CartItem(item: Cart) {
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.minus),
-                            contentDescription = "add",
+                            contentDescription = "minus",
                             colorFilter = ColorFilter.tint(Color.Black.copy(0.5f))
                         )
                     }
                     Text(
-                        text = "1 KG",
+                        text = item.item_quantity.toString(),
                         fontSize = 16.sp,
                         color = Color.Black.copy(0.5f),
                         fontWeight = FontWeight.Normal
@@ -140,6 +140,9 @@ fun CartItem(item: Cart) {
                             .clip(shape = RoundedCornerShape(100.dp))
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
+                            .clickable{
+                                addCartinFireBase(item.item_id, true)
+                            }
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.add),

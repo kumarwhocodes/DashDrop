@@ -102,7 +102,6 @@ fun CategoryButton(
     }
 }
 
-//TODO: Favorite Wala Button add karna hai top right side pa
 @Composable
 fun ItemButton(
     value: String,
@@ -158,7 +157,9 @@ fun ItemButton(
 
                 }
                 FAB(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+
+                    },
                     modifier = Modifier
                         .padding(30.dp, 0.dp, 0.dp, 5.dp)
                         .size(33.dp),
@@ -226,7 +227,9 @@ fun CartButton(
 
                 }
                 FAB(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+
+                    },
                     modifier = Modifier
                         .padding(30.dp, 0.dp, 0.dp, 5.dp)
                         .size(33.dp),

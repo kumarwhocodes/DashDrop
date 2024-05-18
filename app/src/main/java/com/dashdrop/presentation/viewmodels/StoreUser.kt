@@ -32,8 +32,7 @@ private fun storeUserData(user: FirebaseUser?) {
         FirebaseFirestore.getInstance()
             .collection("users")
             .document(user?.uid.toString())
-
-    userRef.set(user!!.toLocalUser())
+    userRef.set(user?.toLocalUser()!!)
         .addOnSuccessListener {
             Log.d("mera_tag","firestore me user store hogya")
         }
@@ -46,7 +45,7 @@ private fun storeUserData(user: FirebaseUser?) {
 
     FirebaseFirestore.getInstance()
         .collection("cart")
-        .document(user.uid)
+        .document(user?.uid.toString())
         .set(cartData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me cart document store hogya")
@@ -57,7 +56,7 @@ private fun storeUserData(user: FirebaseUser?) {
 
     FirebaseFirestore.getInstance()
         .collection("favourite")
-        .document(user.uid)
+        .document(user?.uid.toString())
         .set(cartData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me cart document store hogya")
