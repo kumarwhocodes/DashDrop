@@ -28,13 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dashdrop.fireStore.CartItems
 import com.dashdrop.R
 import com.dashdrop.data.model.Cart
 import com.dashdrop.fireStore.addCartinFireBase
@@ -53,12 +51,14 @@ fun CartItem(item: Cart) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(125.dp)
-                .background(color = Color.White)
+                .background(color = bg.copy(0.5f))
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Row {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
                     Box(
                         modifier = Modifier
                             .padding(5.dp)
@@ -110,9 +110,10 @@ fun CartItem(item: Cart) {
 
                 Row(
                     modifier = Modifier
-                        .align(Alignment.CenterEnd),
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Box(
                         modifier = Modifier
@@ -140,7 +141,7 @@ fun CartItem(item: Cart) {
                             .clip(shape = RoundedCornerShape(100.dp))
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
-                            .clickable{
+                            .clickable {
                                 addCartinFireBase(item.item_id, true)
                             }
                     ) {
@@ -155,6 +156,10 @@ fun CartItem(item: Cart) {
             }
         }
     }
+    HorizontalDivider(
+        color = bg,
+        thickness = 2.dp
+    )
 }
 
 @Composable
@@ -300,24 +305,24 @@ fun PricingCard() {
 @Composable
 private fun Preview() {
     Column {
-//        CartItem(
-//            image = painterResource(id = R.drawable.orange),
-//            item_Id = CartItems(
-//                item_id = "Orange",
-//                item_category = "Fruits",
-//                item_name = "Orange",
-//                item_price = "50"
-//            )
-//        )
-//        CartItem(
-//            image = painterResource(id = R.drawable.orange),
-//            item_Id = CartItems(
-//                item_id = "Orange",
-//                item_category = "Fruits",
-//                item_name = "Mango",
-//                item_price = "33"
-//            )
-//        )
+        CartItem(
+            item = Cart(
+                item_id = "111",
+                item_category = "Fruits",
+                item_name = "Orange",
+                item_price = "15",
+                item_quantity = 5
+            )
+        )
+        CartItem(
+            item = Cart(
+                item_id = "111",
+                item_category = "Fruits",
+                item_name = "Orange",
+                item_price = "15",
+                item_quantity = 5
+            )
+        )
         Spacer(modifier = Modifier.height(50.dp))
         PricingCard()
     }
