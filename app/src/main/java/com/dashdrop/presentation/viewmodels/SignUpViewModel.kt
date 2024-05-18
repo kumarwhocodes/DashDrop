@@ -11,7 +11,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-//TODO: NavGraph theek krna hai
 class SignUpViewModel : ViewModel() {
 
     private lateinit var auth: FirebaseAuth

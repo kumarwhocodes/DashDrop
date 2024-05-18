@@ -2,14 +2,14 @@ package com.dashdrop.data.model
 
 import com.google.firebase.auth.FirebaseUser
 
+//TODO: custom auth name display?
 data class LocalUser(
     val name: String?,
     val username: String?,
     val uid: String,
     val email: String,
-    val photoUrl: String?,
-    val phone_number: String?,
-    val password: String?
+    val photoUrl: String? = "https://img.freepik.com/premium-vector/young-smiling-man-holding-pointing-blank-screen-laptop-computer-distance-elearning-education-concept-3d-vector-people-character-illustration-cartoon-minimal-style_365941-927.jpg",
+    val phoneNumber: String? = null
 )
 
 fun FirebaseUser.toLocalUser(): LocalUser {
@@ -19,7 +19,6 @@ fun FirebaseUser.toLocalUser(): LocalUser {
         username = displayName,
         email = email ?: "",
         photoUrl = photoUrl?.toString(),
-        phone_number = phoneNumber,
-        password = null
+        phoneNumber = phoneNumber
     )
 }

@@ -23,6 +23,7 @@ class GetCartFireRepo @Inject constructor(
 
             val userCartSnapshot = query3.get().await()
             val data = userCartSnapshot.get("item_id") as List<String>
+            val quantity = userCartSnapshot.get("item_quantity") as List<Int>
             itemIds.addAll(data)
             Log.d("GetCartFireRepo", "itemIds: $itemIds")
 
@@ -34,6 +35,7 @@ class GetCartFireRepo @Inject constructor(
                         item_price = document.getString("price") ?: "",
                         item_category = document.getString("category") ?: "",
                         item_id = document.id,
+                        item_quantity = quantity[itemIds.indexOf(document.id)]
                     )
                     cartList.add(data)
                 }
