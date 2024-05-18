@@ -21,7 +21,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
@@ -54,7 +56,6 @@ import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.fireStore.CartItems
 import com.dashdrop.fireStore.addCartinFireBase
-import com.dashdrop.fireStore.getFavList
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.ui.theme.bg
@@ -96,9 +97,14 @@ fun CartList(
     }
 
     if (cartList.isNotEmpty()) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
             items(cartList) { item ->
                 CartItem(item = item)
+            }
+            item {
+                PricingCard()
             }
         }
     }

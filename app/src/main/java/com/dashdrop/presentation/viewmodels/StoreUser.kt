@@ -42,4 +42,27 @@ private fun storeUserData(user: FirebaseUser?) {
 
         }
 
+    val cartData = hashMapOf("item_id" to arrayListOf<String>())
+
+    FirebaseFirestore.getInstance()
+        .collection("cart")
+        .document(user.uid)
+        .set(cartData)
+        .addOnSuccessListener {
+            Log.d("mera_tag", "firestore me cart document store hogya")
+        }
+        .addOnFailureListener {
+            Log.d("mera_tag", "firestore me cart document store NAHI hua")
+        }
+
+    FirebaseFirestore.getInstance()
+        .collection("favourite")
+        .document(user.uid)
+        .set(cartData)
+        .addOnSuccessListener {
+            Log.d("mera_tag", "firestore me cart document store hogya")
+        }
+        .addOnFailureListener {
+            Log.d("mera_tag", "firestore me cart document store NAHI hua")
+        }
 }

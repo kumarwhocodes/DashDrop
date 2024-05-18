@@ -2,6 +2,7 @@ package com.dashdrop.di
 
 import com.dashdrop.data.repo.GetCartFireRepo
 import com.dashdrop.data.repo.GetCategoryFireRepo
+import com.dashdrop.data.repo.GetFavFireRepo
 import com.dashdrop.data.repo.GetItemFireRepo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,6 +35,14 @@ object AppModule {
     fun provideFireRepoCart()= GetCartFireRepo(
         query3 = FirebaseFirestore.getInstance()
         .collection("cart").document(user!!.uid),
+        query4 = FirebaseFirestore.getInstance().collection("products")
+    )
+
+    @Singleton
+    @Provides
+    fun provideFireRepoFav()= GetFavFireRepo(
+        query3 = FirebaseFirestore.getInstance()
+            .collection("favourite").document(user!!.uid),
         query4 = FirebaseFirestore.getInstance().collection("products")
     )
 
