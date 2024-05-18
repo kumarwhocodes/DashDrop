@@ -72,18 +72,6 @@ fun SignInScreen(
 ) {
     var user by remember { mutableStateOf(Firebase.auth.currentUser) }
     val context = LocalContext.current
-    val launcher = rememberFirebaseAuthLauncher(
-        onAuthComplete = { result ->
-            user = result.user
-            navController.navigate(Screen.HomeScreen.route)
-            Toast.makeText(context,"Sign In Successful",Toast.LENGTH_SHORT).show()
-            checkAndStoreUser(user)
-        },
-        onAuthError = {
-            user = null
-            Toast.makeText(context,"Sign Up Failed",Toast.LENGTH_SHORT).show()
-        }
-    )
     val token = stringResource(id = R.string.web_client_id)
 
     Box(
@@ -203,21 +191,19 @@ fun SignInScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                SmallCircularImageButton(
-                                    onClick = {
-                                        val gso = GoogleSignInOptions.Builder(
-                                            GoogleSignInOptions.DEFAULT_SIGN_IN
-                                        )
-                                            .requestIdToken(token)
-                                            .requestEmail()
-                                            .build()
-
-                                        val googleSignInClient =
-                                            GoogleSignIn.getClient(context, gso)
-                                        launcher.launch(googleSignInClient.signInIntent)
+                                GoogleSignInButton(
+                                    context = context,
+                                    onAuthComplete = { result ->
+                                        user = result.user
+                                        navController.navigate(Screen.HomeScreen.route)
+                                        Toast.makeText(context,"Sign In Successful",Toast.LENGTH_SHORT).show()
+                                        checkAndStoreUser(user)
                                     },
-                                    image = painterResource(id = R.drawable.google),
-                                    desc = "google_icon"
+                                    onAuthError = {
+                                        user = null
+                                        Toast.makeText(context,"Sign Up Failed",Toast.LENGTH_SHORT).show()
+                                    },
+                                    token = token
                                 )
                             }
                         }
@@ -235,35 +221,6 @@ fun SignInScreen(
         }
     }
 
-
-}
-
-@Composable
-fun rememberFirebaseAuthLauncher(
-    onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit
-): ManagedActivityResultLauncher<Intent, ActivityResult> {
-
-    val scope = rememberCoroutineScope()
-
-    return rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account = task.getResult(ApiException::class.java)!!
-            Log.d("mera_tag", "account $account")
-
-            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-
-            scope.launch {
-                val authResult = Firebase.auth.signInWithCredential(credential).await()
-                onAuthComplete(authResult)
-                Log.d("mera_tag", "${account.displayName}" + "ka hogya login")
-            }
-        } catch (e: ApiException) {
-            Log.d("mera_tag", e.toString() + "nhi hua google se login")
-            onAuthError(e)
-        }
-    }
 
 }
 
