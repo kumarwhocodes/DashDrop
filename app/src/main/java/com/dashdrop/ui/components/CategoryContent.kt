@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.utils.UiState
+import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.fireStore.changeFav
 import com.dashdrop.fireStore.getFavList
 import com.dashdrop.presentation.viewmodels.HomeViewModel
@@ -71,7 +72,7 @@ fun ItemList(
         is UiState.Success -> {
             itemList = itemData.data.toList()
             Log.d("mera_tag", "CategoryList: $itemList")
-
+            Log.d("mera_tag", "ItemList: $itemList.size")
         }
     }
 
@@ -84,7 +85,9 @@ fun ItemList(
                 modifier = Modifier
                     .padding(2.dp)
                     .clickable(onClick = {
-                        navController.navigate("details/${it.index}")
+                        navController.navigate(
+                            "details/${it.item_name}/${it.item_price}/${it.item_detail}/${it.item_star}"
+                        )
                     })
             ) {
                 Column(
@@ -105,7 +108,7 @@ fun ItemList(
                             )
                             IconButton(
                                 onClick = {
-                                    changeFav(it.item_name)
+                                    changeFav(it.item_id)
                                     getFavList()
                                 }
                             ) {
@@ -147,10 +150,7 @@ fun ItemList(
                         }
                         FAB(
                             onClick = {
-//                                addcart(it.item_id, it.item_category)
-//                                for (i in cartListID) {
-//                                    getcartList(i.item_id)
-//                                }
+                                addCartinFireBase(it.item_id,true)
                             },
                             modifier = Modifier
                                 .padding(30.dp, 0.dp, 0.dp, 5.dp)

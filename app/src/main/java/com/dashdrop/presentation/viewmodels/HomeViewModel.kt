@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
                 _itemData.value = itemFireRepo.getItemList(path, navController)
                 Log.d("HomeViewModel", "Items fetched: $_itemData")
                 if (_itemData.value is UiState.Success) {
-                    navController.navigate("category/$path")
+//                    navController.navigate("category/$path")
                 }
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching items: ${e.message}")

@@ -96,52 +96,8 @@ fun HomeScreen(
                         .padding(10.dp)
                         .background(color = Color.White)
                 ) {
-                    ImageSliderWithIndicator(images = images)
 
-                    Spacer(
-                        modifier = Modifier
-                            .height(20.dp)
-                    )
-
-                    HeadingText(
-                        value = "Categories",
-                        size = 24.sp,
-                        weight = FontWeight.Bold,
-                        color = Color.Black,
-                        modifier = Modifier
-                    )
                     CategoryList(navController = navController, homeViewModel = homeViewModel)
-                    Button(
-                        onClick = {
-                            getFavList()
-                        }
-                    ) {
-                        Text("get fav data")
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .height(20.dp)
-                    )
-
-                    HeadingText(
-                        value = "Popular",
-                        size = 24.sp,
-                        weight = FontWeight.Bold,
-                        color = Color.Black,
-                        modifier = Modifier
-                    )
-
-                    LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
-                        items(5) {
-                            ItemButton(
-                                value = "Veggies",
-                                image = painterResource(id = R.drawable.veggiess),
-                                price = "150",
-                                startCount = 2,
-                                icon = painterResource(id = R.drawable.add)
-                            )
-                        }
-                    }
 
 
                 }
