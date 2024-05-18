@@ -88,23 +88,44 @@ class SignUpViewModel : ViewModel() {
         auth = Firebase.auth
         auth
             .createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
+            .addOnCompleteListener { it ->
                 Log.d("mera_tag", "hogya create user")
                 signUpInProgress.value = false
                 if (it.isSuccessful) {
-                    navController.navigate(Screen.HomeScreen.route){
-                        popUpTo(Screen.HomeScreen.route){inclusive = true}
+                    val user = auth.currentUser
+                    user?.let {
+                        val userInfo = hashMapOf(
+                            "name" to registrationUIState.value.name,
+                            "email" to email
+                        )
+                        db.collection("users").document(it.uid)
+                            .set(userInfo)
+                            .addOnSuccessListener {
+                                Log.d("mera_tag", "User ka naam aur email hogya store")
+                                navController.navigate(Screen.HomeScreen.route) {
+                                    popUpTo(Screen.HomeScreen.route) { inclusive = true }
+
+                                    navController.navigate(Screen.HomeScreen.route) {
+                                        popUpTo(Screen.HomeScreen.route) { inclusive = true }
+                                    }
+                                    checkAndStoreUser(user = auth.currentUser)
+                                }
+                            }
+                            .addOnFailureListener {
+                                signUpInProgress.value = false
+                                Log.d("mera_tag", "nhi hua create")
+                            }
                     }
-                    checkAndStoreUser(user = auth.currentUser)
+                } else {
+                    Log.d("mera_tag", "nhi hua create user email se")
                 }
             }
             .addOnFailureListener {
-                signUpInProgress.value=false
-                Log.d("mera_tag", "nhi hua create")
+                signUpInProgress.value = false
+                Log.d("mera_tag", "nhi hua create user email se", it)
             }
-
-
     }
-
-
 }
+
+
+
