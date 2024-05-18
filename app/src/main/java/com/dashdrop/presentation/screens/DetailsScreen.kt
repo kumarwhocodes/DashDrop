@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -46,8 +45,12 @@ fun DetailsScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
     addToCart: () -> Unit = {},
-    itemIndex: Int
+    item_name: String?,
+    item_price: String?,
+    item_detail: String?,
+    item_star: String?
 ) {
+
     var quantity by remember {
         mutableIntStateOf(0)
     }
@@ -69,8 +72,7 @@ fun DetailsScreen(
         bottomBar = {
             AddToCartBottomBar(
                 addToCartButtonClicked = addToCart,
-                price = "100"
-//                price = itemList[itemIndex].item_price
+                price = item_price!!
             )
         }
     ) { paddingValues ->
@@ -79,121 +81,121 @@ fun DetailsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-//            Column(
-//                modifier = Modifier.fillMaxSize(),
-//                verticalArrangement = Arrangement.Top
-//            ) {
-//                DetailsImage(
-//                    image = painterResource(R.drawable.veggiess),
-//                    imagedesc = "Veggies",
-//                    size = 280.dp,
-//                    color = bg.copy(0.25f)
-//                )
-//                Spacer(
-//                    modifier = Modifier.height(10.dp)
-//                )
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(10.dp)
-//                ) {
-//                    HeadingText(
-//                        modifier = Modifier,
-//                        value = itemList[itemIndex].item_name,
-//                        size = 32.sp,
-//                        weight = FontWeight.Bold,
-//                        color = Color.Black
-//                    )
-////                    Spacer(
-////                        modifier = Modifier.height(10.dp)
-////                    )
-////                    StarsRow(
-////                        starCount = itemDetailsList[0].item_star.toInt(), size = 24.dp
-////                    )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top
+            ) {
+                DetailsImage(
+                    image = painterResource(R.drawable.veggiess),
+                    imagedesc = "Veggies",
+                    size = 280.dp,
+                    color = bg.copy(0.25f)
+                )
+                Spacer(
+                    modifier = Modifier.height(10.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp)
+                ) {
+                    HeadingText(
+                        modifier = Modifier,
+                        value = item_name!!,
+                        size = 32.sp,
+                        weight = FontWeight.Bold,
+                        color = Color.Black
+                    )
 //                    Spacer(
 //                        modifier = Modifier.height(10.dp)
 //                    )
-//                    Row(modifier = Modifier.fillMaxWidth()) {
-//                        Text(
-//                            text = "₹", fontSize = 24.sp
-//                        )
-//                        Text(
-//                            text = itemList[itemIndex].item_price, color = Color.Green, fontSize = 24.sp
-//                        )
-//                        Text(
-//                            text = "/KG", fontSize = 24.sp
-//                        )
-//                        Row(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(horizontal = 4.dp),
-//                            horizontalArrangement = Arrangement.End
-//                        ) {
-//
-//                            FAB(
-//                                onClick = { quantity-- },
-//                                icon = painterResource(id = R.drawable.minus),
-//                                modifier = Modifier
-//                                    .size(24.dp)
-//                            )
-//                            Spacer(
-//                                modifier = Modifier
-//                                    .width(8.dp)
-//                            )
-//                            Text(
-//                                text = "$quantity KG",
-//                                fontSize = 24.sp,
-//                                color = Color.Black.copy(0.5f)
-//                            )
-//                            Spacer(
-//                                modifier = Modifier
-//                                    .width(8.dp)
-//                            )
-//                            FAB(
-//                                onClick = { quantity++ },
-//                                icon = painterResource(id = R.drawable.add),
-//                                modifier = Modifier
-//                                    .size(24.dp)
-//                            )
-//                        }
-//                    }
-//                    Spacer(
-//                        modifier = Modifier.height(24.dp)
+//                    StarsRow(
+//                        starCount = itemDetailsList[0].item_star.toInt(), size = 24.dp
 //                    )
-//                    HeadingText(
-//                        modifier = Modifier,
-//                        value = "Product Details",
-//                        size = 24.sp,
-//                        weight = FontWeight.Bold,
-//                        color = Color.Black
-//                    )
-//
-//                    Spacer(
-//                        modifier = Modifier.height(8.dp)
-//                    )
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .verticalScroll(
-//                                rememberScrollState()
-//                            )
-//                    ) {
-//                        HeadingText(
-//                            modifier = Modifier,
-//                            value = itemList[itemIndex].item_detail,
-//                            size = 16.sp,
-//                            textAlign = TextAlign.Left,
-//                            weight = FontWeight.Normal,
-//                            color = Color.Black.copy(0.5f),
-//                            lineHeight = 20.sp
-//                        )
-//                    }
-//
-//
-//                }
-//
-//
-//            }
+                    Spacer(
+                        modifier = Modifier.height(10.dp)
+                    )
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "₹", fontSize = 24.sp
+                        )
+                        Text(
+                            text = item_price!!, color = Color.Green, fontSize = 24.sp
+                        )
+                        Text(
+                            text = "/KG", fontSize = 24.sp
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 4.dp),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+
+                            FAB(
+                                onClick = { quantity-- },
+                                icon = painterResource(id = R.drawable.minus),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .width(8.dp)
+                            )
+                            Text(
+                                text = "$quantity KG",
+                                fontSize = 24.sp,
+                                color = Color.Black.copy(0.5f)
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .width(8.dp)
+                            )
+                            FAB(
+                                onClick = { quantity++ },
+                                icon = painterResource(id = R.drawable.add),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                        }
+                    }
+                    Spacer(
+                        modifier = Modifier.height(24.dp)
+                    )
+                    HeadingText(
+                        modifier = Modifier,
+                        value = "Product Details",
+                        size = 24.sp,
+                        weight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(8.dp)
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
+                    ) {
+                        HeadingText(
+                            modifier = Modifier,
+                            value = item_detail!!,
+                            size = 16.sp,
+                            textAlign = TextAlign.Left,
+                            weight = FontWeight.Normal,
+                            color = Color.Black.copy(0.5f),
+                            lineHeight = 20.sp
+                        )
+                    }
+
+
+                }
+
+
+            }
 
         }
     }
@@ -205,8 +207,9 @@ fun DetailsScreen(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    DetailsScreen(
-        navController = rememberNavController(),
-        itemIndex = 0
-    )
+//    DetailsScreen(
+//        navController = rememberNavController(),
+//        itemIndex = 0,
+//        path = "e"
+//    )
 }

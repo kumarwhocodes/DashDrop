@@ -62,19 +62,15 @@ fun Navigation(navController: NavHostController) {
             )
         }
         composable(
-            route = "details/{itemIndex}",
-            arguments = listOf(
-                navArgument(name = "itemIndex"){
-                    type = NavType.IntType
-                }
-            )
+            route = "details/{item_name}/{item_price}/{item_detail}/{item_star}"
         ) {
-            it.arguments?.getInt("itemIndex")?.let { it1 ->
-                DetailsScreen(
-                    navController = navController,
-                    itemIndex = it1
-                )
-            }
+            DetailsScreen(
+                navController = navController,
+                item_name = it.arguments?.getString("item_name"),
+                item_price = it.arguments?.getString("item_price"),
+                item_detail = it.arguments?.getString("item_detail"),
+                item_star = it.arguments?.getString("item_star")
+            )
         }
         composable(route = "favourite") {
             FavouriteScreen(navController = navController)

@@ -2,6 +2,7 @@ package com.dashdrop.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,13 +36,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.fireStore.CartItems
 import com.dashdrop.R
+import com.dashdrop.data.model.Cart
+import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.ui.theme.bg
 
 @Composable
-fun CartItem(
-    image: Painter,
-    item_Id: CartItems,
-) {
+fun CartItem(item: Cart) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,65 +55,62 @@ fun CartItem(
                 .height(125.dp)
                 .background(color = Color.White)
         ) {
-            Row(
+            Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Box(
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .clip(shape = RoundedCornerShape(20.dp))
-                        .background(color = bg.copy(0.25f))
-                        .fillMaxHeight()
-                        .width(100.dp)
-                ) {
-                    Image(
-                        painter = image,
-                        contentDescription = "orange",
-                        modifier = Modifier.size(100.dp)
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.width(20.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(vertical = 10.dp),
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = item_Id.item_name,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 24.sp,
-                        color = Color.Black
-                    )
-
-                    Text(
-                        text = item_Id.item_category,
-                        fontSize = 16.sp
-                    )
-
-                    Row {
-                        Text(
-                            text = "₹${item_Id.item_price}",
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 24.sp,
-                            color = bg
-                        )
-
-                        Text(
-                            text = "/KG",
-                            fontSize = 16.sp
+                Row {
+                    Box(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .clip(shape = RoundedCornerShape(20.dp))
+                            .background(color = bg.copy(0.25f))
+                            .fillMaxHeight()
+                            .width(100.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.orange),
+                            contentDescription = "orange",
+                            modifier = Modifier.size(100.dp)
                         )
                     }
 
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(vertical = 10.dp),
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text(
+                            text = item.item_name,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 24.sp,
+                            color = Color.Black
+                        )
+
+                        Text(
+                            text = item.item_category,
+                            fontSize = 16.sp
+                        )
+
+                        Row {
+                            Text(
+                                text = "₹${item.item_price}",
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 24.sp,
+                                color = bg
+                            )
+
+                            Text(
+                                text = "/KG",
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
                 }
 
-                Spacer(modifier = Modifier.width(50.dp))
-
                 Row(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
@@ -122,6 +119,9 @@ fun CartItem(
                             .clip(shape = RoundedCornerShape(100.dp))
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
+                            .clickable {
+                                addCartinFireBase(item.item_id, false)
+                            }
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.minus),
@@ -297,17 +297,24 @@ fun PricingCard() {
 @Composable
 private fun Preview() {
     Column {
-        CartItem(
-            image = painterResource(id = R.drawable.orange),
-            item_Id = CartItems(
-                item_id = "Orange",
-                item_category = "Fruits",
-                item_name = "cff",
-                item_price = "fd"
-            )
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        PromoCode()
+//        CartItem(
+//            image = painterResource(id = R.drawable.orange),
+//            item_Id = CartItems(
+//                item_id = "Orange",
+//                item_category = "Fruits",
+//                item_name = "Orange",
+//                item_price = "50"
+//            )
+//        )
+//        CartItem(
+//            image = painterResource(id = R.drawable.orange),
+//            item_Id = CartItems(
+//                item_id = "Orange",
+//                item_category = "Fruits",
+//                item_name = "Mango",
+//                item_price = "33"
+//            )
+//        )
         Spacer(modifier = Modifier.height(50.dp))
         PricingCard()
     }

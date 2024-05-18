@@ -6,7 +6,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.firestore
 
 
-val cartItemList = arrayListOf<CartItems>()
+//val cartItemList = arrayListOf<CartItems>()
 
 fun addCartinFireBase(itemId: String,operation: Boolean) {
     val db = Firebase.firestore
@@ -35,53 +35,54 @@ fun addCartinFireBase(itemId: String,operation: Boolean) {
                     db.collection("cart").document(user?.uid ?: "").update("item_id", data2)
                 }
             }
-            getcartList()
+//            getcartList()
+
         }
         .addOnFailureListener { exception ->
             Log.w("Can't Get The Data", "Error getting documents.", exception)
         }
 }
 
-fun getcartList(){
-    cartItemList.clear()
-    val user = com.google.firebase.ktx.Firebase.auth.currentUser
-    val db = Firebase.firestore
-    val itemids: MutableList<String> = mutableListOf()
-    db.collection("cart")
-        .document(user?.uid ?: "")
-        .get()
-        .addOnSuccessListener { document ->
-            val data = document.get("item_id") as MutableList<String>
-            for (i in data) {
-                itemids.add(i)
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.w("Can't Get The Data", "Error getting documents.", exception)
-        }
-    db.collection("products")
-        .get()
-        .addOnSuccessListener { documents ->
-            for (document in documents) {
-                for (i in itemids) {
-                    if (document.id == i) {
-                        val data = CartItems(
-                            item_name = document.getString("name") ?: "",
-                            item_price = document.getString("price") ?: "",
-                            item_category = document.getString("category") ?: "",
-                            item_id = document.id,
-                        )
-                        cartItemList.add(
-                            data
-                        )
-                    }
-                }
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.w("Can't Get The Data", "Error getting documents.", exception)
-        }
-}
+//fun getcartList(){
+//    cartItemList.clear()
+//    val user = com.google.firebase.ktx.Firebase.auth.currentUser
+//    val db = Firebase.firestore
+//    val itemids: MutableList<String> = mutableListOf()
+//    db.collection("cart")
+//        .document(user?.uid ?: "")
+//        .get()
+//        .addOnSuccessListener { document ->
+//            val data = document.get("item_id") as MutableList<String>
+//            for (i in data) {
+//                itemids.add(i)
+//            }
+//        }
+//        .addOnFailureListener { exception ->
+//            Log.w("Can't Get The Data", "Error getting documents.", exception)
+//        }
+//    db.collection("products")
+//        .get()
+//        .addOnSuccessListener { documents ->
+//            for (document in documents) {
+//                for (i in itemids) {
+//                    if (document.id == i) {
+//                        val data = CartItems(
+//                            item_name = document.getString("name") ?: "",
+//                            item_price = document.getString("price") ?: "",
+//                            item_category = document.getString("category") ?: "",
+//                            item_id = document.id,
+//                        )
+//                        cartItemList.add(
+//                            data
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        .addOnFailureListener { exception ->
+//            Log.w("Can't Get The Data", "Error getting documents.", exception)
+//        }
+//}
 
 val favItemList = arrayListOf<FavItems>()
 
@@ -89,7 +90,7 @@ fun changeFav(itemId: String) {
     val db = Firebase.firestore
     val user = com.google.firebase.ktx.Firebase.auth.currentUser
     var data: MutableMap<String, Int> = mutableMapOf()
-    var data2: MutableList<String> = mutableListOf()
+    var data2: MutableList<String> = mutableListOf()    
     db.collection("favourite")
         .get()
         .addOnSuccessListener { documents ->

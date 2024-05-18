@@ -12,14 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.dashdrop.fireStore.cartItemList
 import com.dashdrop.R
+import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.CartItem
+import com.dashdrop.ui.components.CartList
 import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.PricingCard
 import com.dashdrop.ui.components.ScaffoldTop
@@ -28,6 +31,7 @@ import com.dashdrop.ui.components.ScaffoldTop
 fun CartScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
+    cartViewModel: CartViewModel = hiltViewModel(),
     onCheckoutButtonClicked: () -> Unit = {}
 ) {
     Scaffold(
@@ -62,14 +66,7 @@ fun CartScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                LazyColumn {
-                    items(cartItemList){
-                        CartItem(
-                            image = painterResource(id = R.drawable.orange),
-                            item_Id = it
-                        )
-                    }
-                }
+                CartList(navController = navController,cartViewModel = cartViewModel)
 
             }
         }
