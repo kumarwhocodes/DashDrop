@@ -26,9 +26,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,9 +57,11 @@ import com.dashdrop.data.model.Cart
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.fireStore.addCartinFireBase
+import com.dashdrop.fireStore.addOrder
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.ui.theme.bg
+import com.google.firestore.v1.StructuredQuery.Order
 
 @Composable
 fun CartList(
@@ -66,6 +70,7 @@ fun CartList(
 ) {
     val cartData = cartViewModel.cartData.collectAsState().value
     var cartList by remember { mutableStateOf(emptyList<Cart>()) }
+    var total by remember { mutableStateOf(0.0) }
 
     when (cartData) {
         is UiState.Error -> {
@@ -90,20 +95,39 @@ fun CartList(
         }
 
         is UiState.Success -> {
-            cartList = cartData.data
+            cartList = cartData.data.first
+            total = cartData.data.second
             Log.d("CartList", "Cart items: $cartList")
         }
     }
 
     if (cartList.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(cartList) { item ->
-                CartItem(item = item)
+        Scaffold(
+            bottomBar = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    CheckoutBottomBar(
+                        checkoutButton = {
+                            addOrder()
+                        },
+                        price = ""+(+total+25.0).toString(),
+                    )
+                }
             }
-            item {
-                PricingCard()
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+            ) {
+                items(cartList) { item ->
+                    CartItem(item = item)
+                }
+                item {
+                    PricingCard(subTotal = total)
+                }
             }
         }
     }

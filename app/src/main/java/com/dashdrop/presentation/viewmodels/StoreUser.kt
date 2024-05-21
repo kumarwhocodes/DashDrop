@@ -41,7 +41,13 @@ private fun storeUserData(user: FirebaseUser?) {
 
         }
 
-    val cartData = hashMapOf("item_id" to arrayListOf<String>())
+    val cartData = hashMapOf(
+        "item_id" to arrayListOf<String>(),
+        "item_quantity" to arrayListOf<String>()
+    )
+    val favouriteData = hashMapOf(
+        "item_id" to arrayListOf<String>()
+    )
 
     FirebaseFirestore.getInstance()
         .collection("cart")
@@ -57,11 +63,24 @@ private fun storeUserData(user: FirebaseUser?) {
     FirebaseFirestore.getInstance()
         .collection("favourite")
         .document(user?.uid.toString())
-        .set(cartData)
+        .set(favouriteData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me cart document store hogya")
         }
         .addOnFailureListener {
             Log.d("mera_tag", "firestore me cart document store NAHI hua")
+        }
+
+    val addressData = hashMapOf("addresses" to arrayListOf<String>())
+
+    FirebaseFirestore.getInstance()
+        .collection("address")
+        .document(user?.uid.toString())
+        .set(addressData)
+        .addOnSuccessListener {
+            Log.d("mera_tag", "firestore me address document store hogya")
+        }
+        .addOnFailureListener {
+            Log.d("mera_tag", "firestore me address document store NAHI hua")
         }
 }

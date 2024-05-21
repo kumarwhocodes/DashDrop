@@ -3,6 +3,8 @@ package com.dashdrop.data.repo
 import android.util.Log
 import com.dashdrop.data.model.Favourite
 import com.dashdrop.data.utils.UiState
+import com.dashdrop.di.AppModule.user
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
@@ -22,6 +24,7 @@ class GetFavFireRepo @Inject constructor(
 
             val userFavSnapshot = query3.get().await()
             val data = userFavSnapshot.get("item_id") as List<String>
+            Log.d("GetFavFireRepo", "data: $data")
             itemIds.addAll(data)
             Log.d("GetFavFireRepo", "itemIds: $itemIds")
 

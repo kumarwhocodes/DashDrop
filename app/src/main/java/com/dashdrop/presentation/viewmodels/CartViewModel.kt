@@ -18,7 +18,7 @@ class CartViewModel @Inject constructor(
     private val cartFireRepo: GetCartFireRepo
 ) : ViewModel() {
 
-    private val _cartData: MutableStateFlow<UiState<ArrayList<Cart>>> = MutableStateFlow(UiState.Idle)
+    private val _cartData: MutableStateFlow<UiState<Pair<ArrayList<Cart>,Double>>> = MutableStateFlow(UiState.Idle)
     val cartData = _cartData.asStateFlow()
 
     fun getAllCart() {

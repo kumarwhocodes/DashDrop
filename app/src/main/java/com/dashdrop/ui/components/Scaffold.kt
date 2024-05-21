@@ -221,8 +221,10 @@ fun AddToCartBottomBar(
 
 @Composable
 fun CheckoutBottomBar(
-    checkoutButton: () -> Unit
+    checkoutButton: () -> Unit,
+    price: String = "₹"
 ) {
+    Log.d("price", price)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -244,7 +246,7 @@ fun CheckoutBottomBar(
                     .padding(bottom = 2.dp)
             ) {
                 Text(
-                    text = "₹14.99", color = bg, fontSize = 24.sp,
+                    text = price, color = bg, fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -255,7 +257,7 @@ fun CheckoutBottomBar(
             onClick = {
                 checkoutButton()
             },
-            shapes = RoundedCornerShape(50.dp)
+            shapes = RoundedCornerShape(50.dp),
         ) {
             Text(
                 text = "Checkout",
@@ -285,9 +287,10 @@ private fun Preview() {
         )
 
         AddToCartBottomBar(addToCartButtonClicked = {  }, price = "b")
-        CheckoutBottomBar {
-
-        }
+        CheckoutBottomBar(
+            checkoutButton = {},
+            price = "322"
+        )
 
     }
 

@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
+import com.dashdrop.fireStore.addAddress
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 
 @Composable
@@ -67,6 +68,11 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
     }
 
     if(categoryRowList.isNotEmpty()){
+        Button(onClick = {
+            addAddress()
+        }){
+            Text(text = "Add Address")
+        }
         ImageSliderWithIndicator(images = images)
 
         Spacer(

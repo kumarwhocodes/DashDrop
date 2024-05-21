@@ -163,7 +163,7 @@ fun CartItem(item: Cart) {
 }
 
 @Composable
-fun PromoCode(modifier: Modifier = Modifier) {
+fun PromoCode() {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,7 +213,7 @@ fun PromoCode(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PricingCard() {
+fun PricingCard(subTotal: Double) {
     Surface {
         Card(
             modifier = Modifier
@@ -242,7 +242,7 @@ fun PricingCard() {
                             color = Color.Black.copy(0.65f)
                         )
                         Text(
-                            text = "₹100.00",
+                            text = "₹$subTotal",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -272,7 +272,7 @@ fun PricingCard() {
                             color = Color.Black.copy(0.65f)
                         )
                         Text(
-                            text = "₹00.00",
+                            text = "0.0",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -288,7 +288,7 @@ fun PricingCard() {
                             color = Color.Black.copy(0.65f)
                         )
                         Text(
-                            text = "₹125.00",
+                            text = (subTotal+25.00).toString(),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -324,6 +324,6 @@ private fun Preview() {
             )
         )
         Spacer(modifier = Modifier.height(50.dp))
-        PricingCard()
+        PricingCard(5.0)
     }
 }
