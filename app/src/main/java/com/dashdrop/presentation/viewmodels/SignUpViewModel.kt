@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.dashdrop.data.model.LocalUser
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -54,7 +56,7 @@ class SignUpViewModel : ViewModel() {
         createUserInFirebase(
             email = registrationUIState.value.email,
             password = registrationUIState.value.password,
-            navController
+            navController = navController
         )
     }
 
@@ -94,9 +96,12 @@ class SignUpViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     val user = auth.currentUser
                     user?.let {
-                        val userInfo = hashMapOf(
-                            "name" to registrationUIState.value.name,
-                            "email" to email
+                        val userInfo = LocalUser(
+                            name = registrationUIState.value.name,
+                            uid = it.uid,
+                            username = registrationUIState.value.name,
+                            email = email,
+                            phoneNumber = null
                         )
                         db.collection("users").document(it.uid)
                             .set(userInfo)
@@ -115,6 +120,49 @@ class SignUpViewModel : ViewModel() {
                                 signUpInProgress.value = false
                                 Log.d("mera_tag", "nhi hua create")
                             }
+
+                        val cartData = hashMapOf(
+                            "item_id" to arrayListOf<String>(),
+                            "item_quantity" to arrayListOf<String>()
+                        )
+                        val favouriteData = hashMapOf(
+                            "item_id" to arrayListOf<String>()
+                        )
+
+                        FirebaseFirestore.getInstance()
+                            .collection("cart")
+                            .document(user?.uid.toString())
+                            .set(cartData)
+                            .addOnSuccessListener {
+                                Log.d("mera_tag", "firestore me cart document store hogya")
+                            }
+                            .addOnFailureListener {
+                                Log.d("mera_tag", "firestore me cart document store NAHI hua")
+                            }
+
+                        FirebaseFirestore.getInstance()
+                            .collection("favourite")
+                            .document(user?.uid.toString())
+                            .set(favouriteData)
+                            .addOnSuccessListener {
+                                Log.d("mera_tag", "firestore me cart document store hogya")
+                            }
+                            .addOnFailureListener {
+                                Log.d("mera_tag", "firestore me cart document store NAHI hua")
+                            }
+
+                        val addressData = hashMapOf("addresses" to arrayListOf<String>())
+
+                        FirebaseFirestore.getInstance()
+                            .collection("address")
+                            .document(user?.uid.toString())
+                            .set(addressData)
+                            .addOnSuccessListener {
+                                Log.d("mera_tag", "firestore me address document store hogya")
+                            }
+                            .addOnFailureListener {
+                                Log.d("mera_tag", "firestore me address document store NAHI hua")
+                            }
                     }
                 } else {
                     Log.d("mera_tag", "nhi hua create user email se")
@@ -124,6 +172,7 @@ class SignUpViewModel : ViewModel() {
                 signUpInProgress.value = false
                 Log.d("mera_tag", "nhi hua create user email se", it)
             }
+
     }
 }
 

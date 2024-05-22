@@ -1,8 +1,14 @@
 package com.dashdrop.fireStore
 
 import android.util.Log
+import com.dashdrop.data.model.DeliveryAddress
+import com.dashdrop.data.model.Order
+import com.dashdrop.di.AppModule.user
+import com.google.android.play.integrity.internal.o
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 
 fun addCartinFireBase(itemId: String,operation: Boolean) {
@@ -88,4 +94,57 @@ fun changeFav(itemId: String) {
         .addOnFailureListener { exception ->
             Log.w("Can't Get The Data", "Error getting documents.", exception)
         }
+}
+
+fun addAddress(){
+    val newAddress = DeliveryAddress(
+        addressId = 2,
+        name = "adi",
+        phoneNumber = 7980058672,
+        pincode = 711106,
+        locality = "Salkia",
+        address = "GT Road",
+        city = "Howrah",
+        state = "West Bengal",
+        landmark = "near school",
+        country = "India"
+    )
+    val db = Firebase.firestore
+    val user = Firebase.auth.currentUser
+
+    db.collection("address")
+        .get()
+        .addOnSuccessListener {documents ->
+            for(document in documents){
+                if(document.id == user?.uid){
+                    val data = document.get("addresses") as MutableList<DeliveryAddress>
+                    data.add(newAddress)
+                    db.collection("address").document(user?.uid ?: "").update("addresses", FieldValue.arrayUnion(newAddress))
+                }
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.w("Can't Get The Data", "Error getting documents.", exception)
+        }
+}
+
+fun addOrder(){
+
+    val db = Firebase.firestore
+    val user = Firebase.auth.currentUser
+
+    var products: MutableList<String> = mutableListOf()
+    var quantities: MutableList<Int> = mutableListOf()
+
+    user?.uid?.let { uid ->
+        val addressRef = db.collection("address").document(uid)
+
+        addressRef.get().addOnSuccessListener { document ->
+            products = document.get("item_id") as MutableList<String>
+            quantities = document.get("item_quantity") as MutableList<Int>
+        }
+    }
+
+    
+
 }

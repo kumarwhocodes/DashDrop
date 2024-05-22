@@ -48,13 +48,6 @@ fun CartScreen(
                         popUpTo(Screen.HomeScreen.route) { inclusive = true }
                     }
                 })
-        },
-        bottomBar = {
-            Column{
-                CheckoutBottomBar {
-                    onCheckoutButtonClicked()
-                }
-            }
         }
     ) { paddingValues ->
         Surface(

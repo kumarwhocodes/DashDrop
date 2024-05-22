@@ -15,7 +15,7 @@ class GetCartFireRepo @Inject constructor(
 ) {
     val cartList = arrayListOf<Cart>()
 
-    suspend fun getCartList(): UiState<ArrayList<Cart>> {
+    suspend fun getCartList(): UiState<Pair<ArrayList<Cart>,Double>> {
         val itemIds: MutableList<String> = mutableListOf()
         cartList.clear()
 
@@ -27,6 +27,7 @@ class GetCartFireRepo @Inject constructor(
             itemIds.addAll(data)
             Log.d("GetCartFireRepo", "itemIds: $itemIds")
 
+            var total = 0.0
             val itemsSnapshot = query4.get().await()
             for (document in itemsSnapshot) {
                 if (document.id in itemIds) {
@@ -37,12 +38,13 @@ class GetCartFireRepo @Inject constructor(
                         item_id = document.id,
                         item_quantity = quantity[itemIds.indexOf(document.id)]
                     )
+                    total += data.item_price.toDouble() * data.item_quantity
                     cartList.add(data)
                 }
             }
 
             if (cartList.isNotEmpty()) {
-                UiState.Success(cartList)
+                UiState.Success(Pair(cartList, total))
             } else {
                 UiState.Error("No Data Found")
             }
