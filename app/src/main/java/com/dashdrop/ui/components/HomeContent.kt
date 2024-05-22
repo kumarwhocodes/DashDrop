@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Category
@@ -68,11 +66,11 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
     }
 
     if(categoryRowList.isNotEmpty()){
-        Button(onClick = {
-            addAddress()
-        }){
-            Text(text = "Add Address")
-        }
+//        Button(onClick = {
+//            addAddress(newAddress,navController)
+//        }){
+//            Text(text = "Add Address")
+//        }
         ImageSliderWithIndicator(images = images)
 
         Spacer(

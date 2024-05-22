@@ -2,26 +2,47 @@ package com.dashdrop.presentation.viewmodels
 
 object Validator {
 
+    data class ValidationResult(
+        val status: Boolean = false
+    )
+
     fun validateName(name: String): ValidationResult {
         return ValidationResult(
-            (!name.isNullOrEmpty())
+            (name.isNotEmpty())
         )
     }
 
     fun validateEmail(email: String): ValidationResult {
         return ValidationResult(
-            (!email.isNullOrEmpty())
+            (email.isNotEmpty())
         )
     }
 
     fun validatePassword(password: String): ValidationResult {
         return ValidationResult(
-            (!password.isNullOrEmpty() && password.length > 5)
+            (password.isNotEmpty() && password.length > 5)
         )
     }
 
-    data class ValidationResult(
-        val status: Boolean = false
-    )
+    fun validateAddress(
+        name: String,
+        phoneNumber: String,
+        address: String,
+        city: String,
+        state: String,
+        country: String
+    ): ValidationResult {
+        return ValidationResult(
+            (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && state.isNotEmpty() && country.isNotEmpty())
+        )
+    }
+
+    fun validatePinCode(
+        pinCode: Int
+    ): ValidationResult {
+        return ValidationResult(
+            (pinCode.toString().length == 6)
+        )
+    }
 
 }

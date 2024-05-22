@@ -121,7 +121,7 @@ fun CartItem(item: Cart) {
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
                             .clickable {
-                                addCartinFireBase(item.item_id, false)
+                                addCartinFireBase(itemId = item.item_id, operation = false)
                             }
                     ) {
                         Image(

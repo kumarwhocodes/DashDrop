@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.dashdrop.presentation.screens.AddressForm
 import com.dashdrop.presentation.screens.BillingScreen
 import com.dashdrop.presentation.screens.CartScreen
 import com.dashdrop.presentation.screens.CategoryScreen
@@ -83,6 +84,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(route = "billing") {
             BillingScreen(navController = navController)
+        }
+        composable(route = "address"){
+            AddressForm(navController = navController)
         }
     }
 }
