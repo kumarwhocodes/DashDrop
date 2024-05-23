@@ -7,20 +7,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 fun checkAndStoreUser(
     user: FirebaseUser?
-){
+) {
     val userRef =
         FirebaseFirestore.getInstance()
             .collection("users")
             .document(user?.uid.toString())
 
-    userRef.get().addOnCompleteListener{task ->
-        if(task.isSuccessful){
+    userRef.get().addOnCompleteListener { task ->
+        if (task.isSuccessful) {
             val document = task.result
-            if(!document.exists()){
+            if (!document.exists()) {
                 storeUserData(user)
-            }
-            else{
-                Log.d("mera_tag","pehle se stored hai firestore m ye user")
+            } else {
+                Log.d("mera_tag", "pehle se stored hai firestore m ye user")
             }
         }
     }
@@ -34,10 +33,10 @@ private fun storeUserData(user: FirebaseUser?) {
             .document(user?.uid.toString())
     userRef.set(user?.toLocalUser()!!)
         .addOnSuccessListener {
-            Log.d("mera_tag","firestore me user store hogya")
+            Log.d("mera_tag", "firestore me user store hogya")
         }
-        .addOnFailureListener{
-            Log.d("mera_tag","firestore me user store NAHI hua")
+        .addOnFailureListener {
+            Log.d("mera_tag", "firestore me user store NAHI hua")
 
         }
 
@@ -51,7 +50,7 @@ private fun storeUserData(user: FirebaseUser?) {
 
     FirebaseFirestore.getInstance()
         .collection("cart")
-        .document(user?.uid.toString())
+        .document(user.uid)
         .set(cartData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me cart document store hogya")
@@ -75,12 +74,25 @@ private fun storeUserData(user: FirebaseUser?) {
 
     FirebaseFirestore.getInstance()
         .collection("address")
-        .document(user?.uid.toString())
+        .document(user.uid)
         .set(addressData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me address document store hogya")
         }
         .addOnFailureListener {
             Log.d("mera_tag", "firestore me address document store NAHI hua")
+        }
+
+    val orderData = hashMapOf("orders" to arrayListOf<String>())
+
+    FirebaseFirestore.getInstance()
+        .collection("orders")
+        .document(user.uid)
+        .set(orderData)
+        .addOnSuccessListener {
+            Log.d("mera_tag", "firestore me order document store hogya")
+        }
+        .addOnFailureListener {
+            Log.d("mera_tag", "firestore me order document store NAHI hua")
         }
 }

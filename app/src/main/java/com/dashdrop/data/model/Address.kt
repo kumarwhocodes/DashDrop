@@ -3,8 +3,8 @@ package com.dashdrop.data.model
 data class DeliveryAddress(
     val addressId: Int,
     val name: String,
-    val phoneNumber: Long,
-    val pincode: Int,
+    val phoneNumber: String,
+    val pincode: String,
     val locality: String,
     val address: String,
     val city: String,
@@ -16,8 +16,8 @@ data class DeliveryAddress(
 data class BillingAddress(
     val addressId: Int,
     val name: String,
-    val phoneNumber: Int,
-    val pincode: Int,
+    val phoneNumber: String,
+    val pincode: String,
     val locality: String,
     val address: String,
     val city: String,

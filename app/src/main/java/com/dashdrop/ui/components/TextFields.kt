@@ -82,7 +82,7 @@ fun TextField_Text(modifier: Modifier, labelValue: String) {
 @Composable
 fun CustomInputField(
     onTextSelected: (String) -> Unit,
-    errorStatus: Boolean
+    errorStatus: Boolean = false
 ) {
     val value = remember { mutableStateOf("") }
     OutlinedTextField(

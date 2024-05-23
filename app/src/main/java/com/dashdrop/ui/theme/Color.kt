@@ -10,5 +10,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val bg=Color(0xFF019934)
+val bg=Color(0xFFFFCD5B)
+//val bg=Color(0xFF019934)
 val starColor = Color(0xFFF88101)
+val newBg = Color(0xFFFFCD5B)

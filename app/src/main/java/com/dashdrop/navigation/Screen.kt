@@ -10,4 +10,5 @@ sealed class Screen(val route: String) {
     object BillingScreen : Screen(route = "billing")
     object DetailsScreen :Screen(route = "details")
     object FavouriteScreen : Screen(route = "favourite")
+    object AddressFormScreen : Screen(route = "address")
 }
