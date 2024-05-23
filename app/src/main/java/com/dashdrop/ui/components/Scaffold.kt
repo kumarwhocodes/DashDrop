@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.dashdrop.fireStore.addOrder
 import com.dashdrop.navigation.Screen
 
 import com.dashdrop.ui.theme.bg
@@ -221,8 +222,9 @@ fun AddToCartBottomBar(
 
 @Composable
 fun CheckoutBottomBar(
-    checkoutButton: () -> Unit,
-    price: String = "₹"
+    price: String = "₹",
+    buttonAction: () -> Unit,
+    buttonText: String
 ) {
     Log.d("price", price)
     Row(
@@ -255,12 +257,12 @@ fun CheckoutBottomBar(
 
         PrimaryButton(
             onClick = {
-                checkoutButton()
+                buttonAction()
             },
             shapes = RoundedCornerShape(50.dp),
         ) {
             Text(
-                text = "Checkout",
+                text = buttonText,
                 fontSize = 16.sp,
                 modifier = Modifier.width(150.dp),
                 textAlign = TextAlign.Center
@@ -288,8 +290,9 @@ private fun Preview() {
 
         AddToCartBottomBar(addToCartButtonClicked = {  }, price = "b")
         CheckoutBottomBar(
-            checkoutButton = {},
-            price = "322"
+            price = "322",
+            buttonAction = {},
+            buttonText = "Checkout"
         )
 
     }

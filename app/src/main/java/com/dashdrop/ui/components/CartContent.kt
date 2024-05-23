@@ -68,6 +68,8 @@ fun CartList(
             total = cartData.data.second
             Log.d("CartList", "Cart items: $cartList")
         }
+
+        else->{}
     }
 
     if (cartList.isNotEmpty()) {
@@ -81,7 +83,7 @@ fun CartList(
                         price = "" + (+total + 25.0).toString(),
                         buttonAction = {
 //                            addOrder()
-                            navController.navigate(Screen.BillingScreen.route)
+                            navController.navigate("billing/$total")
                         },
                         buttonText = "Checkout"
                     )

@@ -123,6 +123,8 @@ fun addOrder() {
         addressRef.get().addOnSuccessListener { document ->
             products = document.get("item_id") as MutableList<String>
             quantities = document.get("item_quantity") as MutableList<Int>
+            Log.d("mera_tag", products.toString())
+            Log.d("mera_tag", quantities.toString())
         }.addOnFailureListener { exception ->
             Log.d("mera_tag", "Error getting documents.", exception)
         }
@@ -144,6 +146,7 @@ fun addOrder() {
 
     db.collection("orders").document(user?.uid.toString())
         .update("orders", FieldValue.arrayUnion(data))
+    Log.d("mera_tag", "order placed")
 
 
 }

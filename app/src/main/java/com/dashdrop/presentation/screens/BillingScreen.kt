@@ -1,13 +1,11 @@
 package com.dashdrop.presentation.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.model.Payment
 import com.dashdrop.fireStore.addOrder
 import com.dashdrop.navigation.Screen
-import com.dashdrop.ui.components.AddressItem
 import com.dashdrop.ui.components.AddressList
 import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.HeadingText
@@ -32,7 +29,7 @@ import com.dashdrop.ui.components.SecondaryButton
 import com.dashdrop.ui.theme.newBg
 
 @Composable
-fun BillingScreen(navController: NavController) {
+fun BillingScreen(navController: NavController, total: String?) {
     val addresses = listOf(
         DeliveryAddress(
             addressId = 1,
@@ -77,11 +74,11 @@ fun BillingScreen(navController: NavController) {
         },
         bottomBar = {
             CheckoutBottomBar(
-                buttonText = "Place Order",
+                buttonText = "Checkout",
                 buttonAction = {
-                               addOrder()
+                    addOrder()
                 },
-                price = ""
+                price = total.toString()
             )
         }
     ) {
@@ -115,7 +112,7 @@ fun BillingScreen(navController: NavController) {
                     }
 
                 }
-                AddressList(addresses = addresses)
+                AddressList()
                 HeadingText(
                     modifier = Modifier,
                     value = "Payment Methods",
@@ -137,6 +134,6 @@ fun BillingScreen(navController: NavController) {
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    BillingScreen(navController = rememberNavController())
+    BillingScreen(navController = rememberNavController(), total = "43")
 
 }

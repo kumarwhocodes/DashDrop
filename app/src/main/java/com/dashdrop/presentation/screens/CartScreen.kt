@@ -25,7 +25,6 @@ import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.CartItem
 import com.dashdrop.ui.components.CartList
-import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.PricingCard
 import com.dashdrop.ui.components.ScaffoldTop
 
@@ -33,8 +32,7 @@ import com.dashdrop.ui.components.ScaffoldTop
 fun CartScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
-    cartViewModel: CartViewModel = hiltViewModel(),
-    onCheckoutButtonClicked: () -> Unit = {}
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     Scaffold(
         modifier = Modifier,
