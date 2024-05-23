@@ -82,8 +82,10 @@ fun Navigation(navController: NavHostController) {
         composable(route = "profile") {
             ProfileScreen(navController = navController)
         }
-        composable(route = "billing") {
-            BillingScreen(navController = navController)
+        composable(route = "billing/{total}",) {
+            BillingScreen(navController = navController,
+                total = it.arguments?.getString("total")
+            )
         }
         composable(route = "address"){
             AddressForm(navController = navController)

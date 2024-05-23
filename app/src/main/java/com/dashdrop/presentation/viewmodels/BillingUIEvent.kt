@@ -3,7 +3,7 @@ package com.dashdrop.presentation.viewmodels
 sealed class BillingUIEvent {
 
     data class NameChanged(val name: String) : BillingUIEvent()
-    data class AddressIdChanges(val addressId: String): BillingUIEvent()
+    object AddressIdChanges : BillingUIEvent()
     data class PhoneNumberChanged(val phoneNumber: String) : BillingUIEvent()
     data class PincodeChanged(val pincode: String) : BillingUIEvent()
     data class LocalityChanged(val locality: String) : BillingUIEvent()

@@ -1,5 +1,6 @@
 package com.dashdrop.di
 
+import com.dashdrop.data.repo.GetAddressFireRepo
 import com.dashdrop.data.repo.GetCartFireRepo
 import com.dashdrop.data.repo.GetCategoryFireRepo
 import com.dashdrop.data.repo.GetFavFireRepo
@@ -44,6 +45,13 @@ object AppModule {
         query3 = FirebaseFirestore.getInstance()
             .collection("favourite").document(user!!.uid),
         query4 = FirebaseFirestore.getInstance().collection("products")
+    )
+
+    @Singleton
+    @Provides
+    fun provideFireRepoAddress()= GetAddressFireRepo(
+        query5 = FirebaseFirestore.getInstance()
+            .collection("address").document(user!!.uid)
     )
 
 }

@@ -31,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
+import com.dashdrop.data.repo.GetAddressFireRepo
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
@@ -93,7 +94,6 @@ fun HomeScreen(
                         .padding(5.dp)
                         .background(color = Color.White)
                 ) {
-
                     CategoryList(navController = navController, homeViewModel = homeViewModel)
 
 
