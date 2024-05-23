@@ -2,7 +2,7 @@ package com.dashdrop.presentation.viewmodels
 
 data class BillingUIState (
     var name: String = "",
-    var addressId: String = "",
+    var addressId: Int = 0,
     var phoneNumber: String = "",
     var pinCode: String = "",
     var locality: String = "",

@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
@@ -13,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +33,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dashdrop.presentation.viewmodels.BillingUIEvent
 
 @Composable
 fun HeadingText(
@@ -104,6 +105,40 @@ fun CustomInputField(
         ), isError = !errorStatus
     )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddressInputField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    action: ImeAction = ImeAction.Next
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        OutlinedTextField(
+            keyboardOptions = KeyboardOptions(imeAction = action),
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            maxLines = 1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                focusedTextColor = Color.Black,
+                unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.secondary,
+            )
+        )
+    }
+}
+
 
 @Composable
 fun DividerTextComponent(value: String) {
@@ -252,10 +287,9 @@ private fun Preview() {
         TextField_Text(modifier = Modifier, labelValue = "Enter Your Password")
         PasswordTextField(onTextSelected = {}, errorStatus = true)
         DividerTextComponent(value = "or sign up with")
-
         ClickableLoginTextComponent {
-
         }
+        AddressInputField(label = "Name", value = "name", onValueChange = {})
     }
 
 }
