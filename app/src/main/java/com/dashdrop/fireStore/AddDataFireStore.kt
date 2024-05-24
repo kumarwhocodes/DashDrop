@@ -135,7 +135,7 @@ fun addOrder() {
         "orderCustomerName" to "dnhs",
         "orderDeliveryAddress" to "sbhcn",
         "orderMethodOfPayment" to " jsgcjbs",
-        "orderOrderId" to "cjsbvbs",
+        "orderOrderId" to orderUniqueId(),
         "orderPhoneNo" to "hsbfh",
         "orderStatus" to "d jhdgcvkuh",
         "orderTotal" to "vbabvjna",

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -66,60 +67,72 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
     }
 
     if(categoryRowList.isNotEmpty()){
-//        Button(onClick = {
-//            addAddress(newAddress,navController)
-//        }){
-//            Text(text = "Add Address")
-//        }
-        ImageSliderWithIndicator(images = images)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ){
+            item{
+                ImageSliderWithIndicator(images = images)
 
-        Spacer(
-            modifier = Modifier
-                .height(20.dp)
-        )
-
-        HeadingText(
-            value = "Categories",
-            size = 24.sp,
-            weight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-        )
-        LazyRow {
-            items(categoryRowList) {
-                Log.d("mera_tag", "HomeScreen: $categoryRowList}")
-                CategoryButton(
-                    value = it.category_name,
-                    image = R.drawable.veggiess,
-                    onClick = {
-                        Log.d("mera_tag", "HomeScreen: ${it.category_name}")
-                        navController.navigate("category/${it.category_name}")
-                    }
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
                 )
             }
-        }
-        Spacer(
-            modifier = Modifier
-                .height(20.dp)
-        )
 
-        HeadingText(
-            value = "Popular",
-            size = 24.sp,
-            weight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-        )
-
-        LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
-            items(5) {
-                ItemButton(
-                    value = "Veggies",
-                    image = painterResource(id = R.drawable.veggiess),
-                    price = "150",
-                    startCount = 2,
-                    icon = painterResource(id = R.drawable.add)
+            item{
+                HeadingText(
+                    value = "Categories",
+                    size = 24.sp,
+                    weight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
                 )
+            }
+
+            item{
+                LazyRow {
+                    items(categoryRowList) {
+                        Log.d("mera_tag", "HomeScreen: $categoryRowList}")
+                        CategoryButton(
+                            value = it.category_name,
+                            image = R.drawable.veggiess,
+                            onClick = {
+                                Log.d("mera_tag", "HomeScreen: ${it.category_name}")
+                                navController.navigate("category/${it.category_name}")
+                            }
+                        )
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
+            }
+
+            item{
+                HeadingText(
+                    value = "Popular",
+                    size = 24.sp,
+                    weight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                )
+            }
+
+            item{
+                Box(modifier = Modifier.height(400.dp)) {
+                    LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
+                        items(5) {
+                            ItemButton(
+                                value = "Veggies",
+                                image = painterResource(id = R.drawable.veggiess),
+                                price = "150",
+                                startCount = 2,
+                                icon = painterResource(id = R.drawable.add)
+                            )
+                        }
+                    }
+                }
             }
         }
     }
