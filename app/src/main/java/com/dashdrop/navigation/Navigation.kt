@@ -87,8 +87,9 @@ fun Navigation(navController: NavHostController) {
                 total = it.arguments?.getString("total")
             )
         }
-        composable(route = "address"){
-            AddressForm(navController = navController)
+        composable(route = "address/{total}"){
+            AddressForm(navController = navController,
+                total = it.arguments?.getString("total"))
         }
     }
 }

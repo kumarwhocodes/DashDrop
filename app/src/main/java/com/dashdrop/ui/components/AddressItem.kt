@@ -23,19 +23,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dashdrop.data.model.Cart
 import com.dashdrop.data.model.DeliveryAddress
-import com.dashdrop.data.repo.GetAddressFireRepo
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.BillingViewModel
 
@@ -71,7 +68,7 @@ fun AddressItem(
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
-                    Text(text = address.name)
+                    Text(text = address.name.toString())
                     Text(text = "${address.address}, ${address.city}, ${address.state} ${address.pincode}")
                 }
 
@@ -83,10 +80,11 @@ fun AddressItem(
 
 @Composable
 fun AddressList(
-    billingViewModel: BillingViewModel = hiltViewModel()
+    billingViewModel: BillingViewModel = hiltViewModel(),
+    onAddressSelected: (DeliveryAddress) -> Unit
 ) {
     val addressData by billingViewModel.addressData.collectAsState()
-    var selectedAddressIndex by remember { mutableStateOf(-1) }
+    var selectedAddressIndex by remember { mutableIntStateOf(-1) }
 
     when (addressData) {
         is UiState.Loading -> {
@@ -111,7 +109,8 @@ fun AddressList(
                         AddressItem(
                             address = address,
                             isSelected = index == selectedAddressIndex,
-                            onAddressSelected = { selectedAddressIndex = index }
+                            onAddressSelected = { selectedAddressIndex = index
+                                onAddressSelected(address)}
                         )
                     }
                 }

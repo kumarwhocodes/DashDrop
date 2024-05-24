@@ -1,11 +1,9 @@
 package com.dashdrop.presentation.viewmodels
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.dashdrop.data.model.Cart
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.repo.GetAddressFireRepo
 import com.dashdrop.data.utils.UiState

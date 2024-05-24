@@ -2,6 +2,7 @@ package com.dashdrop.presentation.viewmodels
 
 import android.util.Log
 import com.dashdrop.data.model.toLocalUser
+import com.dashdrop.fireStore.orderUniqueId
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -61,7 +62,7 @@ private fun storeUserData(user: FirebaseUser?) {
 
     FirebaseFirestore.getInstance()
         .collection("favourite")
-        .document(user?.uid.toString())
+        .document(user.uid)
         .set(favouriteData)
         .addOnSuccessListener {
             Log.d("mera_tag", "firestore me cart document store hogya")
@@ -83,16 +84,4 @@ private fun storeUserData(user: FirebaseUser?) {
             Log.d("mera_tag", "firestore me address document store NAHI hua")
         }
 
-    val orderData = hashMapOf("orders" to arrayListOf<String>())
-
-    FirebaseFirestore.getInstance()
-        .collection("orders")
-        .document(user.uid)
-        .set(orderData)
-        .addOnSuccessListener {
-            Log.d("mera_tag", "firestore me order document store hogya")
-        }
-        .addOnFailureListener {
-            Log.d("mera_tag", "firestore me order document store NAHI hua")
-        }
 }
