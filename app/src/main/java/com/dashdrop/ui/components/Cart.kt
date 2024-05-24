@@ -33,13 +33,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Cart
 import com.dashdrop.fireStore.addCartinFireBase
+import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.ui.theme.bg
 
 @Composable
-fun CartItem(item: Cart) {
+fun CartItem(item: Cart,navController: NavController,
+             cartViewModel: CartViewModel = viewModel()
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +127,8 @@ fun CartItem(item: Cart) {
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
                             .clickable {
-                                addCartinFireBase(itemId = item.item_id, operation = false)
+                                cartViewModel.updateCartQuantity(itemId = item.item_id, operation = false)
+
                             }
                     ) {
                         Image(
@@ -142,7 +149,7 @@ fun CartItem(item: Cart) {
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
                             .clickable {
-                                addCartinFireBase(item.item_id, true)
+                                cartViewModel.updateCartQuantity(itemId = item.item_id, operation = true)
                             }
                     ) {
                         Image(
@@ -301,29 +308,29 @@ fun PricingCard(subTotal: Double, total: Double) {
 
 }
 
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    Column {
-        CartItem(
-            item = Cart(
-                item_id = "111",
-                item_category = "Fruits",
-                item_name = "Orange",
-                item_price = "15",
-                item_quantity = 5
-            )
-        )
-        CartItem(
-            item = Cart(
-                item_id = "111",
-                item_category = "Fruits",
-                item_name = "Orange",
-                item_price = "15",
-                item_quantity = 5
-            )
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        PricingCard(5.0, 30.0)
-    }
-}
+//@Preview(showSystemUi = true)
+//@Composable
+//private fun Preview() {
+//    Column {
+//        CartItem(
+//            item = Cart(
+//                item_id = "111",
+//                item_category = "Fruits",
+//                item_name = "Orange",
+//                item_price = "15",
+//                item_quantity = 5
+//            )
+//        )
+//        CartItem(
+//            item = Cart(
+//                item_id = "111",
+//                item_category = "Fruits",
+//                item_name = "Orange",
+//                item_price = "15",
+//                item_quantity = 5
+//            )
+//        )
+//        Spacer(modifier = Modifier.height(50.dp))
+//        PricingCard(5.0, 30.0)
+//    }
+//}

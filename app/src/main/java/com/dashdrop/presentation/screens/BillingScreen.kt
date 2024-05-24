@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -19,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.model.Payment
 import com.dashdrop.fireStore.addOrder
-import com.dashdrop.navigation.Screen
 import com.dashdrop.ui.components.AddressList
 import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.HeadingText
@@ -30,6 +33,8 @@ import com.dashdrop.ui.theme.newBg
 
 @Composable
 fun BillingScreen(navController: NavController, total: String?) {
+    var selectedAddress by remember { mutableStateOf<DeliveryAddress?>(null) }
+    var selectedPayment by remember { mutableStateOf<Payment?>(null) }
     Scaffold(
         topBar = {
             ScaffoldTop(
@@ -39,9 +44,9 @@ fun BillingScreen(navController: NavController, total: String?) {
         },
         bottomBar = {
             CheckoutBottomBar(
-                buttonText = "Checkout",
+                buttonText = "Place Order",
                 buttonAction = {
-                    addOrder()
+                    addOrder(total, selectedAddress, selectedPayment)
                 },
                 price = total.toString()
             )
@@ -65,7 +70,7 @@ fun BillingScreen(navController: NavController, total: String?) {
                         color = Color.Black
                     )
                     SecondaryButton(onClick = {
-                        navController.navigate(Screen.AddressFormScreen.route)
+                        navController.navigate("address/$total")
                     }) {
                         HeadingText(
                             modifier = Modifier,
@@ -77,7 +82,11 @@ fun BillingScreen(navController: NavController, total: String?) {
                     }
 
                 }
-                AddressList()
+                AddressList(
+                    onAddressSelected = { address ->
+                        selectedAddress = address
+                    }
+                )
                 HeadingText(
                     modifier = Modifier,
                     value = "Payment Methods",
@@ -90,7 +99,10 @@ fun BillingScreen(navController: NavController, total: String?) {
                     Payment(2, "Card"),
                     Payment(3, "UPI")
                 )
-                PaymentList(modes = modes)
+                PaymentList(modes = modes,
+                    onPaymentSelected = { payment ->
+                        selectedPayment = payment
+                    })
             }
         }
     }

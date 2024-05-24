@@ -82,7 +82,6 @@ fun CartList(
                     CheckoutBottomBar(
                         price = "" + total.toString(),
                         buttonAction = {
-//                            addOrder()
                             navController.navigate("billing/$total")
                         },
                         buttonText = "Checkout"
@@ -96,7 +95,7 @@ fun CartList(
                     .padding(it)
             ) {
                 items(cartList) { item ->
-                    CartItem(item = item)
+                    CartItem(item = item, navController)
                 }
                 item {
                     PricingCard(subTotal = subtotal, total = total)

@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.model.Payment
 
 @Composable
@@ -72,7 +71,8 @@ fun PaymentItem(
 
 @Composable
 fun PaymentList(
-    modes: List<Payment>
+    modes: List<Payment>,
+    onPaymentSelected: (Payment) -> Unit
 ) {
     var selectedPaymentIndex by remember { mutableStateOf(-1) }
 
@@ -80,7 +80,8 @@ fun PaymentList(
         modes.forEachIndexed() { index,payment ->
             PaymentItem(payment = payment,
                 isSelected = index == selectedPaymentIndex,
-                onModeSelected = {selectedPaymentIndex = index}
+                onModeSelected = {selectedPaymentIndex = index
+                onPaymentSelected(payment)}
             )
         }
     }
@@ -94,6 +95,9 @@ private fun Preview() {
         Payment(2, "Card"),
         Payment(3, "UPI")
     )
-    PaymentList(modes = modes)
+//    PaymentList(modes = modes, onPaymentSelected = { payment ->
+//        selectedPayment = payment
+//
+//    })
     
 }
