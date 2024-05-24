@@ -33,7 +33,7 @@ import com.dashdrop.data.model.Payment
 fun PaymentItem(
     payment: Payment,
     isSelected: Boolean,
-    onModeSelected: (Int) -> Unit
+    onModeSelected: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -57,7 +57,7 @@ fun PaymentItem(
             ) {
                 RadioButton(
                     selected = isSelected,
-                    onClick = { onModeSelected(payment.paymentId) }
+                    onClick = { onModeSelected() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
@@ -74,13 +74,14 @@ fun PaymentItem(
 fun PaymentList(
     modes: List<Payment>
 ) {
-    var selectedPaymentId by remember { mutableStateOf<Int?>(null) }
+    var selectedPaymentIndex by remember { mutableStateOf(-1) }
 
     Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-        modes.forEach { payment ->
+        modes.forEachIndexed() { index,payment ->
             PaymentItem(payment = payment,
-                isSelected = selectedPaymentId == payment.paymentId,
-                onModeSelected = {selectedPaymentId == it})
+                isSelected = index == selectedPaymentIndex,
+                onModeSelected = {selectedPaymentIndex = index}
+            )
         }
     }
 }

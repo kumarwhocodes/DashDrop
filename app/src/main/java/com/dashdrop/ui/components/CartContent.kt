@@ -28,8 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dashdrop.data.model.Cart
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.fireStore.addOrder
-import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.CartViewModel
 
 @Composable
@@ -39,6 +37,7 @@ fun CartList(
 ) {
     val cartData = cartViewModel.cartData.collectAsState().value
     var cartList by remember { mutableStateOf(emptyList<Cart>()) }
+    var subtotal by remember { mutableStateOf(0.0) }
     var total by remember { mutableStateOf(0.0) }
 
     when (cartData) {
@@ -65,7 +64,8 @@ fun CartList(
 
         is UiState.Success -> {
             cartList = cartData.data.first
-            total = cartData.data.second
+            subtotal = cartData.data.second
+            total = subtotal + 25.0
             Log.d("CartList", "Cart items: $cartList")
         }
 
@@ -80,7 +80,7 @@ fun CartList(
                     verticalArrangement = Arrangement.Bottom
                 ) {
                     CheckoutBottomBar(
-                        price = "" + (+total + 25.0).toString(),
+                        price = "" + total.toString(),
                         buttonAction = {
 //                            addOrder()
                             navController.navigate("billing/$total")
@@ -99,7 +99,7 @@ fun CartList(
                     CartItem(item = item)
                 }
                 item {
-                    PricingCard(subTotal = total)
+                    PricingCard(subTotal = subtotal, total = total)
                 }
             }
         }

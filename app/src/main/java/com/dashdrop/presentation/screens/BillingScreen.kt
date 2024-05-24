@@ -30,41 +30,6 @@ import com.dashdrop.ui.theme.newBg
 
 @Composable
 fun BillingScreen(navController: NavController, total: String?) {
-    val addresses = listOf(
-        DeliveryAddress(
-            addressId = 1,
-            name = "Kumar Sambhav",
-            phoneNumber = "6207549371",
-            city = "Madhubani",
-            state = "Bihar",
-            pincode = "847234",
-            locality = "Pandaul",
-            address = "Pandaul",
-            country = "India"
-        ),
-        DeliveryAddress(
-            addressId = 2,
-            name = "Kumar Sambhav",
-            phoneNumber = "6207549371",
-            city = "Madhubani",
-            state = "Bihar",
-            pincode = "847234",
-            locality = "Pandaul",
-            address = "Pandaul",
-            country = "India"
-        ),
-        DeliveryAddress(
-            addressId = 3,
-            name = "Kumar Sambhav",
-            phoneNumber = "6207549371",
-            city = "Madhubani",
-            state = "Bihar",
-            pincode = "847234",
-            locality = "Pandaul",
-            address = "Pandaul",
-            country = "India"
-        )
-    )
     Scaffold(
         topBar = {
             ScaffoldTop(
