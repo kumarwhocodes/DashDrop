@@ -213,7 +213,7 @@ fun PromoCode() {
 }
 
 @Composable
-fun PricingCard(subTotal: Double) {
+fun PricingCard(subTotal: Double, total: Double) {
     Surface {
         Card(
             modifier = Modifier
@@ -288,7 +288,7 @@ fun PricingCard(subTotal: Double) {
                             color = Color.Black.copy(0.65f)
                         )
                         Text(
-                            text = (subTotal+25.00).toString(),
+                            text = total.toString(),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -324,6 +324,6 @@ private fun Preview() {
             )
         )
         Spacer(modifier = Modifier.height(50.dp))
-        PricingCard(5.0)
+        PricingCard(5.0, 30.0)
     }
 }

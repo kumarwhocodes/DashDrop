@@ -43,7 +43,7 @@ import com.dashdrop.presentation.viewmodels.BillingViewModel
 fun AddressItem(
     address: DeliveryAddress,
     isSelected: Boolean,
-    onAddressSelected: (Int) -> Unit
+    onAddressSelected: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -67,7 +67,7 @@ fun AddressItem(
             ) {
                 RadioButton(
                     selected = isSelected,
-                    onClick = { onAddressSelected(address.addressId) }
+                    onClick = { onAddressSelected() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
@@ -86,6 +86,7 @@ fun AddressList(
     billingViewModel: BillingViewModel = hiltViewModel()
 ) {
     val addressData by billingViewModel.addressData.collectAsState()
+    var selectedAddressIndex by remember { mutableStateOf(-1) }
 
     when (addressData) {
         is UiState.Loading -> {
@@ -106,11 +107,11 @@ fun AddressList(
             val addressList = (addressData as UiState.Success<List<DeliveryAddress>>).data
             if (addressList.isNotEmpty()) {
                 Column {
-                    addressList.forEach { address ->
+                    addressList.forEachIndexed { index,address ->
                         AddressItem(
                             address = address,
-                            isSelected = false, // Handle selection state as per your requirement
-                            onAddressSelected = { /* Handle address selection */ }
+                            isSelected = index == selectedAddressIndex,
+                            onAddressSelected = { selectedAddressIndex = index }
                         )
                     }
                 }
@@ -119,49 +120,5 @@ fun AddressList(
         else -> {
             billingViewModel.getAllAddress()
         }
-    }
-}
-
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    Column {
-        val addresses = listOf(
-            DeliveryAddress(
-                addressId = 1,
-                name = "Kumar Sambhav",
-                phoneNumber = "6207549371",
-                city = "Madhubani",
-                state = "Bihar",
-                pincode = "847234",
-                locality = "Pandaul",
-                address = "Pandaul",
-                country = "India"
-            ),
-            DeliveryAddress(
-                addressId = 2,
-                name = "Kumar Sambhav",
-                phoneNumber = "6207549371",
-                city = "Madhubani",
-                state = "Bihar",
-                pincode = "847234",
-                locality = "Pandaul",
-                address = "Pandaul",
-                country = "India"
-            ),
-            DeliveryAddress(
-                addressId = 3,
-                name = "Kumar Sambhav",
-                phoneNumber = "6207549371",
-                city = "Madhubani",
-                state = "Bihar",
-                pincode = "847234",
-                locality = "Pandaul",
-                address = "Pandaul",
-                country = "India"
-            )
-        )
-        AddressList()
     }
 }
