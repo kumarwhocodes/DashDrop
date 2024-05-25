@@ -44,23 +44,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dashdrop.presentation.viewmodels.BillingUIEvent
+import com.dashdrop.ui.theme.rubikBoldStyle
+import com.dashdrop.ui.theme.rubikRegularStyle
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
 @Composable
 fun HeadingText(
     modifier: Modifier,
     value: String,
     size: TextUnit,
-    weight: FontWeight,
     color: Color,
     style: TextStyle = TextStyle.Default,
     textAlign: TextAlign = TextAlign.Center,
-    lineHeight: TextUnit = TextUnit.Unspecified
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    font: FontFamily
 ) {
     Text(
         text = value,
         fontSize = size,
-        fontWeight = weight,
+        fontFamily = font,
         color = color,
         textAlign=textAlign,
         style = style,
@@ -74,8 +76,8 @@ fun TextField_Text(modifier: Modifier, labelValue: String) {
     Text(
         text = labelValue,
         fontSize = 16.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Black
+        color = Color.Black,
+        fontFamily = rubikSemiBoldStyle
     )
 }
 
@@ -118,9 +120,9 @@ fun AddressInputField(
     Column(modifier = modifier) {
         Text(
             text = label,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
+            fontSize = 16.sp,
+            color = Color.Black,
+            fontFamily = rubikSemiBoldStyle
         )
         Spacer(modifier = Modifier.height(5.dp))
         OutlinedTextField(
@@ -277,8 +279,8 @@ private fun Preview() {
             modifier = Modifier,
             value = "Heading Text",
             size = 32.sp,
-            weight = FontWeight.Bold,
-            color = Color.Black
+            color = Color.Black,
+            font = rubikBoldStyle
         )
         TextField_Text(modifier = Modifier, labelValue = "Your Name")
         CustomInputField(onTextSelected = {}, errorStatus = true)

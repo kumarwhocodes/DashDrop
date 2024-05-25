@@ -64,14 +64,15 @@ fun Navigation(navController: NavHostController) {
             )
         }
         composable(
-            route = "details/{item_name}/{item_price}/{item_detail}/{item_star}"
+            route = "details/{item_name}/{item_price}/{item_detail}/{item_star}/{item_category}"
         ) {
             DetailsScreen(
                 navController = navController,
                 item_name = it.arguments?.getString("item_name"),
                 item_price = it.arguments?.getString("item_price"),
                 item_detail = it.arguments?.getString("item_detail"),
-                item_star = it.arguments?.getString("item_star")
+                item_star = it.arguments?.getString("item_star"),
+                itemCategory = it.arguments?.getString("item_category")
             )
         }
         composable(route = "favourite") {

@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dashdrop.ui.theme.PrimaryColor
 import com.dashdrop.ui.theme.bg
 
 @Composable
@@ -45,7 +46,7 @@ fun ProfileScreenItem(
             modifier=modifier,
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(),
-            border = BorderStroke(2.dp, bg)
+            border = BorderStroke(2.dp, PrimaryColor)
         ) {
             Surface(
             ) {

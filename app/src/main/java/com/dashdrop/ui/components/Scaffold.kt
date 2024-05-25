@@ -35,10 +35,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.dashdrop.fireStore.addOrder
 import com.dashdrop.navigation.Screen
-
+import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.TertiaryColor
 import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.rubikRegularStyle
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
+import com.dashdrop.ui.theme.scaffoldIconBackgroundColor
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,9 +50,10 @@ fun ScaffoldTop(
     toolbarTitle: String,
     logOutButtonClicked: () -> Unit,
     navigationIconClicked: () -> Unit,
-    containerColor: Color = bg,
+    containerColor: Color = PrimaryColor,
     contentColor: Color = Color.White,
-    iconColor: Color = Color.White
+    iconColor: Color = Color.White,
+    iconBackgroundColor: Color = scaffoldIconBackgroundColor
 ) {
 
     TopAppBar(
@@ -61,13 +66,21 @@ fun ScaffoldTop(
                 modifier = Modifier.fillMaxWidth(),
                 text = toolbarTitle,
                 color = contentColor,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontFamily = rubikSemiBoldStyle
             )
         },
         navigationIcon = {
             IconButton(onClick = {
                 navigationIconClicked.invoke()
-            }) {
+            },
+                colors = IconButtonColors(
+                    contentColor = iconColor,
+                    containerColor = iconBackgroundColor,
+                    disabledContentColor = iconColor,
+                    disabledContainerColor = iconBackgroundColor
+                )
+            ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIosNew,
                     contentDescription = "Menu",
@@ -78,7 +91,14 @@ fun ScaffoldTop(
         actions = {
             IconButton(onClick = {
                 logOutButtonClicked.invoke()
-            }) {
+            },
+                colors = IconButtonColors(
+                    contentColor = iconColor,
+                    containerColor = iconBackgroundColor,
+                    disabledContentColor = iconColor,
+                    disabledContainerColor = iconBackgroundColor
+                )
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Logout,
                     contentDescription = "LogOut",
@@ -93,7 +113,7 @@ fun ScaffoldTop(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavBar(
-    navController: NavController
+    navController: NavController,
 ) {
 
     NavigationBar(
@@ -135,8 +155,7 @@ fun BottomNavBar(
             IconButton(
                 onClick = {
                     navController.navigate(Screen.CartScreen.route)
-//                    Log.d("size", cartListID.size.toString())
-                          },
+                    },
                 colors = IconButtonColors(
                     contentColor = Color.Black,
                     containerColor = Color.White,
@@ -185,18 +204,18 @@ fun AddToCartBottomBar(
                 modifier = Modifier,
                 value = "Total Price",
                 size = 16.sp,
-                weight = FontWeight.Normal,
-                color = Color.Black.copy(0.5f)
+                color = Color.Black.copy(0.5f),
+                font = rubikRegularStyle
             )
             Row(
                 modifier = Modifier
                     .padding(bottom = 2.dp)
             ) {
                 Text(
-                    text = price, color = bg, fontSize = 24.sp
+                    text = price, color = PrimaryColor, fontSize = 24.sp
                 )
                 Text(
-                    text = "/KG", fontSize = 24.sp
+                    text = "/KG", fontSize = 24.sp, color = TertiaryColor
                 )
             }
 
@@ -240,8 +259,8 @@ fun CheckoutBottomBar(
                 modifier = Modifier,
                 value = "Total Price",
                 size = 16.sp,
-                weight = FontWeight.Normal,
-                color = Color.Black.copy(0.5f)
+                color = Color.Black.copy(0.5f),
+                font = rubikRegularStyle
             )
             Row(
                 modifier = Modifier

@@ -1,6 +1,7 @@
 package com.dashdrop.presentation.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,11 +45,10 @@ import com.dashdrop.ui.components.DividerTextComponent
 import com.dashdrop.ui.components.HeadingText
 import com.dashdrop.ui.components.LoginButton
 import com.dashdrop.ui.components.PasswordTextField
-import com.dashdrop.ui.components.SmallCircularImageButton
 import com.dashdrop.ui.components.TextField_Text
 import com.dashdrop.ui.theme.bg
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.dashdrop.ui.theme.rubikBoldStyle
+import com.dashdrop.ui.theme.rubikRegularStyle
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -80,10 +80,15 @@ fun SignUpScreen(
         contentAlignment = Alignment.Center
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(R.drawable.background),
+                contentDescription = "background",
+                modifier = Modifier.fillMaxSize(),
+                alignment = Alignment.Center
+            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = bg)
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             )
@@ -94,19 +99,19 @@ fun SignUpScreen(
                 ) {
                     Spacer(modifier = Modifier.height(35.dp))
                     HeadingText(
+                        modifier = Modifier,
                         value = stringResource(id = R.string.Sign_Up),
                         size = 30.sp,
-                        weight = FontWeight.ExtraBold,
                         color = Color.White,
-                        modifier = Modifier
+                        font = rubikBoldStyle
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     HeadingText(
+                        modifier = Modifier,
                         value = stringResource(id = R.string.Sign_Up_Info),
                         size = 16.sp,
-                        weight = FontWeight.Normal,
                         color = Color.White,
-                        modifier = Modifier
+                        font = rubikRegularStyle
                     )
                     Spacer(modifier = Modifier.height(50.dp))
                 }

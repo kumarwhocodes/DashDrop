@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
 import com.dashdrop.ui.theme.DashDropTheme
+import com.dashdrop.ui.theme.PrimaryColor
 import com.dashdrop.ui.theme.bg
 
 @Preview
@@ -89,9 +90,9 @@ fun PrimaryButton(
     enabled: Boolean = true,
     shapes: RoundedCornerShape = RoundedCornerShape(percent = 25),
     color: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = bg,
+        containerColor = PrimaryColor,
         contentColor = Color.White,
-        disabledContainerColor = bg.copy(alpha = 0.4f),
+        disabledContainerColor = PrimaryColor.copy(alpha = 0.4f),
         disabledContentColor = Color.White.copy(alpha = 0.8f)
     ),
     contentPadding: PaddingValues = PaddingValues(25.dp, 0.dp),
@@ -143,13 +144,14 @@ fun FAB(
     shape: RoundedCornerShape = RoundedCornerShape(percent = 100),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     contentDescription: String ="",
-    icon: Painter
+    icon: Painter,
+    containerColor: Color = PrimaryColor,
 ) {
     FloatingActionButton(
         onClick = onClick,
         modifier = modifier.size(20.dp),
         shape = shape,
-        containerColor = bg,
+        containerColor = containerColor,
         contentColor = MaterialTheme.colorScheme.onPrimary,
         elevation = elevation
     ) {

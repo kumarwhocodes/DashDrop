@@ -1,6 +1,7 @@
 package com.dashdrop.presentation.screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.BottomNavBar
 import com.dashdrop.ui.components.ProfileScreenItem
 import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.ui.theme.backgroundColor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -93,6 +95,7 @@ fun ProfileScreen(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
+                .background(backgroundColor)
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
@@ -140,7 +143,6 @@ fun ProfileScreen(
 private fun Preview() {
     ProfileScreen(
         navController = rememberNavController()
-
     )
 
 }

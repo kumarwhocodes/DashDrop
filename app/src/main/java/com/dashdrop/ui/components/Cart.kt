@@ -17,15 +17,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -35,29 +38,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Cart
 import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.CartViewModel
+import com.dashdrop.ui.theme.SecondaryColor
 import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.cardBackgroundColor
+import com.dashdrop.ui.theme.cardIconBackgroundColor
+import com.dashdrop.ui.theme.rubikBoldStyle
+import com.dashdrop.ui.theme.rubikRegularStyle
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
+import com.dashdrop.ui.theme.subtractBackgroundColor
 
 @Composable
-fun CartItem(item: Cart,navController: NavController,
+fun CartItem(item: Cart,
              cartViewModel: CartViewModel = viewModel()
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(125.dp)
-            .padding(5.dp)
+            .padding(12.dp)
             .clip(shape = RoundedCornerShape(20.dp))
+            .background(SecondaryColor)
     ) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(125.dp)
-                .background(color = bg.copy(0.5f))
+                .background(cardBackgroundColor)
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -69,7 +81,7 @@ fun CartItem(item: Cart,navController: NavController,
                         modifier = Modifier
                             .padding(5.dp)
                             .clip(shape = RoundedCornerShape(20.dp))
-                            .background(color = bg.copy(0.25f))
+                            .background(cardIconBackgroundColor)
                             .fillMaxHeight()
                             .width(100.dp)
                     ) {
@@ -88,27 +100,22 @@ fun CartItem(item: Cart,navController: NavController,
                     ) {
                         Text(
                             text = item.item_name,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 24.sp,
+                            fontFamily = rubikBoldStyle,
+                            fontSize = 18.sp,
                             color = Color.Black
                         )
-
-                        Text(
-                            text = item.item_category,
-                            fontSize = 16.sp
-                        )
-
                         Row {
                             Text(
                                 text = "₹${item.item_price}",
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 24.sp,
+                                fontFamily = rubikRegularStyle,
+                                fontSize = 18.sp,
                                 color = bg
                             )
 
                             Text(
                                 text = "/KG",
-                                fontSize = 16.sp
+                                fontSize = 18.sp,
+                                fontFamily = rubikRegularStyle,
                             )
                         }
                     }
@@ -127,14 +134,18 @@ fun CartItem(item: Cart,navController: NavController,
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
                             .clickable {
-                                cartViewModel.updateCartQuantity(itemId = item.item_id, operation = false)
+                                cartViewModel.updateCartQuantity(
+                                    itemId = item.item_id,
+                                    operation = false
+                                )
 
                             }
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.minus),
                             contentDescription = "minus",
-                            colorFilter = ColorFilter.tint(Color.Black.copy(0.5f))
+                            colorFilter = ColorFilter.tint(SecondaryColor),
+                            modifier = Modifier.background(color = subtractBackgroundColor)
                         )
                     }
                     Text(
@@ -149,7 +160,10 @@ fun CartItem(item: Cart,navController: NavController,
                             .background(color = Color.Black.copy(0.15f))
                             .size(25.dp)
                             .clickable {
-                                cartViewModel.updateCartQuantity(itemId = item.item_id, operation = true)
+                                cartViewModel.updateCartQuantity(
+                                    itemId = item.item_id,
+                                    operation = true
+                                )
                             }
                     ) {
                         Image(
@@ -163,10 +177,6 @@ fun CartItem(item: Cart,navController: NavController,
             }
         }
     }
-    HorizontalDivider(
-        color = bg,
-        thickness = 2.dp
-    )
 }
 
 @Composable
@@ -194,7 +204,7 @@ fun PromoCode() {
                         .padding(bottom = 8.dp),
                     value = "", onValueChange = {},
                     label = {
-                        Text(text = "Enter Promo Code")
+                        Text(text = "Enter Promo Code", fontFamily = rubikRegularStyle)
                     },
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Color.Transparent,
@@ -246,12 +256,13 @@ fun PricingCard(subTotal: Double, total: Double) {
                         Text(
                             text = "Sub Total",
                             fontSize = 16.sp,
-                            color = Color.Black.copy(0.65f)
+                            color = Color.Black.copy(0.65f),
+                            fontFamily = rubikRegularStyle
                         )
                         Text(
                             text = "₹$subTotal",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontFamily = rubikSemiBoldStyle
                         )
                     }
                     Row(
@@ -261,12 +272,13 @@ fun PricingCard(subTotal: Double, total: Double) {
                         Text(
                             text = "Delivery Charges",
                             fontSize = 16.sp,
-                            color = Color.Black.copy(0.65f)
+                            color = Color.Black.copy(0.65f),
+                            fontFamily = rubikRegularStyle
                         )
                         Text(
                             text = "₹25.00",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontFamily = rubikSemiBoldStyle
                         )
                     }
                     Row(
@@ -276,12 +288,13 @@ fun PricingCard(subTotal: Double, total: Double) {
                         Text(
                             text = "Discount",
                             fontSize = 16.sp,
-                            color = Color.Black.copy(0.65f)
+                            color = Color.Black.copy(0.65f),
+                            fontFamily = rubikRegularStyle
                         )
                         Text(
                             text = "0.0",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontFamily = rubikSemiBoldStyle
                         )
                     }
                     HorizontalDivider()
@@ -292,12 +305,13 @@ fun PricingCard(subTotal: Double, total: Double) {
                         Text(
                             text = "Final Total",
                             fontSize = 16.sp,
-                            color = Color.Black.copy(0.65f)
+                            color = Color.Black.copy(0.65f),
+                            fontFamily = rubikRegularStyle
                         )
                         Text(
                             text = total.toString(),
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontFamily = rubikSemiBoldStyle
                         )
                     }
 
@@ -308,29 +322,11 @@ fun PricingCard(subTotal: Double, total: Double) {
 
 }
 
-//@Preview(showSystemUi = true)
-//@Composable
-//private fun Preview() {
-//    Column {
-//        CartItem(
-//            item = Cart(
-//                item_id = "111",
-//                item_category = "Fruits",
-//                item_name = "Orange",
-//                item_price = "15",
-//                item_quantity = 5
-//            )
-//        )
-//        CartItem(
-//            item = Cart(
-//                item_id = "111",
-//                item_category = "Fruits",
-//                item_name = "Orange",
-//                item_price = "15",
-//                item_quantity = 5
-//            )
-//        )
-//        Spacer(modifier = Modifier.height(50.dp))
-//        PricingCard(5.0, 30.0)
-//    }
-//}
+@Preview(showSystemUi = true)
+@Composable
+private fun Preview() {
+    Column {
+        Spacer(modifier = Modifier.height(50.dp))
+        PricingCard(5.0, 30.0)
+    }
+}

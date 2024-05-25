@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +30,7 @@ import androidx.navigation.NavController
 import com.dashdrop.data.model.Cart
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.CartViewModel
+import com.dashdrop.ui.theme.backgroundColor
 
 @Composable
 fun CartList(
@@ -89,16 +91,20 @@ fun CartList(
                 }
             }
         ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
-            ) {
-                items(cartList) { item ->
-                    CartItem(item = item, navController)
-                }
-                item {
-                    PricingCard(subTotal = subtotal, total = total)
+            Surface(
+                color = backgroundColor
+            ){
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                ) {
+                    items(cartList) { item ->
+                        CartItem(item = item)
+                    }
+                    item {
+                        PricingCard(subTotal = subtotal, total = total)
+                    }
                 }
             }
         }

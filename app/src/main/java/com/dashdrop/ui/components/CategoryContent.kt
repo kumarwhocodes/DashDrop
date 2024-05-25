@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -35,13 +36,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.dashdrop.R
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.fireStore.changeFav
 import com.dashdrop.presentation.viewmodels.HomeViewModel
+import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.TertiaryColor
+import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.cardBackgroundColor
+import com.dashdrop.ui.theme.cardIconBackgroundColor
+import com.dashdrop.ui.theme.favBackgroundColor
+import com.dashdrop.ui.theme.favIconBackgroundColor
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
 @Composable
 fun ItemList(
@@ -76,91 +86,104 @@ fun ItemList(
     }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 2)
+        columns = GridCells.Fixed(count = 2),
+        modifier = Modifier.background(Color.Transparent)
     ) {
-        items(itemList) {
+        items(itemList) { item ->
             Surface(
+                color = cardBackgroundColor,
                 shape = RoundedCornerShape(7.dp),
                 modifier = Modifier
+                    .size(191.dp,219.dp)
                     .padding(2.dp)
                     .clickable(onClick = {
                         navController.navigate(
-                            "details/${it.item_name}/${it.item_price}/${it.item_detail}/${it.item_star}"
+                            "details/${item.item_name}/${item.item_price}/${item.item_detail}/${item.item_star}/${item.item_category}"
                         )
                     })
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(7.dp)
+                Box{
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(5.dp)
                     ) {
-                        Box() {
-                            Image(
-                                modifier = Modifier
-                                    .size(180.dp)
-                                    .background(bg)
-                                    .padding(3.dp),
-                                painter = painterResource(id = R.drawable.veggiess),
-                                contentDescription = null
-                            )
-                            IconButton(
-                                onClick = {
-                                    changeFav(it.item_id)
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
+                        Surface(
+                            shape = RoundedCornerShape(7.dp)
+                        ) {
+                            Box {
+                                Image(
+                                    modifier = Modifier
+                                        .size(183.dp,129.dp)
+                                        .background(cardIconBackgroundColor)
+                                        .padding(3.dp),
+                                    painter = painterResource(id = R.drawable.strawberries),
                                     contentDescription = null
                                 )
+                                IconButton(
+                                    onClick = {
+                                        changeFav(item.item_id)
+                                    },
+                                    modifier = Modifier.align(Alignment.TopEnd),
+                                    colors = androidx.compose.material3.IconButtonDefaults.iconButtonColors(
+                                        containerColor = favBackgroundColor
+                                    )
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.FavoriteBorder,
+                                        contentDescription = null,
+                                        tint = favIconBackgroundColor
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(
+                            verticalAlignment = Alignment.Bottom,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column {
+                                Text(
+                                    text = item.item_name,
+                                    color = Color.Black,
+                                    fontFamily = rubikSemiBoldStyle,
+                                    fontSize = 22.sp
+                                )
+                                Spacer(modifier = Modifier.height(3.dp))
+                                Row {
+                                    Text(
+                                        text = "₹", fontSize = 18.sp , color = PrimaryColor
+                                    )
+                                    Text(
+                                        text = item.item_price, color = PrimaryColor, fontSize = 18.sp
+                                    )
+                                    Text(
+                                        text = "/KG", fontSize = 18.sp, color = TertiaryColor
+                                    )
+                                }
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Absolute.SpaceAround
+                    FloatingActionButton(
+                        onClick = {
+                            addCartinFireBase(item.item_id, true)
+                        },
+                        shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .size(33.dp),
+                        containerColor = PrimaryColor,
+                        contentColor = Color.White
                     ) {
-                        Column {
-                            Text(
-                                text = it.item_name,
-                                color = Color.Black,
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight(550)
-                            )
-                            Spacer(modifier = Modifier.height(3.dp))
-                            //TODO: Star wala lana se app crash ho ja raha hai, error "AnimatedContentKt$AnimatedContent"
-//                                    StarsRow(starCount = it.item_star.toInt(),22.dp)
-                            Spacer(modifier = Modifier.height(3.dp))
-                            Row {
-                                Text(
-                                    text = "₹", fontSize = 24.sp
-                                )
-                                Text(
-                                    text = it.item_price, color = Color.Green, fontSize = 18.sp
-                                )
-                                Text(
-                                    text = "/KG", fontSize = 18.sp
-                                )
-                            }
-
-                        }
-                        FAB(
-                            onClick = {
-                                addCartinFireBase(it.item_id,true)
-                            },
-                            modifier = Modifier
-                                .padding(30.dp, 0.dp, 0.dp, 5.dp)
-                                .size(33.dp),
-                            icon = painterResource(id = R.drawable.add)
+                        Icon(
+                            painter = painterResource(id = R.drawable.add),
+                            contentDescription = "Add to cart"
                         )
                     }
-
                 }
             }
         }
     }
+
 
 
 }

@@ -35,46 +35,27 @@ val Typography = Typography(
     )
     */
 )
-
-val rubikFontFamily = FontFamily(
-    Font(R.font.rubik_black,FontWeight.Black),
-    Font(R.font.rubik_bold,FontWeight.Bold),
-    Font(R.font.rubik_extrabold,FontWeight.ExtraBold),
-    Font(R.font.rubik_italic,FontWeight.Normal,FontStyle.Italic),
-    Font(R.font.rubik_light,FontWeight.Light),
-    Font(R.font.rubik_medium,FontWeight.Medium),
-    Font(R.font.rubik_regular,FontWeight.Normal),
+val rubikBlackStyle = FontFamily(
+    Font(R.font.rubik_black,FontWeight.Black)
+)
+val rubikBoldStyle = FontFamily(
+    Font(R.font.rubik_bold,FontWeight.Bold)
+)
+val rubikExtraBoldStyle = FontFamily(
+    Font(R.font.rubik_extrabold,FontWeight.ExtraBold)
+)
+val rubikItalicStyle = FontFamily(
+    Font(R.font.rubik_italic,FontWeight.Normal,FontStyle.Italic)
+)
+val rubikLightStyle = FontFamily(
+    Font(R.font.rubik_light,FontWeight.Light)
+)
+val rubikMediumStyle = FontFamily(
+    Font(R.font.rubik_medium,FontWeight.Medium)
+)
+val rubikRegularStyle = FontFamily(
+    Font(R.font.rubik_regular,FontWeight.Normal)
+)
+val rubikSemiBoldStyle = FontFamily(
     Font(R.font.rubik_semibold,FontWeight.SemiBold)
-)
-val rubikBlackStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.Black
-)
-val rubikBoldStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.Bold
-)
-val rubikExtraBoldStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.ExtraBold
-)
-val rubikItalicStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontStyle = FontStyle.Italic
-)
-val rubikLightStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.Light
-)
-val rubikMediumStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.Medium
-)
-val rubikRegularStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.Normal
-)
-val rubikSemiBoldStyle = TextStyle(
-    fontFamily = rubikFontFamily,
-    fontWeight = FontWeight.SemiBold
 )

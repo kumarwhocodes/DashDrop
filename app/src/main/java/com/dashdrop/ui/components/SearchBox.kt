@@ -64,7 +64,7 @@ fun SearchBox(
                 singleLine = true,
                 label = {
                         Text(text = "Search your products",
-                            style = rubikRegularStyle,
+                            fontFamily = rubikRegularStyle,
                             fontSize = 16.sp)
                 },
                 colors = TextFieldDefaults.outlinedTextFieldColors(

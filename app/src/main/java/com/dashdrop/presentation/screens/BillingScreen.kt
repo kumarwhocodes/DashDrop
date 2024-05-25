@@ -30,6 +30,7 @@ import com.dashdrop.ui.components.PaymentList
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.SecondaryButton
 import com.dashdrop.ui.theme.newBg
+import com.dashdrop.ui.theme.rubikBoldStyle
 
 @Composable
 fun BillingScreen(navController: NavController, total: String?) {
@@ -66,8 +67,8 @@ fun BillingScreen(navController: NavController, total: String?) {
                         modifier = Modifier,
                         value = "Address",
                         size = 20.sp,
-                        weight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.Black,
+                        font = rubikBoldStyle
                     )
                     SecondaryButton(onClick = {
                         navController.navigate("address/$total")
@@ -76,8 +77,8 @@ fun BillingScreen(navController: NavController, total: String?) {
                             modifier = Modifier,
                             value = "Add New",
                             size = 20.sp,
-                            weight = FontWeight.Bold,
-                            color = newBg
+                            color = newBg,
+                            font = rubikBoldStyle
                         )
                     }
 
@@ -91,8 +92,8 @@ fun BillingScreen(navController: NavController, total: String?) {
                     modifier = Modifier,
                     value = "Payment Methods",
                     size = 20.sp,
-                    weight = FontWeight.Bold,
-                    color = Color.Black
+                    color = Color.Black,
+                    font = rubikBoldStyle
                 )
                 val modes = listOf(
                     Payment(1, "Cash"),

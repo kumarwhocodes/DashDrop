@@ -24,17 +24,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
 import com.dashdrop.data.model.Favourite
+import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.TertiaryColor
 import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.cardBackgroundColor
+import com.dashdrop.ui.theme.cardIconBackgroundColor
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
 @Composable
 fun FavouriteItem(item: Favourite) {
     Surface(
+        color = cardBackgroundColor,
         shape = RoundedCornerShape(7.dp),
         modifier = Modifier.padding(2.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier.padding(5.dp)
         ) {
             Surface(
                 shape = RoundedCornerShape(7.dp)
@@ -42,8 +48,8 @@ fun FavouriteItem(item: Favourite) {
                 Box {
                     Image(
                         modifier = Modifier
-                            .size(200.dp)
-                            .background(bg)
+                            .size(183.dp,129.dp)
+                            .background(cardIconBackgroundColor)
                             .padding(3.dp),
                         painter = painterResource(id = R.drawable.veggiess),
                         contentDescription = null
@@ -59,19 +65,21 @@ fun FavouriteItem(item: Favourite) {
                     Text(
                         text = item.item_name,
                         color = Color.Black,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight(550)
+                        fontFamily = rubikSemiBoldStyle,
+                        fontSize = 22.sp
                     )
+//                    Spacer(modifier = Modifier.height(3.dp))
+//                    StarsRow(starCount = item.item_star.toInt(), 25.dp)
                     Spacer(modifier = Modifier.height(3.dp))
                     Row {
                         Text(
-                            text = "₹", fontSize = 24.sp
+                            text = "₹", fontSize = 18.sp , color = PrimaryColor
                         )
                         Text(
-                            text = item.item_price, color = Color.Green, fontSize = 18.sp
+                            text = item.item_price, color = PrimaryColor, fontSize = 18.sp
                         )
                         Text(
-                            text = "/KG", fontSize = 18.sp
+                            text = "/KG", fontSize = 18.sp, color = TertiaryColor
                         )
                     }
                 }
