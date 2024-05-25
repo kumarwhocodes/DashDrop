@@ -19,20 +19,21 @@ import com.dashdrop.presentation.screens.HomeScreen
 import com.dashdrop.presentation.screens.ProfileScreen
 import com.dashdrop.presentation.screens.SignInScreen
 import com.dashdrop.presentation.screens.SignUpScreen
+import com.dashdrop.presentation.screens.SplashScreen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 
 @Composable
 fun Navigation(navController: NavHostController) {
     val signInViewModel: SignInViewModel = viewModel()
-    var initialScreen: String = "signin"
+    var initialScreen: String = "splash"
     signInViewModel.checkForActiveSession()
 
-    if (signInViewModel.isUserLoggedIn.value == true) {
-        initialScreen = "home"
-    }
 
     val activity = (LocalContext.current as? Activity)
     NavHost(navController = navController, startDestination = initialScreen) {
+        composable(route = "splash") {
+            SplashScreen(navController)
+        }
         composable(route = "signin") {
             SignInScreen(navController = navController)
         }

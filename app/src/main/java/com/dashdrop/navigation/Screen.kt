@@ -1,6 +1,7 @@
 package com.dashdrop.navigation
 
 sealed class Screen(val route: String) {
+    object SplashScreen : Screen(route = "splash")
     object SignInScreen : Screen(route = "signin")
     object SignUpScreen : Screen(route = "signup")
     object HomeScreen : Screen(route = "home")
