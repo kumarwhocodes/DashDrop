@@ -100,7 +100,7 @@ fun CartList(
                         .padding(it)
                 ) {
                     items(cartList) { item ->
-                        CartItem(item = item)
+                        CartItem(item = item, navController = navController)
                     }
                     item {
                         PricingCard(subTotal = subtotal, total = total)

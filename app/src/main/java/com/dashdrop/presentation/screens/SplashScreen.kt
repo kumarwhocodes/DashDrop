@@ -72,11 +72,11 @@ fun SplashScreen(navController: NavController) {
         modifier = Modifier
             .padding(16.dp, vertical = 225.dp),
             color = Color.White,
-//            shape = CircleShape,
-//            border = BorderStroke(
-//            width = 2.dp,
-//            color = Color.Black
-//        )
+            shape = CircleShape,
+            border = BorderStroke(
+            width = 2.dp,
+            color = Color.Black
+        )
     ) {
         Column(
             modifier = Modifier

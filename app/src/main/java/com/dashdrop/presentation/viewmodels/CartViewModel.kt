@@ -3,11 +3,14 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.Cart
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.repo.GetCartFireRepo
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.fireStore.addCartinFireBase
+import com.dashdrop.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +39,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun updateCartQuantity(itemId: String, operation: Boolean){
+    fun updateCartQuantity(itemId: String, operation: Boolean,navController : NavController){
         val currentState = _cartData.value
         if (currentState is UiState.Success) {
             val (currentCart, total) = currentState.data
@@ -62,6 +65,7 @@ class CartViewModel @Inject constructor(
                 Log.d("CartViewModel", "updateCartQuantity: ${e.message}")
             }
         }
+        navController.navigate(Screen.CartScreen.route)
     }
 
 }

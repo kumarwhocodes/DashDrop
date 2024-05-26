@@ -25,9 +25,7 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 @Composable
 fun Navigation(navController: NavHostController) {
     val signInViewModel: SignInViewModel = viewModel()
-    var initialScreen: String = "splash"
-    signInViewModel.checkForActiveSession()
-
+    val initialScreen = "splash"
 
     val activity = (LocalContext.current as? Activity)
     NavHost(navController = navController, startDestination = initialScreen) {
