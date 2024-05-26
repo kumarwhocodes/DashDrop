@@ -55,7 +55,8 @@ import com.dashdrop.ui.theme.subtractBackgroundColor
 
 @Composable
 fun CartItem(item: Cart,
-             cartViewModel: CartViewModel = viewModel()
+             cartViewModel: CartViewModel = viewModel(),
+             navController: NavController
 ) {
     Card(
         modifier = Modifier
@@ -136,7 +137,8 @@ fun CartItem(item: Cart,
                             .clickable {
                                 cartViewModel.updateCartQuantity(
                                     itemId = item.item_id,
-                                    operation = false
+                                    operation = false,
+                                    navController = navController
                                 )
 
                             }
@@ -162,7 +164,8 @@ fun CartItem(item: Cart,
                             .clickable {
                                 cartViewModel.updateCartQuantity(
                                     itemId = item.item_id,
-                                    operation = true
+                                    operation = true,
+                                    navController = navController
                                 )
                             }
                     ) {

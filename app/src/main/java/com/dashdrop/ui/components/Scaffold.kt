@@ -2,6 +2,7 @@ package com.dashdrop.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,22 +13,31 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -109,80 +119,106 @@ fun ScaffoldTop(
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavBar(
     navController: NavController,
 ) {
+    val currentRoute = navController.currentBackStackEntry?.destination?.route
 
     NavigationBar(
-        modifier = Modifier,
-        containerColor = Color.White
+        modifier = Modifier
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            IconButton(
-                onClick = { navController.navigate(Screen.HomeScreen.route) },
-                colors = IconButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Home,
-                    contentDescription = "Home"
-                )
-            }
-            IconButton(
-                onClick = { navController.navigate(Screen.FavouriteScreen.route) },
-                colors = IconButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Favourite"
-                )
-            }
-            IconButton(
-                onClick = {
-                    navController.navigate(Screen.CartScreen.route)
-                    },
-                colors = IconButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.ShoppingCart,
-                    contentDescription = "Cart"
-                )
-            }
-            IconButton(
-                onClick = { navController.navigate(Screen.ProfileScreen.route) },
-                colors = IconButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = Color.White,
-                    disabledContentColor = Color.Black,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Person,
-                    contentDescription = "Profile"
-                )
-            }
-        }
+
+        NavigationBarItem(
+            selected = currentRoute == Screen.HomeScreen.route,
+            onClick = { navController.navigate(Screen.HomeScreen.route)},
+            icon = { if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home},
+            label = { if (currentRoute == Screen.HomeScreen.route) Text("Home") else Text("")}
+        )
+
+        NavigationBarItem(
+            selected = currentRoute == Screen.FavouriteScreen.route,
+            onClick = { navController.navigate(Screen.FavouriteScreen.route) },
+            icon = { if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder},
+            label = { if (currentRoute == Screen.FavouriteScreen.route) Text("Favourite") else Text("")}
+        )
+
+        NavigationBarItem(
+            selected = currentRoute == Screen.CartScreen.route,
+            onClick = { navController.navigate(Screen.CartScreen.route) },
+            icon = { if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart},
+            label = { if (currentRoute == Screen.CartScreen.route) Text("Cart") else Text("")}
+        )
+
+        NavigationBarItem(
+            selected = currentRoute == Screen.ProfileScreen.route,
+            onClick = { navController.navigate(Screen.ProfileScreen.route) },
+            icon = { if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person},
+            label = { if (currentRoute == Screen.ProfileScreen.route) Text("Profile") else Text("")}
+        )
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.SpaceEvenly
+//        ) {
+//            IconButton(
+//                onClick = { navController.navigate(Screen.HomeScreen.route) },
+//                colors = IconButtonColors(
+//                    contentColor = PrimaryColor,
+//                    containerColor = Color.White,
+//                    disabledContentColor = Color.White,
+//                    disabledContainerColor = Color.White
+//                )
+//            ) {
+//                Icon(
+//                    imageVector = if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home,
+//                    contentDescription = "Home",
+//                )
+//            }
+//            IconButton(
+//                onClick = { navController.navigate(Screen.FavouriteScreen.route) },
+//                colors = IconButtonColors(
+//                    contentColor = PrimaryColor,
+//                    containerColor = Color.White,
+//                    disabledContentColor = Color.White,
+//                    disabledContainerColor = Color.White
+//                )
+//            ) {
+//                Icon(
+//                    imageVector = if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+//                    contentDescription = "Favourite"
+//                )
+//            }
+//            IconButton(
+//                onClick = {
+//                    navController.navigate(Screen.CartScreen.route)
+//                    },
+//                colors = IconButtonColors(
+//                    contentColor = PrimaryColor,
+//                    containerColor = Color.White,
+//                    disabledContentColor = Color.White,
+//                    disabledContainerColor = Color.White
+//                )
+//            ) {
+//                Icon(
+//                    imageVector = if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
+//                    contentDescription = "Cart"
+//                )
+//            }
+//            IconButton(
+//                onClick = { navController.navigate(Screen.ProfileScreen.route) },
+//                colors = IconButtonColors(
+//                    contentColor = PrimaryColor,
+//                    containerColor = Color.White,
+//                    disabledContentColor = Color.Black,
+//                    disabledContainerColor = Color.White
+//                )
+//            ) {
+//                Icon(
+//                    imageVector =  if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person,
+//                    contentDescription = "Profile"
+//                )
+//            }
+//        }
     }
 }
 
