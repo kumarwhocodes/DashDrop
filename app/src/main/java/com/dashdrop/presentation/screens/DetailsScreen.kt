@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -38,7 +39,13 @@ import com.dashdrop.ui.components.DetailsImage
 import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.HeadingText
 import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.ui.components.StarsRow
+import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.TertiaryColor
 import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.detailIconBackgroundColor
+import com.dashdrop.ui.theme.rubikBoldStyle
+import com.dashdrop.ui.theme.subtractBackgroundColor
 
 @Composable
 fun DetailsScreen(
@@ -48,7 +55,8 @@ fun DetailsScreen(
     item_name: String?,
     item_price: String?,
     item_detail: String?,
-    item_star: String?
+    item_star: String?,
+    itemCategory: String?
 ) {
 
     var quantity by remember {
@@ -62,11 +70,10 @@ fun DetailsScreen(
                     signInViewModel.logout(navController)
                 },
                 navigationIconClicked = {
-                    navController.popBackStack(Screen.CategoryScreen.route, inclusive = false)
+                    navController.popBackStack("category/${itemCategory}", inclusive = false)
                 },
-                containerColor = bg.copy(0.25f),
-                contentColor = Color.Black.copy(0.75f),
-                iconColor = bg
+                contentColor = Color.Gray,
+                containerColor = detailIconBackgroundColor
             )
         },
         bottomBar = {
@@ -89,7 +96,7 @@ fun DetailsScreen(
                     image = painterResource(R.drawable.veggiess),
                     imagedesc = "Veggies",
                     size = 280.dp,
-                    color = bg.copy(0.25f)
+                    color = detailIconBackgroundColor
                 )
                 Spacer(
                     modifier = Modifier.height(10.dp)
@@ -103,27 +110,27 @@ fun DetailsScreen(
                         modifier = Modifier,
                         value = item_name!!,
                         size = 32.sp,
-                        weight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.Black,
+                        font = rubikBoldStyle
                     )
-//                    Spacer(
-//                        modifier = Modifier.height(10.dp)
-//                    )
-//                    StarsRow(
-//                        starCount = itemDetailsList[0].item_star.toInt(), size = 24.dp
-//                    )
+                    Spacer(
+                        modifier = Modifier.height(1.dp)
+                    )
+                    StarsRow(
+                        starCount = item_star?.toInt(), size = 18.dp
+                    )
                     Spacer(
                         modifier = Modifier.height(10.dp)
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text = "₹", fontSize = 24.sp
+                            text = "₹", fontSize = 18.sp , color = PrimaryColor
                         )
                         Text(
-                            text = item_price!!, color = Color.Green, fontSize = 24.sp
+                            text = item_price!!, color = PrimaryColor, fontSize = 18.sp
                         )
                         Text(
-                            text = "/KG", fontSize = 24.sp
+                            text = "/KG", fontSize = 18.sp, color = TertiaryColor
                         )
                         Row(
                             modifier = Modifier
@@ -136,7 +143,8 @@ fun DetailsScreen(
                                 onClick = { quantity-- },
                                 icon = painterResource(id = R.drawable.minus),
                                 modifier = Modifier
-                                    .size(24.dp)
+                                    .size(24.dp),
+                                containerColor = subtractBackgroundColor
                             )
                             Spacer(
                                 modifier = Modifier
@@ -166,8 +174,8 @@ fun DetailsScreen(
                         modifier = Modifier,
                         value = "Product Details",
                         size = 24.sp,
-                        weight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.Black,
+                        font = rubikBoldStyle
                     )
 
                     Spacer(
@@ -184,10 +192,10 @@ fun DetailsScreen(
                             modifier = Modifier,
                             value = item_detail!!,
                             size = 16.sp,
-                            textAlign = TextAlign.Left,
-                            weight = FontWeight.Normal,
                             color = Color.Black.copy(0.5f),
-                            lineHeight = 20.sp
+                            textAlign = TextAlign.Left,
+                            lineHeight = 20.sp,
+                            font = rubikBoldStyle
                         )
                     }
 
@@ -207,9 +215,12 @@ fun DetailsScreen(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-//    DetailsScreen(
-//        navController = rememberNavController(),
-//        itemIndex = 0,
-//        path = "e"
-//    )
+    DetailsScreen(
+        navController = rememberNavController(),
+        item_name = "name",
+        item_price = "22",
+        item_detail = "detail",
+        item_star = "3",
+        itemCategory = "category"
+    )
 }

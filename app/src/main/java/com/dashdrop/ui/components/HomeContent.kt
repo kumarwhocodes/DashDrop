@@ -14,9 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -30,8 +28,8 @@ import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.fireStore.addAddress
 import com.dashdrop.presentation.viewmodels.HomeViewModel
+import com.dashdrop.ui.theme.rubikBoldStyle
 
 @Composable
 fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
@@ -81,11 +79,11 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
 
             item{
                 HeadingText(
+                    modifier = Modifier,
                     value = "Categories",
                     size = 24.sp,
-                    weight = FontWeight.Bold,
                     color = Color.Black,
-                    modifier = Modifier
+                    font = rubikBoldStyle
                 )
             }
 
@@ -113,7 +111,7 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
                 HeadingText(
                     value = "Popular",
                     size = 24.sp,
-                    weight = FontWeight.Bold,
+                    font = rubikBoldStyle,
                     color = Color.Black,
                     modifier = Modifier
                 )

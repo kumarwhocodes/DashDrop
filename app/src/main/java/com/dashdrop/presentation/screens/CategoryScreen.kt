@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,6 +42,7 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.FAB
 import com.dashdrop.ui.components.ItemList
 import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
 
 @Composable
@@ -65,8 +67,10 @@ fun CategoryScreen(
     ) { paddingValues ->
         Surface(
             modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundColor)
                 .padding(paddingValues)
-                .padding(8.dp)
+                .padding(8.dp),
         )
         {
             ItemList(navController = navController,path = item_category)

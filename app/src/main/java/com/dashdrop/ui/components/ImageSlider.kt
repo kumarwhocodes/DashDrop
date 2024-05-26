@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,16 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dashdrop.R
-import com.dashdrop.ui.theme.bg
+import com.dashdrop.ui.theme.PrimaryColor
 import kotlinx.coroutines.delay
 
 val images = listOf(
-    R.drawable.banner,
+    R.drawable.banner1,
     R.drawable.banner2,
     R.drawable.banner3
 )
@@ -53,7 +51,7 @@ fun ImageSliderItem(
 fun Indicator(
     active: Boolean
 ) {
-    val color = if (active) bg else Color.Black.copy(0.5f)
+    val color = if (active) PrimaryColor else Color.Black.copy(0.5f)
     val size = if (active) 10.dp else 10.dp
 
     Box(

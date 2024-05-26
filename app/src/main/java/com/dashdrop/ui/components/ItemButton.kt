@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +33,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
+import com.dashdrop.fireStore.addCartinFireBase
+import com.dashdrop.fireStore.changeFav
 import com.dashdrop.ui.theme.DashDropTheme
+import com.dashdrop.ui.theme.TertiaryColor
+import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
-import com.google.android.play.integrity.internal.o
+import com.dashdrop.ui.theme.cardBackgroundColor
+import com.dashdrop.ui.theme.cardIconBackgroundColor
+import com.dashdrop.ui.theme.favBackgroundColor
+import com.dashdrop.ui.theme.favIconBackgroundColor
+import com.dashdrop.ui.theme.rubikLightStyle
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
-@Preview
+@Preview()
 @Composable
 private fun ButtonsPreview() {
     Column {
@@ -57,6 +72,13 @@ private fun ButtonsPreview() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
+            CartButton(
+                value = "Veggies",
+                image = painterResource(id = R.drawable.veggiess),
+                imageDesc = "veggies",
+                price = "$2.99",
+                startCount = 2
+            )
         }
     }
 }
@@ -71,7 +93,7 @@ fun CategoryButton(
         modifier = Modifier
             .padding(2.dp)
             .clickable(onClick = onClick),
-        color = Color.White.copy(0.8f)
+        color = cardBackgroundColor
     ) {
         Column(
             modifier = Modifier.padding(5.dp),
@@ -84,7 +106,7 @@ fun CategoryButton(
                 Image(
                     modifier = Modifier
                         .size(60.dp)
-                        .background(bg.copy(0.5f))
+                        .background(cardIconBackgroundColor)
                         .padding(3.dp),
                     painter = painterResource(id = image),
                     contentDescription = imageDesc
@@ -112,61 +134,77 @@ fun ItemButton(
     icon :Painter
 ) {
     Surface(
+        color = cardBackgroundColor,
         shape = RoundedCornerShape(7.dp),
-        modifier = Modifier.padding(2.dp)
+        modifier = Modifier
+            .size(191.dp,219.dp)
+            .padding(2.dp)
+            .clickable(onClick = {
+
+            })
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
-        ) {
-            Surface(
-                shape = RoundedCornerShape(7.dp)
+        Box {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(5.dp)
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .background(bg)
-                        .padding(3.dp),
-                    painter = image,
-                    contentDescription = imageDesc
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Absolute.SpaceAround
-            ) {
-                Column {
-                    Text(
-                        text = value,
-                        color = Color.Black.copy(),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight(550)
-                    )
-                    Spacer(modifier = Modifier.height(3.dp))
-                    StarsRow(starCount = startCount,22.dp)
-                    Spacer(modifier = Modifier.height(3.dp))
-                    Row {
-                        Text(
-                            text = price, color = Color.Green, fontSize = 18.sp
-                        )
-                        Text(
-                            text = "/KG", fontSize = 18.sp
+                Surface(
+                    shape = RoundedCornerShape(7.dp)
+                ) {
+                    Box {
+                        Image(
+                            modifier = Modifier
+                                .size(183.dp, 129.dp)
+                                .background(cardIconBackgroundColor)
+                                .padding(3.dp),
+                            painter = painterResource(id = R.drawable.strawberries),
+                            contentDescription = null
                         )
                     }
-
                 }
-                FAB(
-                    onClick = {
-
-                    },
-                    modifier = Modifier
-                        .padding(30.dp, 0.dp, 0.dp, 5.dp)
-                        .size(33.dp),
-                    icon = icon
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        Text(
+                            text = value,
+                            color = Color.Black,
+                            fontFamily = rubikSemiBoldStyle,
+                            fontSize = 22.sp
+                        )
+                        Spacer(modifier = Modifier.height(3.dp))
+                        Row {
+                            Text(
+                                text = "₹", fontSize = 18.sp, color = PrimaryColor
+                            )
+                            Text(
+                                text = price, color = PrimaryColor, fontSize = 18.sp
+                            )
+                            Text(
+                                text = "/KG", fontSize = 18.sp, color = TertiaryColor
+                            )
+                        }
+                    }
+                }
+            }
+            FloatingActionButton(
+                onClick = {
+//                addCartinFireBase(item_id, true)
+                },
+                shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .size(33.dp),
+                containerColor = PrimaryColor,
+                contentColor = Color.White
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.add),
+                    contentDescription = "Add to cart"
                 )
             }
-
         }
     }
 }

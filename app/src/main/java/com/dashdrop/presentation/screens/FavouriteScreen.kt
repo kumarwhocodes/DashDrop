@@ -46,6 +46,7 @@ import com.dashdrop.ui.components.FavouriteList
 import com.dashdrop.ui.components.ItemButton
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.components.StarsRow
+import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
 
 @Composable
@@ -74,6 +75,7 @@ fun FavouriteScreen(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
+                .background(backgroundColor)
                 .padding(paddingValues)
                 .padding(10.dp)
         ) {
