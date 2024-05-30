@@ -13,6 +13,7 @@ import com.dashdrop.fireStore.addCartinFireBase
 import com.dashdrop.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +25,12 @@ class CartViewModel @Inject constructor(
 
     private val _cartData: MutableStateFlow<UiState<Pair<ArrayList<Cart>,Double>>> = MutableStateFlow(UiState.Idle)
     val cartData = _cartData.asStateFlow()
+
+    private val _subtotal: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    val subtotal: StateFlow<Double> = _subtotal.asStateFlow()
+
+    private val _total: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    val total: StateFlow<Double> = _subtotal.asStateFlow()
 
     fun getAllCart() {
         _cartData.value = UiState.Loading
@@ -39,7 +46,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun updateCartQuantity(itemId: String, operation: Boolean,navController : NavController){
+    fun updateCartQuantity(itemId: String, operation: Boolean,navController : NavController): Double {
         val currentState = _cartData.value
         if (currentState is UiState.Success) {
             val (currentCart, total) = currentState.data
@@ -51,7 +58,14 @@ class CartViewModel @Inject constructor(
                     item
                 }
             }
+            val newSubtotal = updatedCart.sumOf { it.item_price.toDouble() * it.item_quantity }
             _cartData.value = UiState.Success(Pair(ArrayList(updatedCart), total))
+            _subtotal.value = newSubtotal
+
+            val newTotal = newSubtotal + 25
+            _total.value = newTotal
+
+            return newSubtotal
         }
 
         // Remote update
@@ -65,7 +79,7 @@ class CartViewModel @Inject constructor(
                 Log.d("CartViewModel", "updateCartQuantity: ${e.message}")
             }
         }
-        navController.navigate(Screen.CartScreen.route)
+        return _subtotal.value
     }
 
 }
