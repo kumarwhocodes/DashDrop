@@ -37,14 +37,12 @@ fun CartList(
     navController: NavController,
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
-    val cartData = cartViewModel.cartData.collectAsState().value
-    var cartList by remember { mutableStateOf(emptyList<Cart>()) }
-    var subtotal by remember { mutableStateOf(0.0) }
-    var total by remember { mutableStateOf(0.0) }
 
-    when (cartData) {
+    val cartState by cartViewModel.cartData.collectAsState()
+
+    when (cartState) {
         is UiState.Error -> {
-            Log.d("CartList", "Error: ${cartData.message}")
+            Log.d("CartList", "Error: ${(cartState as UiState.Error).message}")
             Image(
                 imageVector = Icons.Filled.Error, contentDescription = null,
                 Modifier.size(100.dp)
@@ -65,48 +63,86 @@ fun CartList(
         }
 
         is UiState.Success -> {
-            cartList = cartData.data.first
-            subtotal = cartData.data.second
-            total = subtotal + 25.0
-            Log.d("CartList", "Cart items: $cartList")
+//            cartList = cartData.data.first
+//            subtotal = cartData.data.second
+//            total = subtotal + 25.0
+//            Log.d("CartList", "Cart items: $cartList")
+
+            val (cartList, subtotal) = (cartState as UiState.Success<Pair<ArrayList<Cart>, Double>>).data
+            val totalState by cartViewModel.total.collectAsState()
+
+            Scaffold(
+                bottomBar = {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        CheckoutBottomBar(
+                            price = totalState.toString(),
+                            buttonAction = {
+                                navController.navigate("billing/$totalState")
+                            },
+                            buttonText = "Checkout"
+                        )
+                    }
+                }
+            ) {
+                Surface(
+                    color = backgroundColor
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                    ) {
+                        items(cartList) { item ->
+                            CartItem(item = item, navController = navController, cartViewModel = cartViewModel)
+                        }
+                        item {
+                            val subTotalState by cartViewModel.subtotal.collectAsState()
+                            PricingCard(subTotal = subTotalState, total = totalState)
+                        }
+                    }
+                }
+            }
         }
 
         else->{}
     }
 
-    if (cartList.isNotEmpty()) {
-        Scaffold(
-            bottomBar = {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    CheckoutBottomBar(
-                        price = "" + total.toString(),
-                        buttonAction = {
-                            navController.navigate("billing/$total")
-                        },
-                        buttonText = "Checkout"
-                    )
-                }
-            }
-        ) {
-            Surface(
-                color = backgroundColor
-            ){
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                ) {
-                    items(cartList) { item ->
-                        CartItem(item = item, navController = navController)
-                    }
-                    item {
-                        PricingCard(subTotal = subtotal, total = total)
-                    }
-                }
-            }
-        }
-    }
+//    if (cartList.isNotEmpty()) {
+//        Scaffold(
+//            bottomBar = {
+//                Column(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    verticalArrangement = Arrangement.Bottom
+//                ) {
+//                    CheckoutBottomBar(
+//                        price = "" + total.toString(),
+//                        buttonAction = {
+//                            navController.navigate("billing/$total")
+//                        },
+//                        buttonText = "Checkout"
+//                    )
+//                }
+//            }
+//        ) {
+//            Surface(
+//                color = backgroundColor
+//            ){
+//                LazyColumn(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(it)
+//                ) {
+//                    items(cartList) { item ->
+//                        CartItem(item = item, navController = navController)
+//                    }
+//                    item {
+//                        PricingCard(subTotal = subtotal, total = total)
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

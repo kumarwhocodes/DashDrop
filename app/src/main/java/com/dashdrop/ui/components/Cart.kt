@@ -1,5 +1,6 @@
 package com.dashdrop.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -234,6 +235,7 @@ fun PromoCode() {
 
 @Composable
 fun PricingCard(subTotal: Double, total: Double) {
+    Log.d("PricingCard", "Recomposing with subtotal: $subTotal and total: $total")
     Surface {
         Card(
             modifier = Modifier

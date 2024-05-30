@@ -2,7 +2,6 @@ package com.dashdrop.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,22 +21,20 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -81,9 +78,10 @@ fun ScaffoldTop(
             )
         },
         navigationIcon = {
-            IconButton(onClick = {
-                navigationIconClicked.invoke()
-            },
+            IconButton(
+                onClick = {
+                    navigationIconClicked.invoke()
+                },
                 colors = IconButtonColors(
                     contentColor = iconColor,
                     containerColor = iconBackgroundColor,
@@ -99,9 +97,10 @@ fun ScaffoldTop(
             }
         },
         actions = {
-            IconButton(onClick = {
-                logOutButtonClicked.invoke()
-            },
+            IconButton(
+                onClick = {
+                    logOutButtonClicked.invoke()
+                },
                 colors = IconButtonColors(
                     contentColor = iconColor,
                     containerColor = iconBackgroundColor,
@@ -126,35 +125,108 @@ fun BottomNavBar(
     val currentRoute = navController.currentBackStackEntry?.destination?.route
 
     NavigationBar(
-        modifier = Modifier
+        modifier = Modifier,
+        containerColor = Color.White
     ) {
 
         NavigationBarItem(
             selected = currentRoute == Screen.HomeScreen.route,
-            onClick = { navController.navigate(Screen.HomeScreen.route)},
-            icon = { if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home},
-            label = { if (currentRoute == Screen.HomeScreen.route) Text("Home") else Text("")}
+            onClick = { navController.navigate(Screen.HomeScreen.route) },
+            icon = {
+                Icon(
+                    imageVector = if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home,
+                    contentDescription = "Home",
+                    tint = if (currentRoute == Screen.HomeScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            label = {
+                Text(
+                    text = if (currentRoute == Screen.HomeScreen.route) "Home" else "",
+                    color = if (currentRoute == Screen.HomeScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(
+                unselectedIconColor = Color.Gray,
+                selectedIconColor = PrimaryColor,
+                selectedTextColor = PrimaryColor,
+                unselectedTextColor = Color.Transparent,
+                indicatorColor = PrimaryColor.copy(0.25f)
+            )
         )
 
         NavigationBarItem(
             selected = currentRoute == Screen.FavouriteScreen.route,
             onClick = { navController.navigate(Screen.FavouriteScreen.route) },
-            icon = { if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder},
-            label = { if (currentRoute == Screen.FavouriteScreen.route) Text("Favourite") else Text("")}
+            icon = {
+                Icon(
+                    imageVector = if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Favourite",
+                    tint = if (currentRoute == Screen.FavouriteScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            label = {
+                Text(
+                    text = if (currentRoute == Screen.FavouriteScreen.route) "Favourite" else "",
+                    color = if (currentRoute == Screen.FavouriteScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(
+                unselectedIconColor = Color.Gray,
+                selectedIconColor = PrimaryColor,
+                selectedTextColor = PrimaryColor,
+                unselectedTextColor = Color.Transparent,
+                indicatorColor = PrimaryColor.copy(0.25f)
+            )
         )
 
         NavigationBarItem(
             selected = currentRoute == Screen.CartScreen.route,
             onClick = { navController.navigate(Screen.CartScreen.route) },
-            icon = { if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart},
-            label = { if (currentRoute == Screen.CartScreen.route) Text("Cart") else Text("")}
+            icon = {
+                Icon(
+                    imageVector = if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
+                    contentDescription = "Cart",
+                    tint = if (currentRoute == Screen.CartScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            label = {
+                Text(
+                    text = if (currentRoute == Screen.CartScreen.route) "Cart" else "",
+                    color = if (currentRoute == Screen.CartScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(
+                unselectedIconColor = Color.Gray,
+                selectedIconColor = PrimaryColor,
+                selectedTextColor = PrimaryColor,
+                unselectedTextColor = Color.Transparent,
+                indicatorColor = PrimaryColor.copy(0.25f)
+            )
         )
 
         NavigationBarItem(
             selected = currentRoute == Screen.ProfileScreen.route,
             onClick = { navController.navigate(Screen.ProfileScreen.route) },
-            icon = { if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person},
-            label = { if (currentRoute == Screen.ProfileScreen.route) Text("Profile") else Text("")}
+            icon = {
+                Icon(
+                    imageVector = if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person,
+                    contentDescription = "Profile",
+                    tint = if (currentRoute == Screen.ProfileScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            label = {
+                Text(
+                    text = if (currentRoute == Screen.ProfileScreen.route) "Profile" else "",
+                    color = if (currentRoute == Screen.ProfileScreen.route) PrimaryColor else Color.Gray
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(
+                unselectedIconColor = Color.Gray,
+                selectedIconColor = PrimaryColor,
+                selectedTextColor = PrimaryColor,
+                unselectedTextColor = Color.Transparent,
+                indicatorColor = PrimaryColor.copy(0.25f)
+            )
         )
 //        Row(
 //            modifier = Modifier.fillMaxWidth(),
@@ -343,7 +415,7 @@ private fun Preview() {
             navController = NavController(context = LocalContext.current)
         )
 
-        AddToCartBottomBar(addToCartButtonClicked = {  }, price = "b")
+        AddToCartBottomBar(addToCartButtonClicked = { }, price = "b")
         CheckoutBottomBar(
             price = "322",
             buttonAction = {},
