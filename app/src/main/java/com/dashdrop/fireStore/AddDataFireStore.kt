@@ -21,7 +21,8 @@ fun addCartinFireBase(itemId: String, operation: Boolean) {
     db.collection("cart").document(userId).get().addOnSuccessListener { document ->
         if (document.exists()) {
             val data1 = document.get("item_id") as? MutableList<String> ?: mutableListOf()
-            val data3 = document.get("item_quantity") as? MutableList<Long> ?: mutableListOf() // Change here
+            val data3 = document.get("item_quantity") as? MutableList<Long>
+                ?: mutableListOf() // Change here
             val data = mutableMapOf<String, Int>()
 
             for (i in data1.indices) {
@@ -74,7 +75,7 @@ fun changeFav(itemId: String) {
                 for (i in data2) {
                     Log.d("Data", i)
                 }
-                db.collection("favourite").document(user.uid ?: "").update("item_id", data2)
+                db.collection("favourite").document(user.uid).update("item_id", data2)
             }
         }
     }.addOnFailureListener { exception ->
@@ -100,7 +101,12 @@ fun addAddress(newAddress: DeliveryAddress, navController: NavController, total:
     }
 }
 
-fun addOrder(total: String?, selectedAddress: DeliveryAddress?, selectedPayment: Payment?) {
+fun addOrder(
+    total: String?,
+    selectedAddress: DeliveryAddress?,
+    selectedPayment: Payment?,
+    onOrderPlaced: () -> Unit
+    ) {
 
     val db = Firebase.firestore
     val user = Firebase.auth.currentUser
@@ -133,6 +139,7 @@ fun addOrder(total: String?, selectedAddress: DeliveryAddress?, selectedPayment:
 
             db.collection("orders").document(orderUniqueId()).set(data).addOnSuccessListener {
                 Log.d("mera_tag", "order placed")
+                onOrderPlaced()
             }.addOnFailureListener { e ->
                 Log.w("mera_tag", "Error placing order", e)
             }

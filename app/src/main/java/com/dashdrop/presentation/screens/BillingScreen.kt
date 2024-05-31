@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,10 +35,12 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.ui.components.AddressList
 import com.dashdrop.ui.components.CheckoutBottomBar
 import com.dashdrop.ui.components.HeadingText
+import com.dashdrop.ui.components.OrderPlacedAnimation
 import com.dashdrop.ui.components.PaymentList
 import com.dashdrop.ui.components.ScaffoldTop
 import com.dashdrop.ui.theme.PrimaryColor
 import com.dashdrop.ui.theme.rubikBoldStyle
+import kotlinx.coroutines.delay
 
 @Composable
 fun BillingScreen(
@@ -45,6 +50,9 @@ fun BillingScreen(
 ) {
     var selectedAddress by remember { mutableStateOf<DeliveryAddress?>(null) }
     var selectedPayment by remember { mutableStateOf<Payment?>(null) }
+
+    var orderPlaced by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             ScaffoldTop(
@@ -62,7 +70,9 @@ fun BillingScreen(
             CheckoutBottomBar(
                 buttonText = "Place Order",
                 buttonAction = {
-                    addOrder(total, selectedAddress, selectedPayment)
+                    addOrder(total, selectedAddress, selectedPayment) {
+                        orderPlaced = true
+                    }
                 },
                 price = total.toString()
             )
@@ -79,7 +89,8 @@ fun BillingScreen(
                 .padding(it)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(10.dp)
             ) {
                 Row(
@@ -96,12 +107,13 @@ fun BillingScreen(
                     Text(
                         modifier = Modifier
                             .clickable {
-                                       navController.navigate("address/$total")
+                                navController.navigate("address/$total")
                             },
                         text = "Add New",
                         fontSize = 24.sp,
                         color = PrimaryColor,
-                        fontFamily = rubikBoldStyle)
+                        fontFamily = rubikBoldStyle
+                    )
 
                 }
                 AddressList(
@@ -126,7 +138,35 @@ fun BillingScreen(
                         selectedPayment = payment
                     })
             }
+            OrderPlacedDialog(
+                showDialog = orderPlaced,
+                onDismiss = {
+                    orderPlaced = false
+                    navController.navigate(Screen.HomeScreen.route)
+                }
+            )
+
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OrderPlacedDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit
+) {
+    if (showDialog) {
+        LaunchedEffect(Unit) {
+            delay(2000)
+            onDismiss()
+        }
+        BasicAlertDialog(
+            onDismissRequest = onDismiss,
+            content = {
+                OrderPlacedAnimation()
+            }
+        )
     }
 }
 
