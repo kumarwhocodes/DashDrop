@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
@@ -20,13 +21,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dashdrop.R
 import com.dashdrop.data.model.Category
+import com.dashdrop.data.model.PopularItem
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.ui.theme.rubikBoldStyle
@@ -35,6 +36,7 @@ import com.dashdrop.ui.theme.rubikBoldStyle
 fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hiltViewModel()) {
 
     var categoryRowList = emptyList<Category>()
+    var itemRowList = emptyList<PopularItem>()
 
     when (val categoryData = homeViewModel.categoryData.collectAsState().value) {
         is UiState.Error -> {
@@ -64,7 +66,29 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
         }
     }
 
-    if(categoryRowList.isNotEmpty()){
+    when (val popularItemData = homeViewModel.popularItemData.collectAsState().value) {
+        is UiState.Error -> {
+            Image(
+                imageVector = Icons.Filled.Error, contentDescription = null,
+                Modifier.size(100.dp)
+            )
+        }
+
+        is UiState.Idle -> {
+            homeViewModel.getAllPopularItems()
+        }
+
+        is UiState.Loading -> {
+
+        }
+
+        is UiState.Success -> {
+            itemRowList = popularItemData.data.toList()
+            Log.d("mera_tag", "CategoryList: $itemRowList")
+        }
+    }
+
+    if(categoryRowList.isNotEmpty() && itemRowList.isNotEmpty()){
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ){
@@ -120,12 +144,12 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
             item{
                 Box(modifier = Modifier.height(400.dp)) {
                     LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
-                        items(5) {
+                        items(itemRowList) {
                             ItemButton(
-                                value = "Veggies",
+                                item_id = it.item_id,
+                                value = it.item_name,
                                 image = painterResource(id = R.drawable.veggiess),
-                                price = "150",
-                                startCount = 2,
+                                price = it.item_price,
                                 icon = painterResource(id = R.drawable.add)
                             )
                         }

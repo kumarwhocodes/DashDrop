@@ -70,8 +70,15 @@ fun BillingScreen(
             CheckoutBottomBar(
                 buttonText = "Place Order",
                 buttonAction = {
-                    addOrder(total, selectedAddress, selectedPayment) {
-                        orderPlaced = true
+                    if(selectedAddress != null && selectedPayment != null){
+                        addOrder(total, selectedAddress, selectedPayment) {
+                            orderPlaced = true
+                        }
+                    }
+                    else{
+                        navController.navigate(Screen.CartScreen.route) {
+                            popUpTo(Screen.CartScreen.route) { inclusive = true }
+                        }
                     }
                 },
                 price = total.toString()
@@ -79,9 +86,7 @@ fun BillingScreen(
         }
     ) {
         BackHandler {
-            navController.navigate(Screen.CartScreen.route) {
-                popUpTo(Screen.CartScreen.route) { inclusive = true }
-            }
+
         }
         Surface(
             modifier = Modifier

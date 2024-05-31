@@ -70,6 +70,7 @@ fun HomeScreen(
                     SearchBox(input = "",
                         onInputChanged = {}) {
                         /*TODO: Search Button Logic*/
+
                     }
                 }
                 Column(
