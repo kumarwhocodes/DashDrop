@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.model.Item
+import com.dashdrop.data.model.PopularItem
 import com.dashdrop.data.repo.GetCategoryFireRepo
 import com.dashdrop.data.repo.GetItemFireRepo
 //import com.dashdrop.data.repo.ServiceLocator
@@ -32,6 +33,10 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(UiState.Idle)
     val itemData = _itemData.asStateFlow()
 
+    private val _popularItemData: MutableStateFlow<UiState<ArrayList<PopularItem>>> =
+        MutableStateFlow(UiState.Idle)
+    val popularItemData = _popularItemData.asStateFlow()
+
     fun getAllCategory() {
         Log.d("HomeViewModel", "getAllCategory called")
         getAllCategoryFromFireStore()
@@ -41,7 +46,10 @@ class HomeViewModel @Inject constructor(
     fun getAllItems(path: String, navController: NavController) {
         Log.d("HomeViewModel", "getAllItems called with path: $path")
         getAllItemsFromFireStore(path, navController)
+    }
 
+    fun getAllPopularItems() {
+        getAllPopularItemsFromFireStore()
     }
 
     private fun getAllCategoryFromFireStore() {
@@ -69,6 +77,19 @@ class HomeViewModel @Inject constructor(
                 if (_itemData.value is UiState.Success) {
 //                    navController.navigate("category/$path")
                 }
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error fetching items: ${e.message}")
+            }
+        }
+    }
+
+    private fun getAllPopularItemsFromFireStore() {
+        _popularItemData.value = UiState.Loading
+
+        viewModelScope.launch {
+            try {
+                _popularItemData.value = itemFireRepo.getPopularItemsList()
+                Log.d("HomeViewModel", "Items fetched: $_popularItemData")
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching items: ${e.message}")
             }

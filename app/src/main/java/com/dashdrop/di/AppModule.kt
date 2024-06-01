@@ -28,7 +28,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFireRepoItems()= GetItemFireRepo(query2 = FirebaseFirestore.getInstance()
-        .collection("products")
+        .collection("products"),
+        query6 = FirebaseFirestore.getInstance().collection("popular")
     )
 
     @Singleton

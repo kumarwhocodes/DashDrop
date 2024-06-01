@@ -36,6 +36,7 @@ class GetAddressFireRepo @Inject constructor(
             } ?: emptyList()
 
             if (addressesList.isNotEmpty()) {
+                Log.d("GetAddressFireRepo", "addressesList: $addressesList")
                 UiState.Success(addressesList)
             } else {
                 UiState.Error("No Data Found")

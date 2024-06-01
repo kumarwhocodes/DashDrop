@@ -13,12 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,18 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dashdrop.R
 import com.dashdrop.fireStore.addCartinFireBase
-import com.dashdrop.fireStore.changeFav
 import com.dashdrop.ui.theme.DashDropTheme
 import com.dashdrop.ui.theme.TertiaryColor
 import com.dashdrop.ui.theme.PrimaryColor
-import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
 import com.dashdrop.ui.theme.cardBackgroundColor
 import com.dashdrop.ui.theme.cardIconBackgroundColor
-import com.dashdrop.ui.theme.favBackgroundColor
-import com.dashdrop.ui.theme.favIconBackgroundColor
-import com.dashdrop.ui.theme.rubikLightStyle
 import com.dashdrop.ui.theme.rubikSemiBoldStyle
+import com.google.android.play.integrity.internal.i
 
 @Preview()
 @Composable
@@ -66,8 +58,8 @@ private fun ButtonsPreview() {
                 image = painterResource(id = R.drawable.veggiess),
                 imageDesc = "veggies",
                 price = "$2.99",
-                startCount = 2,
-                icon = painterResource(id = R.drawable.add)
+                icon = painterResource(id = R.drawable.add),
+                item_id = "d"
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -128,10 +120,10 @@ fun CategoryButton(
 fun ItemButton(
     value: String,
     image: Painter,
-    imageDesc: String?=null,
+    imageDesc: String? = null,
     price: String,
-    startCount: Int,
-    icon :Painter
+    icon: Painter,
+    item_id: String
 ) {
     Surface(
         color = cardBackgroundColor,
@@ -191,7 +183,7 @@ fun ItemButton(
             }
             FloatingActionButton(
                 onClick = {
-//                addCartinFireBase(item_id, true)
+                    addCartinFireBase(itemId = item_id, true)
                 },
                 shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
                 modifier = Modifier
