@@ -7,11 +7,10 @@ import androidx.navigation.NavController
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.model.PopularItem
-import com.dashdrop.data.repo.GetCategoryFireRepo
-import com.dashdrop.data.repo.GetItemFireRepo
+import com.dashdrop.data.repo.category.GetCategoryFireRepo
+import com.dashdrop.data.repo.item.GetItemFireRepo
 //import com.dashdrop.data.repo.ServiceLocator
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.dashdrop.data.model.Cart
-import com.dashdrop.data.repo.GetCartFireRepo
+import com.dashdrop.data.repo.cart.GetCartFireRepo
+import com.dashdrop.data.repo.cart.addCartInFireBase
 import com.dashdrop.data.utils.UiState
-import com.dashdrop.fireStore.addCartinFireBase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,7 +48,7 @@ class CartViewModel @Inject constructor(
 
         try {
             // Update Firestore
-            addCartinFireBase(itemId = itemId, operation = operation)
+            addCartInFireBase(itemId = itemId, operation = operation)
 
             // Update local state
             val currentState = _cartData.value

@@ -34,9 +34,9 @@ import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.ui.components.BottomNavBar
-import com.dashdrop.ui.components.ProfileScreenItem
-import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.presentation.components.core.BottomNavBar
+import com.dashdrop.presentation.components.core.ProfileScreenItem
+import com.dashdrop.presentation.components.core.ScaffoldTop
 import com.dashdrop.ui.theme.backgroundColor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore

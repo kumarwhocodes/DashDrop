@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,13 +23,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.DeliveryAddress
-import com.dashdrop.fireStore.addAddress
-import com.dashdrop.navigation.Screen
+import com.dashdrop.data.repo.address.addAddress
 import com.dashdrop.presentation.viewmodels.BillingUIEvent
 import com.dashdrop.presentation.viewmodels.BillingViewModel
-import com.dashdrop.ui.components.AddressInputField
-import com.dashdrop.ui.components.PrimaryButton
-import com.dashdrop.ui.components.SecondaryButton
+import com.dashdrop.presentation.components.core.AddressInputField
+import com.dashdrop.presentation.components.core.PrimaryButton
+import com.dashdrop.presentation.components.core.SecondaryButton
 
 @Composable
 fun AddressForm(
@@ -114,7 +114,7 @@ fun AddressForm(
             onValueChange = {
                 billingViewModel.onEvent(BillingUIEvent.CountryChanged(it), navController)
             },
-            action = androidx.compose.ui.text.input.ImeAction.Done
+            action = ImeAction.Done
         )
 
         Spacer(modifier = Modifier.height(10.dp))

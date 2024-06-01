@@ -20,10 +20,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.presentation.viewmodels.HomeViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.ui.components.BottomNavBar
-import com.dashdrop.ui.components.CategoryList
-import com.dashdrop.ui.components.ScaffoldTop
-import com.dashdrop.ui.components.SearchBox
+import com.dashdrop.presentation.components.core.BottomNavBar
+import com.dashdrop.presentation.components.home.CategoryList
+import com.dashdrop.presentation.components.core.ScaffoldTop
+import com.dashdrop.presentation.components.core.SearchBox
 import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.bg
 

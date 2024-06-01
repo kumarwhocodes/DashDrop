@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.dashdrop.data.model.DeliveryAddress
-import com.dashdrop.data.repo.GetAddressFireRepo
+import com.dashdrop.data.repo.address.GetAddressFireRepo
 import com.dashdrop.data.utils.UiState
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
