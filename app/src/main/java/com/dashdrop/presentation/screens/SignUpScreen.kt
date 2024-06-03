@@ -2,7 +2,6 @@ package com.dashdrop.presentation.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,21 +37,18 @@ import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.presentation.viewmodels.SignUpViewModel
 import com.dashdrop.presentation.viewmodels.checkAndStoreUser
-import com.dashdrop.ui.components.ClickableLoginTextComponent
-import com.dashdrop.ui.components.CustomInputField
-import com.dashdrop.ui.components.DividerTextComponent
-import com.dashdrop.ui.components.HeadingText
-import com.dashdrop.ui.components.LoginButton
-import com.dashdrop.ui.components.PasswordTextField
-import com.dashdrop.ui.components.TextField_Text
+import com.dashdrop.presentation.components.core.ClickableLoginTextComponent
+import com.dashdrop.presentation.components.core.CustomInputField
+import com.dashdrop.presentation.components.core.DividerTextComponent
+import com.dashdrop.presentation.components.core.HeadingText
+import com.dashdrop.presentation.components.core.LoginButton
+import com.dashdrop.presentation.components.core.PasswordTextField
+import com.dashdrop.presentation.components.core.TextField_Text
 import com.dashdrop.ui.theme.bg
 import com.dashdrop.ui.theme.rubikBoldStyle
 import com.dashdrop.ui.theme.rubikRegularStyle
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
-
-//TODO: Color Scheme bacha hai UI mein bss
 
 @Composable
 fun SignUpScreen(

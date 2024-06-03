@@ -3,11 +3,8 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dashdrop.data.model.Cart
-import com.dashdrop.data.model.Category
 import com.dashdrop.data.model.Favourite
-import com.dashdrop.data.repo.GetCartFireRepo
-import com.dashdrop.data.repo.GetFavFireRepo
+import com.dashdrop.data.repo.favourite.GetFavFireRepo
 import com.dashdrop.data.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

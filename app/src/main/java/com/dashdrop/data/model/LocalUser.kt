@@ -2,7 +2,6 @@ package com.dashdrop.data.model
 
 import com.google.firebase.auth.FirebaseUser
 
-//TODO: custom auth name display?
 data class LocalUser(
     val name: String?,
     val username: String?,

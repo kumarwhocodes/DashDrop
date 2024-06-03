@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,15 +31,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.model.Payment
-import com.dashdrop.fireStore.addOrder
+import com.dashdrop.data.repo.order.addOrder
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.ui.components.AddressList
-import com.dashdrop.ui.components.CheckoutBottomBar
-import com.dashdrop.ui.components.HeadingText
-import com.dashdrop.ui.components.OrderPlacedAnimation
-import com.dashdrop.ui.components.PaymentList
-import com.dashdrop.ui.components.ScaffoldTop
+import com.dashdrop.presentation.components.billing.AddressList
+import com.dashdrop.presentation.components.core.CheckoutBottomBar
+import com.dashdrop.presentation.components.core.HeadingText
+import com.dashdrop.presentation.components.billing.OrderPlacedAnimation
+import com.dashdrop.presentation.components.billing.PaymentList
+import com.dashdrop.presentation.components.core.ScaffoldTop
 import com.dashdrop.ui.theme.PrimaryColor
 import com.dashdrop.ui.theme.rubikBoldStyle
 import kotlinx.coroutines.delay
@@ -48,6 +50,7 @@ fun BillingScreen(
     navController: NavController,
     total: String?
 ) {
+    val context = LocalContext.current
     var selectedAddress by remember { mutableStateOf<DeliveryAddress?>(null) }
     var selectedPayment by remember { mutableStateOf<Payment?>(null) }
 
@@ -70,14 +73,29 @@ fun BillingScreen(
             CheckoutBottomBar(
                 buttonText = "Place Order",
                 buttonAction = {
-                    if(selectedAddress != null && selectedPayment != null){
+                    if (selectedAddress != null && selectedPayment != null) {
                         addOrder(total, selectedAddress, selectedPayment) {
                             orderPlaced = true
                         }
-                    }
-                    else{
-                        navController.navigate(Screen.CartScreen.route) {
-                            popUpTo(Screen.CartScreen.route) { inclusive = true }
+                    } else {
+                        if (selectedAddress == null && selectedPayment == null) {
+                            Toast.makeText(
+                                context,
+                                "Please select address and payment mode.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else if (selectedAddress == null) {
+                            Toast.makeText(
+                                context,
+                                "Please select address.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else{
+                            Toast.makeText(
+                                context,
+                                "Please select payment mode.",
+                                Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 },

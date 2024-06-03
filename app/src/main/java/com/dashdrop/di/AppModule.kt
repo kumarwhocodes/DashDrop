@@ -1,10 +1,10 @@
 package com.dashdrop.di
 
-import com.dashdrop.data.repo.GetAddressFireRepo
-import com.dashdrop.data.repo.GetCartFireRepo
-import com.dashdrop.data.repo.GetCategoryFireRepo
-import com.dashdrop.data.repo.GetFavFireRepo
-import com.dashdrop.data.repo.GetItemFireRepo
+import com.dashdrop.data.repo.address.GetAddressFireRepo
+import com.dashdrop.data.repo.cart.GetCartFireRepo
+import com.dashdrop.data.repo.category.GetCategoryFireRepo
+import com.dashdrop.data.repo.favourite.GetFavFireRepo
+import com.dashdrop.data.repo.item.GetItemFireRepo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module

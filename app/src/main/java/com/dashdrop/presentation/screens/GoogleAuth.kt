@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.painterResource
 import com.dashdrop.R
-import com.dashdrop.ui.components.SmallCircularImageButton
+import com.dashdrop.presentation.components.core.SmallCircularImageButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
