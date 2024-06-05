@@ -39,10 +39,7 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
 
     when (val categoryData = homeViewModel.categoryData.collectAsState().value) {
         is UiState.Error -> {
-            Image(
-                imageVector = Icons.Filled.Error, contentDescription = null,
-                Modifier.size(100.dp)
-            )
+            ErrorComponent(errorMessage = "Failed to load categories")
         }
 
         is UiState.Idle -> {
@@ -67,10 +64,7 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
 
     when (val popularItemData = homeViewModel.popularItemData.collectAsState().value) {
         is UiState.Error -> {
-            Image(
-                imageVector = Icons.Filled.Error, contentDescription = null,
-                Modifier.size(100.dp)
-            )
+            ErrorComponent(errorMessage = "Failed to load popular items")
         }
 
         is UiState.Idle -> {

@@ -13,13 +13,12 @@ fun addCartInFireBase(itemId: String, operation: Boolean, cnt: Int = 1) {
 
     db.collection("cart").document(userId).get().addOnSuccessListener { document ->
         if (document.exists()) {
-            val data1 = document.get("item_id") as? MutableList<String> ?: mutableListOf()
-            val data3 = document.get("item_quantity") as? MutableList<Long>
-                ?: mutableListOf()
+            val item = document.get("item_id") as? MutableList<String> ?: mutableListOf()
+            val quantities = document.get("item_quantity") as? MutableList<Long> ?: mutableListOf()
             val data = mutableMapOf<String, Int>()
 
-            for (i in data1.indices) {
-                data[data1[i]] = data3[i].toInt()
+            for (i in item.indices) {
+                data[item[i]] = quantities[i].toInt()
             }
 
             var quantity = data[itemId] ?: 0
@@ -38,7 +37,7 @@ fun addCartInFireBase(itemId: String, operation: Boolean, cnt: Int = 1) {
             }
 
             val updatedIds = data.keys.toList()
-            val updatedQuantities = data.values.map { it.toLong() }
+            val updatedQuantities = data.values.map { it }
 
             db.collection("cart").document(userId)
                 .update("item_id", updatedIds, "item_quantity", updatedQuantities)

@@ -17,12 +17,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dashdrop.data.model.Favourite
 import com.dashdrop.data.utils.UiState
+import com.dashdrop.presentation.components.core.HeadingText
+import com.dashdrop.presentation.components.home.ErrorComponent
 import com.dashdrop.presentation.viewmodels.FavViewModel
+import com.dashdrop.ui.theme.rubikBoldStyle
 
 @Composable
 fun FavouriteList(
@@ -33,11 +38,7 @@ fun FavouriteList(
 
     when (favData) {
         is UiState.Error -> {
-            Log.d("FavouriteList", "Error: ${favData.message}")
-            Image(
-                imageVector = Icons.Filled.Error, contentDescription = null,
-                modifier = Modifier
-            )
+            ErrorComponent(errorMessage = "Failed to load Favourites")
         }
 
         is UiState.Idle -> {
@@ -55,17 +56,31 @@ fun FavouriteList(
         is UiState.Success -> {
             favList = favData.data
             Log.d("FavouriteList", "Favourite items: $favList")
-        }
-    }
 
-    if (favList.isNotEmpty()) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 2),
-            modifier = Modifier.background(Color.Transparent)
-        ) {
-            items(favList) { item ->
-                FavouriteItem(item = item)
+            if (favList.isNotEmpty()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(count = 2),
+                    modifier = Modifier.background(Color.Transparent)
+                ) {
+                    items(favList) { item ->
+                        FavouriteItem(item = item)
+                    }
+                }
+            }else {
+                // Show a message indicating that the favourite is empty
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HeadingText(
+                        value = "Your favourite is empty",
+                        size = 20.sp,
+                        color = Color.Red,
+                        font = rubikBoldStyle
+                    )
+                }
             }
+
         }
     }
 }

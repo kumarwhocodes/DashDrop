@@ -75,7 +75,11 @@ fun DetailsScreen(
         bottomBar = {
             AddToCartBottomBar(
                 addToCartButtonClicked = {
-                    addCartInFireBase(itemId = itemId!!, operation = true,cnt = quantity)
+                    addCartInFireBase(
+                        itemId = itemId!!,
+                        operation = true,
+                        cnt = quantity
+                    )
                     quantity = 0
                 },
                 price = itemPrice!!

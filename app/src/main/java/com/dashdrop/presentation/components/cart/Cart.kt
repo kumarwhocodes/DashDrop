@@ -38,6 +38,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.data.model.Cart
+import com.dashdrop.data.repo.cart.addCartInFireBase
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.components.core.PrimaryButton
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.ui.theme.SecondaryColor
@@ -137,7 +139,6 @@ fun CartItem(item: Cart,
                                     itemId = item.itemId,
                                     operation = false
                                 )
-
                             }
                     ) {
                         Image(

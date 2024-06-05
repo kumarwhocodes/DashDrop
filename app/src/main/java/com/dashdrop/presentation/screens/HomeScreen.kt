@@ -79,8 +79,6 @@ fun HomeScreen(
                         .background(color = backgroundColor)
                 ) {
                     CategoryList(navController = navController, homeViewModel = homeViewModel)
-
-
                 }
 
 

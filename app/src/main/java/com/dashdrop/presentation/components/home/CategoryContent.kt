@@ -165,7 +165,7 @@ fun ItemList(
                     }
                     FloatingActionButton(
                         onClick = {
-                            addCartInFireBase(item.itemId, true)
+                            addCartInFireBase(itemId = item.itemId, operation =  true)
                         },
                         shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
                         modifier = Modifier

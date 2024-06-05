@@ -46,7 +46,7 @@ class GetCartFireRepo @Inject constructor(
             if (cartList.isNotEmpty()) {
                 UiState.Success(Pair(cartList, total))
             } else {
-                UiState.Error("No Data Found")
+                UiState.Success(Pair(cartList, 0.0))
             }
         } catch (e: Exception) {
             Log.e("GetCartFireRepo", "Error getting documents: ${e.message}")
