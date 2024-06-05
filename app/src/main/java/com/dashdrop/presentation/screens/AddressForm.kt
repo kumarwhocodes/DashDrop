@@ -16,12 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.repo.address.addAddress
 import com.dashdrop.presentation.viewmodels.BillingUIEvent
@@ -36,7 +34,7 @@ fun AddressForm(
     billingViewModel: BillingViewModel = hiltViewModel(),
     total: String?
 ) {
-    val uiState by billingViewModel._billingUIState.collectAsState()
+    val uiState by billingViewModel.billingUIState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -48,7 +46,7 @@ fun AddressForm(
             label = "Name",
             value = uiState.name,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.NameChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.NameChanged(it))
             }
         )
 
@@ -56,7 +54,7 @@ fun AddressForm(
             label = "Phone Number",
             value = uiState.phoneNumber,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.PhoneNumberChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.PhoneNumberChanged(it))
             }
         )
 
@@ -64,7 +62,7 @@ fun AddressForm(
             label = "Pincode",
             value = uiState.pinCode,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.PincodeChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.PincodeChanged(it))
             }
         )
 
@@ -72,7 +70,7 @@ fun AddressForm(
             label = "State",
             value = uiState.state,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.StateChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.StateChanged(it))
             }
         )
 
@@ -80,7 +78,7 @@ fun AddressForm(
             label = "City",
             value = uiState.city,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.CityChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.CityChanged(it))
             }
         )
 
@@ -88,7 +86,7 @@ fun AddressForm(
             label = "Locality",
             value = uiState.locality,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.LocalityChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.LocalityChanged(it))
             }
         )
 
@@ -96,7 +94,7 @@ fun AddressForm(
             label = "Address",
             value = uiState.address,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.AddressChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.AddressChanged(it))
             }
         )
 
@@ -104,7 +102,7 @@ fun AddressForm(
             label = "Landmark",
             value = uiState.landmark,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.LandmarkChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.LandmarkChanged(it))
             }
         )
 
@@ -112,7 +110,7 @@ fun AddressForm(
             label = "Country",
             value = uiState.country,
             onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.CountryChanged(it), navController)
+                billingViewModel.onEvent(BillingUIEvent.CountryChanged(it))
             },
             action = ImeAction.Done
         )
@@ -127,7 +125,7 @@ fun AddressForm(
                     addressId = uiState.addressId,
                     name = uiState.name,
                     phoneNumber = uiState.phoneNumber,
-                    pincode = uiState.pinCode,
+                    `pin-code` = uiState.pinCode,
                     locality = uiState.locality,
                     address = uiState.address,
                     city = uiState.city,
@@ -157,13 +155,4 @@ fun AddressForm(
             }
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    AddressForm(
-        navController = rememberNavController(),
-        total = "15"
-    )
 }

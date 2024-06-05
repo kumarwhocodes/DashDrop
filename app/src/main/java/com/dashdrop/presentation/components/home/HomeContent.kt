@@ -20,12 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.dashdrop.R
 import com.dashdrop.data.model.Category
 import com.dashdrop.data.model.PopularItem
 import com.dashdrop.data.utils.UiState
@@ -104,7 +102,6 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
 
             item{
                 HeadingText(
-                    modifier = Modifier,
                     value = "Categories",
                     size = 24.sp,
                     color = Color.Black,
@@ -117,11 +114,11 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
                     items(categoryRowList) {
                         Log.d("mera_tag", "HomeScreen: $categoryRowList}")
                         CategoryButton(
-                            value = it.category_name,
-                            image = R.drawable.veggiess,
+                            value = it.categoryName,
+                            image = it.categoryImage,
                             onClick = {
-                                Log.d("mera_tag", "HomeScreen: ${it.category_name}")
-                                navController.navigate("category/${it.category_name}")
+                                Log.d("mera_tag", "HomeScreen: ${it.categoryName}")
+                                navController.navigate("category/${it.categoryName}")
                             }
                         )
                     }
@@ -137,8 +134,7 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
                     value = "Popular",
                     size = 24.sp,
                     font = rubikBoldStyle,
-                    color = Color.Black,
-                    modifier = Modifier
+                    color = Color.Black
                 )
             }
 
@@ -147,11 +143,10 @@ fun CategoryList(navController: NavController, homeViewModel: HomeViewModel = hi
                     LazyVerticalGrid(columns = GridCells.Fixed(count = 2)) {
                         items(itemRowList) {
                             ItemButton(
-                                item_id = it.item_id,
-                                value = it.item_name,
-                                image = painterResource(id = R.drawable.veggiess),
-                                price = it.item_price,
-                                icon = painterResource(id = R.drawable.add)
+                                itemId = it.itemId,
+                                value = it.itemName,
+                                image = it.item_image,
+                                price = it.itemPrice,
                             )
                         }
                     }

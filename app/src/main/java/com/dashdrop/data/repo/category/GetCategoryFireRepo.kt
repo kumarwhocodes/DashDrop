@@ -10,16 +10,18 @@ import javax.inject.Inject
 class GetCategoryFireRepo @Inject constructor(
     private val query1: Query
 ) {
-    val categoryList = arrayListOf<Category>()
+    private val categoryList = arrayListOf<Category>()
 
     suspend fun getCategoryList(): UiState<ArrayList<Category>> {
+
         categoryList.clear()
             query1.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val data = Category(
-                        category_name = document.getString("category_name") ?: "",
-                        categoryId = document.id
+                        categoryName = document.getString("category_name") ?: "",
+                        categoryId = document.id,
+                        categoryImage = document.getString("category_image") ?: ""
                     )
                     categoryList.add(
                         data
@@ -39,7 +41,5 @@ class GetCategoryFireRepo @Inject constructor(
             UiState.Error("No Data Found")
         }
     }
-
-
 
 }

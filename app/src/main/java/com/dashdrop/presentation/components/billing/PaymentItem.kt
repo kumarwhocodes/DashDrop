@@ -17,14 +17,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dashdrop.data.model.Payment
 
@@ -74,10 +73,10 @@ fun PaymentList(
     modes: List<Payment>,
     onPaymentSelected: (Payment) -> Unit
 ) {
-    var selectedPaymentIndex by remember { mutableStateOf(-1) }
+    var selectedPaymentIndex by remember { mutableIntStateOf(-1) }
 
     Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-        modes.forEachIndexed() { index,payment ->
+        modes.forEachIndexed { index,payment ->
             PaymentItem(payment = payment,
                 isSelected = index == selectedPaymentIndex,
                 onModeSelected = {selectedPaymentIndex = index
@@ -85,19 +84,4 @@ fun PaymentList(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    val modes = listOf(
-        Payment(1, "Cash"),
-        Payment(2, "Card"),
-        Payment(3, "UPI")
-    )
-//    PaymentList(modes = modes, onPaymentSelected = { payment ->
-//        selectedPayment = payment
-//
-//    })
-    
 }

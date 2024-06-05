@@ -69,7 +69,7 @@ fun AddressItem(
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(text = address.name.toString())
-                    Text(text = "${address.address}, ${address.city}, ${address.state} ${address.pincode}")
+                    Text(text = "${address.address}, ${address.city}, ${address.state} ${address.`pin-code`}")
                 }
 
             }

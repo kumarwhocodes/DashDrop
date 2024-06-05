@@ -40,16 +40,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dashdrop.ui.theme.rubikBoldStyle
 import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
 @Composable
 fun HeadingText(
-    modifier: Modifier,
     value: String,
     size: TextUnit,
     color: Color,
@@ -71,7 +68,7 @@ fun HeadingText(
 
 
 @Composable
-fun TextField_Text(modifier: Modifier, labelValue: String) {
+fun TextField_Text(labelValue: String) {
     Text(
         text = labelValue,
         fontSize = 16.sp,
@@ -94,7 +91,7 @@ fun CustomInputField(
         value = value.value,
         singleLine = true,
         onValueChange = {
-            value.value = it;
+            value.value = it
             onTextSelected(it)
         },
         maxLines = 1,
@@ -186,7 +183,7 @@ fun PasswordTextField(
         },
         value = password.value,
         onValueChange = {
-            password.value = it;
+            password.value = it
             onTextSelected(it)
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -234,15 +231,15 @@ fun ClickableLoginTextComponent(
     onTextSelected: (String) -> Unit
 ) {
 
-    val initalText =
+    val initialText =
         if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
-    val LoginText = if (tryingToLogin) "Login" else "Register"
+    val loginText = if (tryingToLogin) "Login" else "Register"
 
     val annotatedString = buildAnnotatedString {
-        append(initalText)
+        append(initialText)
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            pushStringAnnotation(tag = LoginText, annotation = LoginText)
-            append(LoginText)
+            pushStringAnnotation(tag = loginText, annotation = loginText)
+            append(loginText)
         }
     }
 
@@ -262,35 +259,9 @@ fun ClickableLoginTextComponent(
                 .firstOrNull()?.also { span ->
                     Log.d("ClickableTextComponent", "{$span}")
 
-                    if (span.item == LoginText) {
+                    if (span.item == loginText) {
                         onTextSelected(span.item)
                     }
                 }
         })
-}
-
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    Column(modifier = Modifier.padding(20.dp)) {
-        HeadingText(
-            modifier = Modifier,
-            value = "Heading Text",
-            size = 32.sp,
-            color = Color.Black,
-            font = rubikBoldStyle
-        )
-        TextField_Text(modifier = Modifier, labelValue = "Your Name")
-        CustomInputField(onTextSelected = {}, errorStatus = true)
-        TextField_Text(modifier = Modifier, labelValue = "Email Address")
-        CustomInputField(onTextSelected = {}, errorStatus = true)
-        TextField_Text(modifier = Modifier, labelValue = "Enter Your Password")
-        PasswordTextField(onTextSelected = {}, errorStatus = true)
-        DividerTextComponent(value = "or sign up with")
-        ClickableLoginTextComponent {
-        }
-        AddressInputField(label = "Name", value = "name", onValueChange = {})
-    }
-
 }

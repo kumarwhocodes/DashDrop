@@ -24,7 +24,7 @@ class SignUpViewModel : ViewModel() {
 
     var signUpInProgress = mutableStateOf(false)
 
-    val db = Firebase.firestore
+    private val db = Firebase.firestore
 
     fun onEvent(event: SignUpUIEvent, navController: NavController) {
         validateDataWithRules()
@@ -123,16 +123,16 @@ class SignUpViewModel : ViewModel() {
                             }
 
                         val cartData = hashMapOf(
-                            "item_id" to arrayListOf<String>(),
-                            "item_quantity" to arrayListOf<String>()
+                            "itemId" to arrayListOf<String>(),
+                            "itemQuantity" to arrayListOf<String>()
                         )
                         val favouriteData = hashMapOf(
-                            "item_id" to arrayListOf<String>()
+                            "itemId" to arrayListOf<String>()
                         )
 
                         FirebaseFirestore.getInstance()
                             .collection("cart")
-                            .document(user?.uid.toString())
+                            .document(user.uid)
                             .set(cartData)
                             .addOnSuccessListener {
                                 Log.d("mera_tag", "firestore me cart document store hogya")
@@ -143,7 +143,7 @@ class SignUpViewModel : ViewModel() {
 
                         FirebaseFirestore.getInstance()
                             .collection("favourite")
-                            .document(user?.uid.toString())
+                            .document(user.uid)
                             .set(favouriteData)
                             .addOnSuccessListener {
                                 Log.d("mera_tag", "firestore me cart document store hogya")
@@ -156,7 +156,7 @@ class SignUpViewModel : ViewModel() {
 
                         FirebaseFirestore.getInstance()
                             .collection("address")
-                            .document(user?.uid.toString())
+                            .document(user.uid)
                             .set(addressData)
                             .addOnSuccessListener {
                                 Log.d("mera_tag", "firestore me address document store hogya")

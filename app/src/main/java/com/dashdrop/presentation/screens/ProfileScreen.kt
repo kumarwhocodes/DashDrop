@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -25,11 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
@@ -54,6 +55,7 @@ fun ProfileScreen(
     var userName by remember { mutableStateOf("") }
     var userEmail by remember { mutableStateOf("") }
     var userPhoneNumber by remember { mutableStateOf("") }
+    var userProfilePic by remember { mutableStateOf("") }
 
     LaunchedEffect(user) {
         user?.let {
@@ -63,6 +65,7 @@ fun ProfileScreen(
                         userName = document.getString("name").orEmpty()
                         userEmail = document.getString("email").orEmpty()
                         userPhoneNumber = document.getString("phoneNumber").orEmpty()
+                        userProfilePic = document.getString("photoUrl").orEmpty()
                     }
                     else{
                         Log.d("mera_tag","data hi nhi hai firebase pe")
@@ -106,7 +109,7 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AsyncImage(
-                    model = user?.photoUrl,
+                    model = userProfilePic,
                     placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = stringResource(id = R.string.Profile),
                     modifier = Modifier
@@ -135,14 +138,4 @@ fun ProfileScreen(
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-private fun Preview() {
-    ProfileScreen(
-        navController = rememberNavController()
-    )
-
 }

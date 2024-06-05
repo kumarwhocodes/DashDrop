@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,12 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.R
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInUIEvent
@@ -84,7 +82,6 @@ fun SignInScreen(
                 ) {
                     Spacer(modifier = Modifier.height(35.dp))
                     HeadingText(
-                        modifier = Modifier,
                         value = stringResource(id = R.string.Sign_In),
                         size = 30.sp,
                         color = Color.White,
@@ -92,7 +89,6 @@ fun SignInScreen(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     HeadingText(
-                        modifier = Modifier,
                         value = stringResource(id = R.string.Sign_In_Info),
                         size = 16.sp,
                         color = Color.White,
@@ -122,7 +118,6 @@ fun SignInScreen(
                             Spacer(modifier = Modifier.height(10.dp))
 
                             TextField_Text(
-                                modifier = Modifier,
                                 labelValue = stringResource(id = R.string.Email_Address)
                             )
                             Spacer(modifier = Modifier.height(5.dp))
@@ -136,7 +131,6 @@ fun SignInScreen(
                             Spacer(modifier = Modifier.height(15.dp))
 
                             TextField_Text(
-                                modifier = Modifier,
                                 labelValue = stringResource(id = R.string.Password)
                             )
                             Spacer(modifier = Modifier.height(5.dp))
@@ -163,7 +157,7 @@ fun SignInScreen(
                                 isEnabled = signInViewModel.allValidationsPassed.value
                             )
                             Spacer(modifier = Modifier.height(10.dp))
-                            Divider(thickness = 1.dp, color = Color.Black)
+                            HorizontalDivider(thickness = 1.dp, color = Color.Black)
                             Spacer(modifier = Modifier.height(20.dp))
                             ClickableLoginTextComponent(
                                 tryingToLogin = false,
@@ -212,12 +206,4 @@ fun SignInScreen(
     }
 
 
-}
-
-@Composable
-@Preview
-fun SignInScreen_Preview() {
-    SignInScreen(
-        navController = rememberNavController()
-    )
 }

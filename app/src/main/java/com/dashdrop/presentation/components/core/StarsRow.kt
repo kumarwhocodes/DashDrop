@@ -9,7 +9,6 @@ import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.dashdrop.ui.theme.PrimaryColor
@@ -17,39 +16,31 @@ import com.dashdrop.ui.theme.PrimaryColor
 @Composable
 fun StarsRow(
     starCount: Int? = 0,
-    size: Dp
+    size: Dp = 24.dp
 ) {
 
-    Box(){
-        Row() {
+    Box{
+        Row{
             repeat(5) {
                 Icon(
                     imageVector = Icons.Outlined.StarOutline,
                     contentDescription = "empty star",
                     tint = PrimaryColor,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(size)
                 )
             }
         }
-        Row(){
+        Row{
             if (starCount != null) {
                 repeat(starCount) {
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "filled star",
                         tint = PrimaryColor,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(size)
                     )
                 }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-
-    StarsRow(starCount = 4,53.dp)
-
 }

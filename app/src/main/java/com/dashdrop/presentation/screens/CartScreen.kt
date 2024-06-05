@@ -7,12 +7,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -49,15 +47,9 @@ fun CartScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                CartList(navController = navController,cartViewModel = cartViewModel)
+                CartList(navController = navController, cartViewModel = cartViewModel)
             }
         }
 
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    CartScreen(navController = rememberNavController())
 }

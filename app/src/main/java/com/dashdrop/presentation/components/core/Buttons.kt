@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,56 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dashdrop.R
-import com.dashdrop.ui.theme.DashDropTheme
 import com.dashdrop.ui.theme.PrimaryColor
-
-@Preview
-@Composable
-private fun ButtonsPreview() {
-    Column{
-        DashDropTheme {
-
-            PrimaryButton(onClick = {}) {
-                Text(text = "Button")
-            }
-
-            PrimaryButton(
-                onClick = {},
-                enabled = false
-            ) {
-                Text(text = "Button")
-            }
-
-            SecondaryButton(onClick = {}) {
-                Text(text = "Button")
-            }
-
-            SecondaryButton(
-                onClick = {},
-                enabled = false
-            ) {
-                Text(text = "Button")
-            }
-
-            FAB(
-                onClick = {},
-                icon =painterResource(id = R.drawable.add)
-            )
-
-            SmallCircularImageButton(
-                onClick = {},
-                image = painterResource(id = R.drawable.google),
-                desc = "google icon"
-            )
-
-        }
-    }
-}
 
 @Composable
 fun PrimaryButton(

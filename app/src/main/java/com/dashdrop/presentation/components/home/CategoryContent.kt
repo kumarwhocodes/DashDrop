@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.data.model.Item
+import com.dashdrop.data.model.urlEncode
 import com.dashdrop.data.repo.cart.addCartInFireBase
 import com.dashdrop.data.repo.favourite.changeFav
 import com.dashdrop.data.utils.UiState
@@ -93,9 +95,11 @@ fun ItemList(
                     .size(191.dp,219.dp)
                     .padding(2.dp)
                     .clickable(onClick = {
+                        val image = item.itemImage.urlEncode()
                         navController.navigate(
-                            "details/${item.item_name}/${item.item_price}/${item.item_detail}/${item.item_star}/${item.item_category}"
+                            "details/${item.itemId}/${item.itemName}/${item.itemPrice}/${item.itemDetail}/${item.itemStar}/${item.itemCategory}/${image}"
                         )
+                        Log.d("image_url_category", image)
                     })
             ) {
                 Box{
@@ -107,17 +111,17 @@ fun ItemList(
                             shape = RoundedCornerShape(7.dp)
                         ) {
                             Box {
-                                Image(
+                                AsyncImage(
+                                    model = item.itemImage,
+                                    contentDescription = item.itemName,
                                     modifier = Modifier
                                         .size(183.dp,129.dp)
                                         .background(cardIconBackgroundColor)
-                                        .padding(3.dp),
-                                    painter = painterResource(id = R.drawable.strawberries),
-                                    contentDescription = null
+                                        .padding(10.dp)
                                 )
                                 IconButton(
                                     onClick = {
-                                        changeFav(item.item_id)
+                                        changeFav(item.itemId)
                                     },
                                     modifier = Modifier.align(Alignment.TopEnd),
                                     colors = androidx.compose.material3.IconButtonDefaults.iconButtonColors(
@@ -139,7 +143,7 @@ fun ItemList(
                         ) {
                             Column {
                                 Text(
-                                    text = item.item_name,
+                                    text = item.itemName,
                                     color = Color.Black,
                                     fontFamily = rubikSemiBoldStyle,
                                     fontSize = 22.sp
@@ -150,7 +154,7 @@ fun ItemList(
                                         text = "₹", fontSize = 18.sp , color = PrimaryColor
                                     )
                                     Text(
-                                        text = item.item_price, color = PrimaryColor, fontSize = 18.sp
+                                        text = item.itemPrice, color = PrimaryColor, fontSize = 18.sp
                                     )
                                     Text(
                                         text = "/KG", fontSize = 18.sp, color = TertiaryColor
@@ -161,7 +165,7 @@ fun ItemList(
                     }
                     FloatingActionButton(
                         onClick = {
-                            addCartInFireBase(item.item_id, true)
+                            addCartInFireBase(item.itemId, true)
                         },
                         shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
                         modifier = Modifier

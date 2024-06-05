@@ -3,7 +3,6 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.dashdrop.data.model.Cart
 import com.dashdrop.data.repo.cart.GetCartFireRepo
 import com.dashdrop.data.repo.cart.addCartInFireBase
@@ -44,7 +43,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun updateCartQuantity(itemId: String, operation: Boolean, navController: NavController) {
+    fun updateCartQuantity(itemId: String, operation: Boolean) {
 
         try {
             // Update Firestore
@@ -55,15 +54,15 @@ class CartViewModel @Inject constructor(
             if (currentState is UiState.Success) {
                 val (currentCart, total) = currentState.data
                 val updatedCart = currentCart.map { item ->
-                    if (item.item_id == itemId) {
+                    if (item.itemId == itemId) {
                         val newQuantity =
-                            if (operation) item.item_quantity + 1 else item.item_quantity - 1
-                        item.copy(item_quantity = newQuantity.coerceAtLeast(0))
+                            if (operation) item.itemQuantity + 1 else item.itemQuantity - 1
+                        item.copy(itemQuantity = newQuantity.coerceAtLeast(0))
                     } else {
                         item
                     }
                 }
-                val newSubtotal = updatedCart.sumOf { it.item_price.toDouble() * it.item_quantity }
+                val newSubtotal = updatedCart.sumOf { it.itemPrice.toDouble() * it.itemQuantity }
                 _cartData.value = UiState.Success(Pair(ArrayList(updatedCart), newSubtotal))
                 _subtotal.value = newSubtotal
                 _total.value = newSubtotal + 25.0

@@ -41,11 +41,11 @@ private fun storeUserData(user: FirebaseUser?) {
         }
 
     val cartData = hashMapOf(
-        "item_id" to arrayListOf<String>(),
-        "item_quantity" to arrayListOf<String>()
+        "itemId" to arrayListOf<String>(),
+        "itemQuantity" to arrayListOf<String>()
     )
     val favouriteData = hashMapOf(
-        "item_id" to arrayListOf<String>()
+        "itemId" to arrayListOf<String>()
     )
 
     FirebaseFirestore.getInstance()

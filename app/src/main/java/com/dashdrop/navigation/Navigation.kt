@@ -58,19 +58,21 @@ fun Navigation(navController: NavHostController) {
         ) {
             CategoryScreen(
                 navController = navController,
-                item_category = it.arguments?.getString("items_category")
+                itemCategory = it.arguments?.getString("items_category")
             )
         }
         composable(
-            route = "details/{item_name}/{item_price}/{item_detail}/{item_star}/{item_category}"
+            route = "details/{itemId}/{itemName}/{itemPrice}/{itemDetail}/{itemStar}/{itemCategory}/{image}"
         ) {
             DetailsScreen(
                 navController = navController,
-                item_name = it.arguments?.getString("item_name"),
-                item_price = it.arguments?.getString("item_price"),
-                item_detail = it.arguments?.getString("item_detail"),
-                item_star = it.arguments?.getString("item_star"),
-                itemCategory = it.arguments?.getString("item_category")
+                itemId = it.arguments?.getString("itemId"),
+                itemName = it.arguments?.getString("itemName"),
+                itemPrice = it.arguments?.getString("itemPrice"),
+                itemDetail = it.arguments?.getString("itemDetail"),
+                itemStar = it.arguments?.getString("itemStar"),
+                itemCategory = it.arguments?.getString("itemCategory"),
+                image = it.arguments?.getString("image")
             )
         }
         composable(route = "favourite") {
@@ -82,7 +84,7 @@ fun Navigation(navController: NavHostController) {
         composable(route = "profile") {
             ProfileScreen(navController = navController)
         }
-        composable(route = "billing/{total}",) {
+        composable(route = "billing/{total}") {
             BillingScreen(navController = navController,
                 total = it.arguments?.getString("total")
             )
