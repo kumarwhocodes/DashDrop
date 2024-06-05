@@ -61,11 +61,6 @@ fun CartList(
         }
 
         is UiState.Success -> {
-//            cartList = cartData.data.first
-//            subtotal = cartData.data.second
-//            total = subtotal + 25.0
-//            Log.d("CartList", "Cart items: $cartList")
-
             val (cartList, subtotal) = (cartState as UiState.Success<Pair<ArrayList<Cart>, Double>>).data
             val totalState by cartViewModel.total.collectAsState()
 
@@ -104,43 +99,5 @@ fun CartList(
                 }
             }
         }
-
-        else->{}
     }
-
-//    if (cartList.isNotEmpty()) {
-//        Scaffold(
-//            bottomBar = {
-//                Column(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    verticalArrangement = Arrangement.Bottom
-//                ) {
-//                    CheckoutBottomBar(
-//                        price = "" + total.toString(),
-//                        buttonAction = {
-//                            navController.navigate("billing/$total")
-//                        },
-//                        buttonText = "Checkout"
-//                    )
-//                }
-//            }
-//        ) {
-//            Surface(
-//                color = backgroundColor
-//            ){
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(it)
-//                ) {
-//                    items(cartList) { item ->
-//                        CartItem(item = item, navController = navController)
-//                    }
-//                    item {
-//                        PricingCard(subTotal = subtotal, total = total)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

@@ -3,7 +3,6 @@ package com.dashdrop.presentation.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.repo.address.GetAddressFireRepo
 import com.dashdrop.data.utils.UiState
@@ -22,8 +21,8 @@ class BillingViewModel @Inject constructor(
     private val addressFireRepo: GetAddressFireRepo
 ) : ViewModel(){
 
-    private var billingUIState = MutableStateFlow(BillingUIState())
-    val _billingUIState : StateFlow<BillingUIState> = billingUIState
+    private var billingUIStatePrivate = MutableStateFlow(BillingUIState())
+    val billingUIState : StateFlow<BillingUIState> = billingUIStatePrivate
 
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
@@ -37,14 +36,14 @@ class BillingViewModel @Inject constructor(
                 val size = document.get("addresses")?.let { addresses ->
                     (addresses as? List<*>)?.size ?: 0
                 } ?: 0
-                billingUIState.value = billingUIState.value.copy(addressId = size)
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(addressId = size)
             }
         }
     }
-    fun onEvent(event: BillingUIEvent, navController: NavController){
+    fun onEvent(event: BillingUIEvent){
         when(event){
             is BillingUIEvent.AddressChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     address = event.address
                 )
             }
@@ -52,42 +51,42 @@ class BillingViewModel @Inject constructor(
                 loadAddressSize()
             }
             is BillingUIEvent.CityChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     city = event.city
                 )
             }
             is BillingUIEvent.CountryChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     country = event.country
                 )
             }
             is BillingUIEvent.LandmarkChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     landmark = event.landmark
                 )
             }
             is BillingUIEvent.LocalityChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     locality = event.locality
                 )
             }
             is BillingUIEvent.NameChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     name = event.name
                 )
             }
             is BillingUIEvent.PhoneNumberChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     phoneNumber = event.phoneNumber
                 )
             }
             is BillingUIEvent.PincodeChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     pinCode = event.pincode
                 )
             }
             is BillingUIEvent.StateChanged -> {
-                billingUIState.value = billingUIState.value.copy(
+                billingUIStatePrivate.value = billingUIStatePrivate.value.copy(
                     state = event.state
                 )
             }

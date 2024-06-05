@@ -9,7 +9,6 @@ import com.dashdrop.data.model.Item
 import com.dashdrop.data.model.PopularItem
 import com.dashdrop.data.repo.category.GetCategoryFireRepo
 import com.dashdrop.data.repo.item.GetItemFireRepo
-//import com.dashdrop.data.repo.ServiceLocator
 import com.dashdrop.data.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,7 +43,7 @@ class HomeViewModel @Inject constructor(
 
     fun getAllItems(path: String, navController: NavController) {
         Log.d("HomeViewModel", "getAllItems called with path: $path")
-        getAllItemsFromFireStore(path, navController)
+        getAllItemsFromFireStore(path)
     }
 
     fun getAllPopularItems() {
@@ -65,17 +64,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getAllItemsFromFireStore(path: String, navController: NavController) {
+    private fun getAllItemsFromFireStore(path: String) {
         _itemData.value = UiState.Loading
         Log.d("HomeViewModel", "Fetching items from Firestore for path: $path")
 
         viewModelScope.launch {
             try {
-                _itemData.value = itemFireRepo.getItemList(path, navController)
+                _itemData.value = itemFireRepo.getItemList(path)
                 Log.d("HomeViewModel", "Items fetched: $_itemData")
-                if (_itemData.value is UiState.Success) {
-//                    navController.navigate("category/$path")
-                }
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching items: ${e.message}")
             }

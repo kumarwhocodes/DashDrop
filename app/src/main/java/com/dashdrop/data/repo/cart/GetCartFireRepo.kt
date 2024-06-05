@@ -12,7 +12,7 @@ class GetCartFireRepo @Inject constructor(
     private val query3: DocumentReference,
     private val query4: Query,
 ) {
-    val cartList = arrayListOf<Cart>()
+    private val cartList = arrayListOf<Cart>()
 
     suspend fun getCartList(): UiState<Pair<ArrayList<Cart>,Double>> {
         val itemIds: MutableList<String> = mutableListOf()
@@ -21,9 +21,9 @@ class GetCartFireRepo @Inject constructor(
         return try {
 
             val userCartSnapshot = query3.get().await()
-            val data = userCartSnapshot.get("item_id") as List<String>
+            val item = userCartSnapshot.get("item_id") as List<String>
             val quantity = userCartSnapshot.get("item_quantity") as List<Int>
-            itemIds.addAll(data)
+            itemIds.addAll(item)
             Log.d("GetCartFireRepo", "itemIds: $itemIds")
 
             var total = 0.0
@@ -31,13 +31,14 @@ class GetCartFireRepo @Inject constructor(
             for (document in itemsSnapshot) {
                 if (document.id in itemIds) {
                     val data = Cart(
-                        item_name = document.getString("name") ?: "",
-                        item_price = document.getString("price") ?: "",
-                        item_category = document.getString("category") ?: "",
-                        item_id = document.id,
-                        item_quantity = quantity[itemIds.indexOf(document.id)]
+                        itemName = document.getString("name") ?: "",
+                        itemPrice = document.getString("price") ?: "",
+                        itemCategory = document.getString("category") ?: "",
+                        itemId = document.id,
+                        itemQuantity = quantity[itemIds.indexOf(document.id)],
+                        itemImage = document.getString("image") ?: ""
                     )
-                    total += data.item_price.toDouble() * data.item_quantity
+                    total += data.itemPrice.toDouble() * data.itemQuantity
                     cartList.add(data)
                 }
             }

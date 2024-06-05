@@ -57,6 +57,7 @@ android {
 dependencies {
 
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     val nav_version = "2.7.7"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -128,5 +129,7 @@ dependencies {
 
     //Lottie
     implementation("com.airbnb.android:lottie-compose:6.4.0")
+
+    implementation (libs.picasso)
 
 }

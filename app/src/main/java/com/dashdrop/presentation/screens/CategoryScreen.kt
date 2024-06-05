@@ -7,11 +7,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.presentation.components.home.ItemList
@@ -22,13 +20,13 @@ import com.dashdrop.ui.theme.backgroundColor
 fun CategoryScreen(
     signInViewModel: SignInViewModel = viewModel(),
     navController: NavController,
-    item_category: String?
+    itemCategory: String?
 ) {
     Scaffold(
         modifier = Modifier,
         topBar = {
-            if (item_category != null) {
-                ScaffoldTop(toolbarTitle = item_category,
+            if (itemCategory != null) {
+                ScaffoldTop(toolbarTitle = itemCategory,
                     logOutButtonClicked = {
                         signInViewModel.logout(navController)
                     },
@@ -46,17 +44,8 @@ fun CategoryScreen(
                 .padding(8.dp),
         )
         {
-            ItemList(navController = navController,path = item_category)
+            ItemList(navController = navController,path = itemCategory)
         }
 
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    CategoryScreen(
-        navController = rememberNavController(),
-        item_category = "items_category"
-    )
 }

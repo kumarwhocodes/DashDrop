@@ -24,7 +24,7 @@ class GetAddressFireRepo @Inject constructor(
                         phoneNumber = map["phoneNumber"] as? String ?: "",
                         city = map["city"] as? String ?: "",
                         state = map["state"] as? String ?: "",
-                        pincode = map["pincode"] as? String ?: "",
+                        `pin-code` = map["`pincode`"] as? String ?: "",
                         locality = map["locality"] as? String ?: "",
                         address = map["address"] as? String ?: "",
                         country = map["country"] as? String ?: ""

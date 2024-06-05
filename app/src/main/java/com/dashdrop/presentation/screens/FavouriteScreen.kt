@@ -7,12 +7,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.FavViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
@@ -51,15 +49,7 @@ fun FavouriteScreen(
                 .padding(paddingValues)
                 .padding(10.dp)
         ) {
-            FavouriteList(navController = navController, favViewModel = favViewModel)
+            FavouriteList(favViewModel = favViewModel)
         }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    FavouriteScreen(
-        navController = rememberNavController()
-    )
 }

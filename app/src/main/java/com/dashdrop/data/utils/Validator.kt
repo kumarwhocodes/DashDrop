@@ -24,25 +24,4 @@ object Validator {
         )
     }
 
-    fun validateAddress(
-        name: String,
-        phoneNumber: String,
-        address: String,
-        city: String,
-        state: String,
-        country: String
-    ): ValidationResult {
-        return ValidationResult(
-            (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && state.isNotEmpty() && country.isNotEmpty())
-        )
-    }
-
-    fun validatePinCode(
-        pinCode: Int
-    ): ValidationResult {
-        return ValidationResult(
-            (pinCode.toString().length == 6)
-        )
-    }
-
 }

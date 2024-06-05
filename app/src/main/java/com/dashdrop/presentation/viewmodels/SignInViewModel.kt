@@ -109,16 +109,4 @@ class SignInViewModel : ViewModel() {
 
     val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun checkForActiveSession() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            Log.d("Is Login", "Valid Session")
-            isUserLoggedIn.value = true
-        } else {
-            Log.d("is Login", "User is not logged in")
-            isUserLoggedIn.value = false
-        }
-    }
-
-
-
 }

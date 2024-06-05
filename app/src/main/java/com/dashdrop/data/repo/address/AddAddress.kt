@@ -20,8 +20,8 @@ fun addAddress(newAddress: DeliveryAddress, navController: NavController, total:
             }
         }
         navController.navigate("billing/$total")
-        Log.d("mera_tag", "user ka address save hogya")
+        Log.d("TAG","User address added")
     }.addOnFailureListener {
-        Log.d("mera_tag", "user ka address save nhi hua")
+        Log.d("TAG","User address not added")
     }
 }

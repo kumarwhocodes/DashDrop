@@ -31,11 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.data.model.Cart
 import com.dashdrop.presentation.components.core.PrimaryButton
@@ -82,10 +82,12 @@ fun CartItem(item: Cart,
                             .fillMaxHeight()
                             .width(100.dp)
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.orange),
-                            contentDescription = "orange",
-                            modifier = Modifier.size(100.dp)
+                        AsyncImage(
+                            model = item.itemImage,
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(100.dp)
+                                .padding(10.dp)
                         )
                     }
 
@@ -96,14 +98,14 @@ fun CartItem(item: Cart,
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Text(
-                            text = item.item_name,
+                            text = item.itemName,
                             fontFamily = rubikBoldStyle,
                             fontSize = 18.sp,
                             color = Color.Black
                         )
                         Row {
                             Text(
-                                text = "₹${item.item_price}",
+                                text = "₹${item.itemPrice}",
                                 fontFamily = rubikRegularStyle,
                                 fontSize = 18.sp,
                                 color = bg
@@ -132,9 +134,8 @@ fun CartItem(item: Cart,
                             .size(25.dp)
                             .clickable {
                                 cartViewModel.updateCartQuantity(
-                                    itemId = item.item_id,
-                                    operation = false,
-                                    navController = navController
+                                    itemId = item.itemId,
+                                    operation = false
                                 )
 
                             }
@@ -147,7 +148,7 @@ fun CartItem(item: Cart,
                         )
                     }
                     Text(
-                        text = item.item_quantity.toString(),
+                        text = item.itemQuantity.toString(),
                         fontSize = 16.sp,
                         color = Color.Black.copy(0.5f),
                         fontWeight = FontWeight.Normal
@@ -159,9 +160,8 @@ fun CartItem(item: Cart,
                             .size(25.dp)
                             .clickable {
                                 cartViewModel.updateCartQuantity(
-                                    itemId = item.item_id,
-                                    operation = true,
-                                    navController = navController
+                                    itemId = item.itemId,
+                                    operation = true
                                 )
                             }
                     ) {
@@ -320,13 +320,4 @@ fun PricingCard(subTotal: Double, total: Double) {
         }
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    Column {
-        Spacer(modifier = Modifier.height(50.dp))
-        PricingCard(5.0, 30.0)
-    }
 }

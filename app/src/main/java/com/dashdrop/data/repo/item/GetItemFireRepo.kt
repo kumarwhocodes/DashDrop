@@ -1,7 +1,6 @@
 package com.dashdrop.data.repo.item
 
 import android.util.Log
-import androidx.navigation.NavController
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.model.PopularItem
 import com.dashdrop.data.utils.UiState
@@ -14,10 +13,10 @@ class GetItemFireRepo @Inject constructor(
     private val query6: Query
 ) {
 
-    val itemList = arrayListOf<Item>()
-    val popularItemList = arrayListOf<PopularItem>()
+    private val itemList = arrayListOf<Item>()
+    private val popularItemList = arrayListOf<PopularItem>()
 
-    suspend fun getItemList(path: String, navController: NavController): UiState<ArrayList<Item>> {
+    suspend fun getItemList(path: String): UiState<ArrayList<Item>> {
         itemList.clear()
 
         query2.get().addOnSuccessListener { documents ->
@@ -29,13 +28,14 @@ class GetItemFireRepo @Inject constructor(
                     if (t == path) {
                         val data = Item(
                             index = a,
-                            item_category = path,
-                            item_id = document.id,
-                            item_name = document.getString("name") ?: "",
-                            item_price = document.getString("price") ?: "",
-                            item_favourite = document.getString("favourite") ?: "",
-                            item_star = document.getString("stars") ?: "",
-                            item_detail = document.getString("details") ?: ""
+                            itemCategory = path,
+                            itemId = document.id,
+                            itemName = document.getString("name") ?: "",
+                            itemPrice = document.getString("price") ?: "",
+                            itemFavourite = document.getString("favourite") ?: "",
+                            itemStar = document.getString("stars") ?: "",
+                            itemDetail = document.getString("details") ?: "",
+                            itemImage = document.getString("image") ?: ""
                         )
                         itemList.add(
                             data
@@ -68,10 +68,11 @@ class GetItemFireRepo @Inject constructor(
             for (document in documents) {
                 val data = PopularItem(
                     index = a,
-                    item_category = document.getString("category_name") ?: "",
-                    item_id = document.id,
-                    item_name = document.getString("name") ?: "",
-                    item_price = document.getString("price") ?: ""
+                    itemCategory = document.getString("category_name") ?: "",
+                    itemId = document.id,
+                    itemName = document.getString("name") ?: "",
+                    itemPrice = document.getString("price") ?: "",
+                    item_image = document.getString("image") ?: ""
                 )
                 popularItemList.add(
                     data

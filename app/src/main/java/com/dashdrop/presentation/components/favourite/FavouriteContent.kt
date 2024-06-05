@@ -20,14 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.dashdrop.data.model.Favourite
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.FavViewModel
 
 @Composable
 fun FavouriteList(
-    navController: NavController,
     favViewModel: FavViewModel = hiltViewModel()
 ) {
     val favData = favViewModel.favData.collectAsState().value

@@ -2,19 +2,21 @@ package com.dashdrop.data.model
 
 data class Item(
     val index: Int,
-    val item_category: String,
-    val item_name: String,
-    val item_id: String,
-    val item_price: String,
-    val item_star: String,
-    var item_favourite: String,
-    val item_detail: String
+    val itemCategory: String,
+    val itemName: String,
+    val itemId: String,
+    val itemPrice: String,
+    val itemStar: String,
+    var itemFavourite: String,
+    val itemDetail: String,
+    val itemImage: String,
 )
 
 data class PopularItem(
     val index: Int,
-    val item_category: String,
-    val item_name: String,
-    val item_id: String,
-    val item_price: String,
+    val itemCategory: String,
+    val itemName: String,
+    val itemId: String,
+    val itemPrice: String,
+    val item_image: String
 )

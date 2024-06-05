@@ -1,6 +1,5 @@
 package com.dashdrop.presentation.components.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,63 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.data.repo.cart.addCartInFireBase
-import com.dashdrop.presentation.components.core.StarsRow
-import com.dashdrop.presentation.components.core.FAB
-import com.dashdrop.ui.theme.DashDropTheme
 import com.dashdrop.ui.theme.TertiaryColor
 import com.dashdrop.ui.theme.PrimaryColor
-import com.dashdrop.ui.theme.bg
 import com.dashdrop.ui.theme.cardBackgroundColor
 import com.dashdrop.ui.theme.cardIconBackgroundColor
 import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
-@Preview()
-@Composable
-private fun ButtonsPreview() {
-    Column {
-        DashDropTheme {
-            CategoryButton(
-                value = "Veggies",
-                image = R.drawable.veggiess,
-                imageDesc = "veggies",
-                onClick = {}
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            ItemButton(
-                value = "Veggies",
-                image = painterResource(id = R.drawable.veggiess),
-                imageDesc = "veggies",
-                price = "$2.99",
-                icon = painterResource(id = R.drawable.add),
-                item_id = "d"
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            CartButton(
-                value = "Veggies",
-                image = painterResource(id = R.drawable.veggiess),
-                imageDesc = "veggies",
-                price = "$2.99",
-                startCount = 2
-            )
-        }
-    }
-}
-
 @Composable
 fun CategoryButton(
-    value: String, image: Int, imageDesc: String?=null,
+    value: String, image: String, imageDesc: String?=null,
     onClick: ()-> Unit
 ) {
     Surface(
@@ -96,13 +54,14 @@ fun CategoryButton(
             Surface(
                 modifier = Modifier.clip(CircleShape)
             ) {
-                Image(
+                AsyncImage(
+                    model = image,
+                    contentDescription = imageDesc,
                     modifier = Modifier
                         .size(60.dp)
+                        .clip(shape = RoundedCornerShape(10.dp))
                         .background(cardIconBackgroundColor)
-                        .padding(3.dp),
-                    painter = painterResource(id = image),
-                    contentDescription = imageDesc
+                        .padding(10.dp)
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -120,11 +79,10 @@ fun CategoryButton(
 @Composable
 fun ItemButton(
     value: String,
-    image: Painter,
+    image: String,
     imageDesc: String? = null,
     price: String,
-    icon: Painter,
-    item_id: String
+    itemId: String
 ) {
     Surface(
         color = cardBackgroundColor,
@@ -145,13 +103,14 @@ fun ItemButton(
                     shape = RoundedCornerShape(7.dp)
                 ) {
                     Box {
-                        Image(
+                        AsyncImage(
+                            model = image,
+                            contentDescription = imageDesc,
                             modifier = Modifier
                                 .size(183.dp, 129.dp)
+                                .clip(shape = RoundedCornerShape(10.dp))
                                 .background(cardIconBackgroundColor)
-                                .padding(3.dp),
-                            painter = painterResource(id = R.drawable.strawberries),
-                            contentDescription = null
+                                .padding(10.dp)
                         )
                     }
                 }
@@ -184,7 +143,7 @@ fun ItemButton(
             }
             FloatingActionButton(
                 onClick = {
-                    addCartInFireBase(itemId = item_id, true)
+                    addCartInFireBase(itemId = itemId, true)
                 },
                 shape = RoundedCornerShape(7.dp, 0.dp, 7.dp, 0.dp),
                 modifier = Modifier
@@ -198,76 +157,6 @@ fun ItemButton(
                     contentDescription = "Add to cart"
                 )
             }
-        }
-    }
-}
-
-
-
-@Composable
-fun CartButton(
-    value: String,
-    image: Painter,
-    imageDesc: String?=null,
-    price: String,
-    startCount: Int
-) {
-    Surface(
-        shape = RoundedCornerShape(7.dp),
-        modifier = Modifier.padding(2.dp)
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(2.dp, 2.dp, 2.dp, 2.dp)
-        ) {
-            Surface(
-                shape = RoundedCornerShape(7.dp)
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .background(bg)
-                        .padding(3.dp),
-                    painter = image,
-                    contentDescription = imageDesc
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Absolute.SpaceAround
-            ) {
-                Column {
-                    Text(
-                        text = value,
-                        color = Color.Black.copy(),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight(550)
-                    )
-                    Spacer(modifier = Modifier.height(3.dp))
-                    StarsRow(starCount = startCount,22.dp)
-                    Spacer(modifier = Modifier.height(3.dp))
-                    Row {
-                        Text(
-                            text = price, color = Color.Green, fontSize = 18.sp
-                        )
-                        Text(
-                            text = "/KG", fontSize = 18.sp
-                        )
-                    }
-
-                }
-                FAB(
-                    onClick = {
-
-                    },
-                    modifier = Modifier
-                        .padding(30.dp, 0.dp, 0.dp, 5.dp)
-                        .size(33.dp),
-                    icon = painterResource(id = R.drawable.add)
-                )
-            }
-
         }
     }
 }

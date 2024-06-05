@@ -1,9 +1,10 @@
 package com.dashdrop.data.model
 
 data class Cart(
-    val item_category: String,
-    val item_name: String,
-    val item_id: String,
-    val item_price: String,
-    var item_quantity: Int
+    val itemCategory: String,
+    val itemName: String,
+    val itemId: String,
+    val itemPrice: String,
+    var itemQuantity: Int,
+    val itemImage: String
 )

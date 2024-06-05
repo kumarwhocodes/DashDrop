@@ -4,17 +4,15 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -34,10 +32,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -108,7 +104,7 @@ fun ScaffoldTop(
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Logout,
+                    imageVector = Icons.AutoMirrored.Filled.Logout,
                     contentDescription = "LogOut",
                     tint = iconColor
                 )
@@ -130,7 +126,11 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.HomeScreen.route,
-            onClick = { navController.navigate(Screen.HomeScreen.route) },
+            onClick = {
+                if (currentRoute != Screen.HomeScreen.route) {
+                    navController.navigate(Screen.HomeScreen.route)
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home,
@@ -155,7 +155,11 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.FavouriteScreen.route,
-            onClick = { navController.navigate(Screen.FavouriteScreen.route) },
+            onClick = {
+                 if(currentRoute != Screen.FavouriteScreen.route){
+                     navController.navigate(Screen.FavouriteScreen.route)
+                 }
+            },
             icon = {
                 Icon(
                     imageVector = if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
@@ -180,7 +184,11 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.CartScreen.route,
-            onClick = { navController.navigate(Screen.CartScreen.route) },
+            onClick = {
+                if(currentRoute != Screen.CartScreen.route){
+                    navController.navigate(Screen.CartScreen.route)
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
@@ -205,7 +213,11 @@ fun BottomNavBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.ProfileScreen.route,
-            onClick = { navController.navigate(Screen.ProfileScreen.route) },
+            onClick = {
+                if(currentRoute != Screen.ProfileScreen.route){
+                    navController.navigate(Screen.ProfileScreen.route)
+                }
+            },
             icon = {
                 Icon(
                     imageVector = if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person,
@@ -227,69 +239,6 @@ fun BottomNavBar(
                 indicatorColor = PrimaryColor.copy(0.25f)
             )
         )
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceEvenly
-//        ) {
-//            IconButton(
-//                onClick = { navController.navigate(Screen.HomeScreen.route) },
-//                colors = IconButtonColors(
-//                    contentColor = PrimaryColor,
-//                    containerColor = Color.White,
-//                    disabledContentColor = Color.White,
-//                    disabledContainerColor = Color.White
-//                )
-//            ) {
-//                Icon(
-//                    imageVector = if (currentRoute == Screen.HomeScreen.route) Icons.Filled.Home else Icons.Outlined.Home,
-//                    contentDescription = "Home",
-//                )
-//            }
-//            IconButton(
-//                onClick = { navController.navigate(Screen.FavouriteScreen.route) },
-//                colors = IconButtonColors(
-//                    contentColor = PrimaryColor,
-//                    containerColor = Color.White,
-//                    disabledContentColor = Color.White,
-//                    disabledContainerColor = Color.White
-//                )
-//            ) {
-//                Icon(
-//                    imageVector = if (currentRoute == Screen.FavouriteScreen.route) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-//                    contentDescription = "Favourite"
-//                )
-//            }
-//            IconButton(
-//                onClick = {
-//                    navController.navigate(Screen.CartScreen.route)
-//                    },
-//                colors = IconButtonColors(
-//                    contentColor = PrimaryColor,
-//                    containerColor = Color.White,
-//                    disabledContentColor = Color.White,
-//                    disabledContainerColor = Color.White
-//                )
-//            ) {
-//                Icon(
-//                    imageVector = if (currentRoute == Screen.CartScreen.route) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
-//                    contentDescription = "Cart"
-//                )
-//            }
-//            IconButton(
-//                onClick = { navController.navigate(Screen.ProfileScreen.route) },
-//                colors = IconButtonColors(
-//                    contentColor = PrimaryColor,
-//                    containerColor = Color.White,
-//                    disabledContentColor = Color.Black,
-//                    disabledContainerColor = Color.White
-//                )
-//            ) {
-//                Icon(
-//                    imageVector =  if (currentRoute == Screen.ProfileScreen.route) Icons.Filled.Person else Icons.Outlined.Person,
-//                    contentDescription = "Profile"
-//                )
-//            }
-//        }
     }
 }
 
@@ -308,7 +257,6 @@ fun AddToCartBottomBar(
             modifier = Modifier, verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             HeadingText(
-                modifier = Modifier,
                 value = "Total Price",
                 size = 16.sp,
                 color = Color.Black.copy(0.5f),
@@ -363,7 +311,6 @@ fun CheckoutBottomBar(
             modifier = Modifier, verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             HeadingText(
-                modifier = Modifier,
                 value = "Total Price",
                 size = 16.sp,
                 color = Color.Black.copy(0.5f),
@@ -396,32 +343,5 @@ fun CheckoutBottomBar(
         }
 
     }
-
-}
-
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    Column {
-        ScaffoldTop(toolbarTitle = "Home",
-            logOutButtonClicked = {},
-            navigationIconClicked = {}
-        )
-        Spacer(modifier = Modifier.height(100.dp))
-
-        BottomNavBar(
-            navController = NavController(context = LocalContext.current)
-        )
-
-        AddToCartBottomBar(addToCartButtonClicked = { }, price = "b")
-        CheckoutBottomBar(
-            price = "322",
-            buttonAction = {},
-            buttonText = "Checkout"
-        )
-
-    }
-
 
 }

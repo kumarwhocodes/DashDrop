@@ -23,12 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.model.Payment
 import com.dashdrop.data.repo.order.addOrder
@@ -121,7 +119,6 @@ fun BillingScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     HeadingText(
-                        modifier = Modifier,
                         value = "Address",
                         size = 24.sp,
                         color = Color.Black,
@@ -145,7 +142,6 @@ fun BillingScreen(
                     }
                 )
                 HeadingText(
-                    modifier = Modifier,
                     value = "Payment Methods",
                     size = 24.sp,
                     color = Color.Black,
@@ -191,11 +187,4 @@ fun OrderPlacedDialog(
             }
         )
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun Preview() {
-    BillingScreen(navController = rememberNavController(), total = "43")
-
 }

@@ -36,7 +36,6 @@ import com.dashdrop.ui.theme.rubikRegularStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBox(
-    modifier: Modifier = Modifier,
     input: String,
     onInputChanged: (String) -> Unit,
     onSearch: (String) -> Unit
