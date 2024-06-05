@@ -88,6 +88,7 @@ fun Navigation(navController: NavHostController) {
             BillingScreen(navController = navController,
                 total = it.arguments?.getString("total")
             )
+
         }
         composable(route = "address/{total}"){
             AddressForm(navController = navController,

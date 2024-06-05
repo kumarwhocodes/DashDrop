@@ -65,8 +65,6 @@ fun FavouriteItem(item: Favourite) {
                         fontFamily = rubikSemiBoldStyle,
                         fontSize = 22.sp
                     )
-//                    Spacer(modifier = Modifier.height(3.dp))
-//                    StarsRow(starCount = item.itemStar.toInt(), 25.dp)
                     Spacer(modifier = Modifier.height(3.dp))
                     Row {
                         Text(

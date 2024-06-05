@@ -64,7 +64,7 @@ class GetItemFireRepo @Inject constructor(
         popularItemList.clear()
 
         query6.get().addOnSuccessListener { documents ->
-            var a: Int = 0
+            var a = 0
             for (document in documents) {
                 val data = PopularItem(
                     index = a,
@@ -78,6 +78,7 @@ class GetItemFireRepo @Inject constructor(
                     data
                 )
                 a++
+                Log.d("data popularItemList size", data.toString())
             }
         }
             .addOnFailureListener { exception ->

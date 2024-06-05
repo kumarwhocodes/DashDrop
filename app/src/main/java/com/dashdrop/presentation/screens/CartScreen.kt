@@ -12,9 +12,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dashdrop.navigation.Screen
+import com.dashdrop.presentation.components.cart.CartList
 import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.presentation.viewmodels.SignInViewModel
-import com.dashdrop.presentation.components.cart.CartList
 import com.dashdrop.presentation.components.core.ScaffoldTop
 
 @Composable

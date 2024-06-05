@@ -42,7 +42,7 @@ class GetFavFireRepo @Inject constructor(
             if (favList.isNotEmpty()) {
                 UiState.Success(favList)
             } else {
-                UiState.Error("No Data Found")
+                UiState.Success(favList)
             }
         } catch (e: Exception) {
             Log.e("GetFavFireRepo", "Error getting documents: ${e.message}")
