@@ -20,3 +20,9 @@ data class PopularItem(
     val itemPrice: String,
     val item_image: String
 )
+
+data class SearchItem(
+    val index: Int,
+    val itemName: String,
+    val itemId: String,
+)

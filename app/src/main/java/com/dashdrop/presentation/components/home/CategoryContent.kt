@@ -38,7 +38,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.dashdrop.R
 import com.dashdrop.data.model.Item
-import com.dashdrop.data.model.urlEncode
 import com.dashdrop.data.repo.cart.addCartInFireBase
 import com.dashdrop.data.repo.favourite.changeFav
 import com.dashdrop.data.utils.UiState
@@ -95,11 +94,9 @@ fun ItemList(
                     .size(191.dp,219.dp)
                     .padding(2.dp)
                     .clickable(onClick = {
-                        val image = item.itemImage.urlEncode()
                         navController.navigate(
-                            "details/${item.itemId}/${item.itemName}/${item.itemPrice}/${item.itemDetail}/${item.itemStar}/${item.itemCategory}/${image}"
+                            "details/${item.itemId}/${"Category"}"
                         )
-                        Log.d("image_url_category", image)
                     })
             ) {
                 Box{

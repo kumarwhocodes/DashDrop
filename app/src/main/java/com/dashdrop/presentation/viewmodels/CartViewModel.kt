@@ -29,6 +29,10 @@ class CartViewModel @Inject constructor(
     private val _total: MutableStateFlow<Double> = MutableStateFlow(0.0)
     val total: StateFlow<Double> = _total.asStateFlow()
 
+    fun clearCart(){
+        cartFireRepo.clearCart()
+    }
+
     fun getAllCart() {
         _cartData.value = UiState.Loading
 

@@ -1,8 +1,10 @@
 package com.dashdrop.di
 
+import com.dashdrop.data.repo.Search.GetSearchFireRepo
 import com.dashdrop.data.repo.address.GetAddressFireRepo
 import com.dashdrop.data.repo.cart.GetCartFireRepo
 import com.dashdrop.data.repo.category.GetCategoryFireRepo
+import com.dashdrop.data.repo.details.GetDetailFireRepo
 import com.dashdrop.data.repo.favourite.GetFavFireRepo
 import com.dashdrop.data.repo.item.GetItemFireRepo
 import com.google.firebase.auth.ktx.auth
@@ -53,6 +55,18 @@ object AppModule {
     fun provideFireRepoAddress()= GetAddressFireRepo(
         query5 = FirebaseFirestore.getInstance()
             .collection("address").document(user!!.uid)
+    )
+
+    @Singleton
+    @Provides
+    fun provideFireRepoDetails()= GetDetailFireRepo(query7 = FirebaseFirestore.getInstance()
+        .collection("products")
+    )
+
+    @Singleton
+    @Provides
+    fun provideFireRepoSearch()= GetSearchFireRepo(query8 = FirebaseFirestore.getInstance()
+        .collection("products")
     )
 
 }
