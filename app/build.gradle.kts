@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -42,6 +44,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -58,7 +61,6 @@ dependencies {
 
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
-    val nav_version = "2.7.7"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -77,59 +79,63 @@ dependencies {
     implementation (libs.androidx.material.icons.extended)
 
     //Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation(platform(libs.firebase.bom))
 
     //Firebase Auth
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.firebase.auth.ktx)
 
     //Firestore and analytics
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-database-ktx")
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.database.ktx)
 
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.analytics)
 
     //ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     //Google Play Services Auth
-    implementation ("com.google.android.gms:play-services-auth:20.1.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha03")
+    implementation (libs.play.services.auth)
+    implementation(libs.androidx.credentials.play.services.auth)
 
     //To avoid Composition Local Error
-    debugImplementation ("androidx.customview:customview:1.2.0-alpha01")
-    debugImplementation ("androidx.customview:customview-poolingcontainer:1.0.0-alpha01")
+    debugImplementation (libs.androidx.customview)
+    debugImplementation (libs.androidx.customview.poolingcontainer)
 
     // Coil
     implementation(libs.coil.kt.compose)
 
-    // Java language implementation
-    implementation("androidx.navigation:navigation-fragment:$nav_version")
-    implementation("androidx.navigation:navigation-ui:$nav_version")
+//    // Java language implementation
+//    implementation("androidx.navigation:navigation-fragment:$nav_version")
+//    implementation("androidx.navigation:navigation-ui:$nav_version")
 
     // Kotlin
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // Feature module Support
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
 
     // Testing Navigation
-    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    androidTestImplementation(libs.androidx.navigation.testing)
 
     // Jetpack Compose Integration
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation(libs.androidx.navigation.compose)
 
     //DaggerHilt
-    val hiltVersion = "2.48"
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
-    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.android.gradle.plugin)
+    kapt(libs.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //Lottie
-    implementation("com.airbnb.android:lottie-compose:6.4.0")
+    implementation(libs.lottie.compose)
 
+    //Picasso
     implementation (libs.picasso)
+
+    //Accompanist Pager
+    implementation (libs.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
 
 }
