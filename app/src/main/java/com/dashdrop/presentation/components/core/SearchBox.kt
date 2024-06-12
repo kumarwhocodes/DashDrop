@@ -1,123 +1,193 @@
 package com.dashdrop.presentation.components.core
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.dashdrop.ui.theme.bg
-import com.dashdrop.ui.theme.rubikRegularStyle
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.dashdrop.data.model.SearchItem
+import com.dashdrop.presentation.viewmodels.HomeViewModel
 
+@SuppressLint("MutableCollectionMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBox(
-    input: String,
-    onInputChanged: (String) -> Unit,
-    onSearch: (String) -> Unit
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    searchableItems: List<SearchItem>,
+    navController: NavController
 ) {
-    Box(
-        modifier = Modifier
-            .padding(15.dp)
-            .border(
-                width = 2.dp,
-                color = Color.White,
-                shape = RoundedCornerShape(50.dp)
-            )
-            .clip(shape = RoundedCornerShape(50.dp))
-            .background(color = Color.White)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 5.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedTextField(value = input,
-                onValueChange = onInputChanged,
-                singleLine = true,
-                label = {
-                        Text(text = "Search your products",
-                            fontFamily = rubikRegularStyle,
-                            fontSize = 16.sp)
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedTextColor = MaterialTheme.colorScheme.secondary,
-                    cursorColor = MaterialTheme.colorScheme.secondary,
-                    focusedLabelColor = Color.Transparent,
-                    unfocusedLabelColor = Color.Black.copy(0.5f),
-                    focusedBorderColor = MaterialTheme.colorScheme.background,
-                    unfocusedBorderColor = Color.Transparent
-                ),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = { onSearch("") }
-                ),
-                modifier = Modifier
-                    .background(color = Color.Transparent)
-                    .padding(end = 2.dp)
-                    .fillMaxWidth(1f),
-                trailingIcon = {
-                    FloatingActionButton(
-                        onClick = {
-                            onSearch("")
-                        },
-                        containerColor = Color.Transparent,
-                        contentColor = bg,
-                        elevation = FloatingActionButtonDefaults.elevation(0.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "search_fab",
-                            modifier = Modifier
-                                .background(color = Color.Transparent)
-                                .size(40.dp)
-                                .padding(end = 10.dp)
-                        )
-                    }
-                })
-        }
+    var text by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+    var items by remember { mutableStateOf(searchableItems) }
 
+    SearchBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 6.dp),
+        query = text,
+        onQueryChange = { newText ->
+            text = newText
+            items = homeViewModel.searchList(newText,searchableItems)
+        },
+        onSearch = {
+            active = false
+        },
+        active = active,
+        onActiveChange = {
+            active = it
+        },
+        placeholder = { Text("Search") },
+        leadingIcon = {
+            Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+        },
+        trailingIcon = {
+            if (active) {
+                Icon(
+                    modifier = Modifier.clickable {
+                        if(text.isNotEmpty()){
+                            text = ""
+                        }else{
+                            active = false
+                        }
+                    },
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Close Icon"
+                )
+            }
+        }
+    ) {
+        if(items.isNotEmpty()){
+            items.forEach {
+                Box {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 6.dp)
+                            .clickable(onClick = {
+                                navController.navigate(
+                                    "details/${it.itemId}/${"Home"}"
+                                )
+                            }),
+                        shape = RoundedCornerShape(10.dp),
+                        color = Color.White,
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .padding(all = 14.dp)
+                        ) {
+                            Icon(
+                                modifier = Modifier.padding(end = 10.dp),
+                                imageVector = Icons.Default.History,
+                                contentDescription = "History Icon"
+                            )
+                            Text(text = it.itemName)
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            Text(text = "No items found")
+        }
     }
 }
 
 
-
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun Preview() {
-
-        SearchBox(input = "",
-            onInputChanged = {}) {
-
+    val items = mutableListOf(
+        "Item 1","Item 2","Item 3","Item 4","Item 5","Item 6","Item 7","Item 8","Item 9","Item 10"
+    )
+    var text by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+    SearchBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 6.dp),
+        query = text,
+        onQueryChange = {
+            text = it
+        },
+        onSearch = {
+            if(text.isNotEmpty()){
+                items.add(text)
+                text = ""
+            }
+            active = false
+        },
+        active = active,
+        onActiveChange = {
+            active = it
+        },
+        placeholder = { Text("Search") },
+        leadingIcon = {
+            Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+        },
+        trailingIcon = {
+            if (active) {
+                Icon(
+                    modifier = Modifier.clickable {
+                        if(text.isNotEmpty()){
+                            text = ""
+                        }else{
+                            active = false
+                        }
+                    },
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Close Icon"
+                )
+            }
         }
+    ) {
+        items.forEach {
+            Box(){
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 6.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                    onClick = {
 
-
+                    }
+                ){
+                    Row(
+                        modifier = Modifier
+                            .padding(all = 14.dp)
+                    ) {
+                        Icon(
+                            modifier = Modifier.padding(end = 10.dp),
+                            imageVector = Icons.Default.History,
+                            contentDescription = "History Icon"
+                        )
+                        Text(text = it)
+                    }
+                }
+            }
+        }
+    }
 }

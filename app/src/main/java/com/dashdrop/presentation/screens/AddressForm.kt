@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import com.dashdrop.presentation.viewmodels.BillingViewModel
 import com.dashdrop.presentation.components.core.AddressInputField
 import com.dashdrop.presentation.components.core.PrimaryButton
 import com.dashdrop.presentation.components.core.SecondaryButton
+import com.dashdrop.ui.theme.backgroundColor
 
 @Composable
 fun AddressForm(
@@ -38,6 +40,7 @@ fun AddressForm(
 
     Column(
         modifier = Modifier
+            .background(backgroundColor)
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
@@ -125,7 +128,7 @@ fun AddressForm(
                     addressId = uiState.addressId,
                     name = uiState.name,
                     phoneNumber = uiState.phoneNumber,
-                    `pin-code` = uiState.pinCode,
+                    pincode = uiState.pinCode,
                     locality = uiState.locality,
                     address = uiState.address,
                     city = uiState.city,

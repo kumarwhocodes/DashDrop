@@ -1,18 +1,14 @@
 package com.dashdrop.presentation.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -21,9 +17,7 @@ import com.dashdrop.presentation.viewmodels.SignInViewModel
 import com.dashdrop.presentation.components.core.BottomNavBar
 import com.dashdrop.presentation.components.home.CategoryList
 import com.dashdrop.presentation.components.core.ScaffoldTop
-import com.dashdrop.presentation.components.core.SearchBox
 import com.dashdrop.ui.theme.backgroundColor
-import com.dashdrop.ui.theme.bg
 
 @Composable
 fun HomeScreen(
@@ -59,29 +53,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = bg)
-                ) {
-
-                    SearchBox(input = "",
-                        onInputChanged = {}) {
-                        /*TODO: Search Button Logic*/
-
-                    }
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .padding(5.dp)
-                        .background(color = backgroundColor)
-                ) {
-                    CategoryList(navController = navController, homeViewModel = homeViewModel)
-                }
-
-
+                CategoryList(navController = navController, homeViewModel = homeViewModel)
             }
         }
 

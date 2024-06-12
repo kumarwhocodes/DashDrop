@@ -32,10 +32,11 @@ fun addOrder(
             Log.d("mera_tag", products.toString())
             Log.d("mera_tag", quantities.toString())
 
+            val address = selectedAddress?.address + " " + selectedAddress?.city + " " + selectedAddress?.state
             val data = hashMapOf(
-                "orderAddressId" to "${selectedAddress?.addressId}",
                 "orderCustomerName" to "${selectedAddress?.name}",
-                "orderDeliveryAddress" to "${selectedAddress?.address}",
+                "orderDeliveryAddress" to address,
+                "orderDeliveryPinCode" to "${selectedAddress?.pincode}",
                 "orderMethodOfPayment" to "${selectedPayment?.paymentMode}",
                 "orderOrderId" to orderUniqueId(),
                 "orderPhoneNo" to "${selectedAddress?.phoneNumber}",
@@ -64,6 +65,6 @@ fun orderUniqueId(): String {
     val timeFormat = SimpleDateFormat("HHmmss", Locale.getDefault())
     val currentTime = timeFormat.format((Calendar.getInstance().time))
     val uid = Firebase.auth.currentUser?.uid.toString()
-    return "$currentDate$currentTime&$uid"
+    return "$currentDate$currentTime-$uid"
 }
 

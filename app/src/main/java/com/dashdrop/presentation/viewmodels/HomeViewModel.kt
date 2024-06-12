@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.dashdrop.data.model.Category
+import com.dashdrop.data.model.Details
 import com.dashdrop.data.model.Item
 import com.dashdrop.data.model.PopularItem
+import com.dashdrop.data.model.SearchItem
+import com.dashdrop.data.repo.Search.GetSearchFireRepo
 import com.dashdrop.data.repo.category.GetCategoryFireRepo
+import com.dashdrop.data.repo.details.GetDetailFireRepo
 import com.dashdrop.data.repo.item.GetItemFireRepo
 import com.dashdrop.data.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,10 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val categoryFireRepo: GetCategoryFireRepo,
-    private val itemFireRepo: GetItemFireRepo
+    private val itemFireRepo: GetItemFireRepo,
+    private val detailsFireRepo: GetDetailFireRepo,
+    private val searchItemFireRepo: GetSearchFireRepo
 ) : ViewModel() {
 
-    //    private val repository: GetFireRepo = ServiceLocator.provideRepository()
     private val _categoryData: MutableStateFlow<UiState<ArrayList<Category>>> =
         MutableStateFlow(UiState.Idle)
     val categoryData = _categoryData.asStateFlow()
@@ -34,6 +39,21 @@ class HomeViewModel @Inject constructor(
     private val _popularItemData: MutableStateFlow<UiState<ArrayList<PopularItem>>> =
         MutableStateFlow(UiState.Idle)
     val popularItemData = _popularItemData.asStateFlow()
+
+    private val _details: MutableStateFlow<UiState<Details>> = MutableStateFlow(UiState.Idle)
+    val details = _details.asStateFlow()
+
+    private val _searchItem: MutableStateFlow<UiState<ArrayList<SearchItem>>> = MutableStateFlow(UiState.Idle)
+    val searchItem = _searchItem.asStateFlow()
+
+    fun fetchSearchItem() {
+        getSearchItemFromFireStore()
+    }
+
+    fun getDetails(id: String) {
+        Log.d("HomeViewModel", "getDetails called with id: $id")
+        getDetailsFromFireStore(id)
+    }
 
     fun getAllCategory() {
         Log.d("HomeViewModel", "getAllCategory called")
@@ -89,5 +109,35 @@ class HomeViewModel @Inject constructor(
                 Log.e("HomeViewModel", "Error fetching items: ${e.message}")
             }
         }
+    }
+
+    private fun getDetailsFromFireStore(id: String) {
+        _details.value = UiState.Loading
+
+        viewModelScope.launch {
+            try{
+                _details.value = detailsFireRepo.getDetails(id)
+                Log.d("HomeViewModel", "Details fetched: $_details")
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error fetching details: ${e.message}")
+            }
+        }
+    }
+
+    private fun getSearchItemFromFireStore(){
+        _searchItem.value = UiState.Loading
+
+        viewModelScope.launch {
+            try{
+                _searchItem.value = searchItemFireRepo.getSearchItemList()
+                Log.d("HomeViewModel", "SearchItem fetched: $_searchItem")
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error fetching searchItem: ${e.message}")
+            }
+        }
+    }
+
+    fun searchList(newText: String, searchableItems: List<SearchItem>): List<SearchItem> {
+        return searchableItems.filter { it.itemName.contains(newText, ignoreCase = true) }
     }
 }

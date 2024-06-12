@@ -2,6 +2,7 @@ package com.dashdrop.presentation.screens
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dashdrop.data.model.DeliveryAddress
@@ -38,13 +40,16 @@ import com.dashdrop.presentation.components.core.HeadingText
 import com.dashdrop.presentation.components.billing.OrderPlacedAnimation
 import com.dashdrop.presentation.components.billing.PaymentList
 import com.dashdrop.presentation.components.core.ScaffoldTop
+import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.ui.theme.PrimaryColor
+import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.rubikBoldStyle
 import kotlinx.coroutines.delay
 
 @Composable
 fun BillingScreen(
     signInViewModel: SignInViewModel = viewModel(),
+    cartViewModel: CartViewModel = hiltViewModel(),
     navController: NavController,
     total: String?
 ) {
@@ -75,6 +80,7 @@ fun BillingScreen(
                         addOrder(total, selectedAddress, selectedPayment) {
                             orderPlaced = true
                         }
+                        cartViewModel.clearCart()
                     } else {
                         if (selectedAddress == null && selectedPayment == null) {
                             Toast.makeText(
@@ -102,15 +108,19 @@ fun BillingScreen(
         }
     ) {
         BackHandler {
-
+            navController.navigate(Screen.CartScreen.route) {
+                popUpTo(Screen.CartScreen.route) { inclusive = true }
+            }
         }
         Surface(
             modifier = Modifier
+                .background(backgroundColor)
                 .fillMaxSize()
                 .padding(it)
         ) {
             Column(
                 modifier = Modifier
+                    .background(backgroundColor)
                     .fillMaxSize()
                     .padding(10.dp)
             ) {

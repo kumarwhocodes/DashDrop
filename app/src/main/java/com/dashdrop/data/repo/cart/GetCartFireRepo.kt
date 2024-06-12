@@ -14,6 +14,13 @@ class GetCartFireRepo @Inject constructor(
 ) {
     private val cartList = arrayListOf<Cart>()
 
+    fun clearCart(){
+
+        cartList.clear()
+        val arrayListOf = arrayListOf<String>()
+        query3.update("item_id", arrayListOf,"item_quantity",arrayListOf)
+
+    }
     suspend fun getCartList(): UiState<Pair<ArrayList<Cart>,Double>> {
         val itemIds: MutableList<String> = mutableListOf()
         cartList.clear()

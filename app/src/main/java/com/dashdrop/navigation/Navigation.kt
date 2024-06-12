@@ -62,17 +62,12 @@ fun Navigation(navController: NavHostController) {
             )
         }
         composable(
-            route = "details/{itemId}/{itemName}/{itemPrice}/{itemDetail}/{itemStar}/{itemCategory}/{image}"
+            route = "details/{itemId}/{whenScreen}"
         ) {
             DetailsScreen(
                 navController = navController,
                 itemId = it.arguments?.getString("itemId"),
-                itemName = it.arguments?.getString("itemName"),
-                itemPrice = it.arguments?.getString("itemPrice"),
-                itemDetail = it.arguments?.getString("itemDetail"),
-                itemStar = it.arguments?.getString("itemStar"),
-                itemCategory = it.arguments?.getString("itemCategory"),
-                image = it.arguments?.getString("image")
+                whenScreen = it.arguments?.getString("whenScreen")
             )
         }
         composable(route = "favourite") {

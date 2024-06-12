@@ -4,7 +4,7 @@ data class DeliveryAddress(
     val addressId: Int?=null,
     val name: String?=null,
     val phoneNumber: String?=null,
-    val `pin-code`: String?=null,
+    val pincode: String?=null,
     val locality: String?=null,
     val address: String?=null,
     val city: String?=null,
