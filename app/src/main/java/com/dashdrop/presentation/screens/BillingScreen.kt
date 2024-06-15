@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,6 +45,9 @@ import com.dashdrop.presentation.viewmodels.CartViewModel
 import com.dashdrop.ui.theme.PrimaryColor
 import com.dashdrop.ui.theme.backgroundColor
 import com.dashdrop.ui.theme.rubikBoldStyle
+import com.dashdrop.ui.theme.rubikMediumStyle
+import com.dashdrop.ui.theme.rubikRegularStyle
+import com.dashdrop.ui.theme.rubikSemiBoldStyle
 import kotlinx.coroutines.delay
 
 @Composable
@@ -130,9 +134,9 @@ fun BillingScreen(
                 ) {
                     HeadingText(
                         value = "Address",
-                        size = 24.sp,
+                        size = 22.sp,
                         color = Color.Black,
-                        font = rubikBoldStyle
+                        font = rubikRegularStyle
                     )
                     Text(
                         modifier = Modifier
@@ -140,9 +144,9 @@ fun BillingScreen(
                                 navController.navigate("address/$total")
                             },
                         text = "Add New",
-                        fontSize = 24.sp,
+                        fontSize = 22.sp,
                         color = PrimaryColor,
-                        fontFamily = rubikBoldStyle
+                        fontFamily = rubikRegularStyle
                     )
 
                 }
@@ -151,16 +155,17 @@ fun BillingScreen(
                         selectedAddress = address
                     }
                 )
+                Spacer(modifier = Modifier.padding(10.dp))
                 HeadingText(
                     value = "Payment Methods",
                     size = 24.sp,
                     color = Color.Black,
-                    font = rubikBoldStyle
+                    font = rubikRegularStyle
                 )
                 val modes = listOf(
-                    Payment(1, "Cash"),
-                    Payment(2, "Card"),
-                    Payment(3, "UPI")
+                    Payment(1, "Cash", "https://firebasestorage.googleapis.com/v0/b/dashdrop-1d768.appspot.com/o/payments%2FCash.png?alt=media&token=c71ba5ad-b26b-4b6a-85ee-7b388b5c24c2"),
+                    Payment(2, "Card", "https://firebasestorage.googleapis.com/v0/b/dashdrop-1d768.appspot.com/o/payments%2FCard.png?alt=media&token=f4be8f18-bb93-4dcc-9327-8ef6139cb0c8"),
+                    Payment(3, "UPI", "https://firebasestorage.googleapis.com/v0/b/dashdrop-1d768.appspot.com/o/payments%2FUPI.png?alt=media&token=bac85f1e-d622-485f-81c5-2b4a04143184")
                 )
                 PaymentList(modes = modes,
                     onPaymentSelected = { payment ->

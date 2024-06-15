@@ -28,8 +28,8 @@ val cardIconBackgroundColor = Color(0xFFFAD37B).copy(0.6f)
 val favBackgroundColor = Color(0xFFF8DDA1)
 val favIconBackgroundColor = Color(0xFFFFFFFF)
 
-val detailIconBackgroundColor = Color(0xFFFAD37B)
+val detailIconBackgroundColor = Color(0xFFFACF6D)
 
 val subtractBackgroundColor = Color(0xFFFFDB88)
 
-val scaffoldIconBackgroundColor = Color(0xFFEEC976)
+val scaffoldIconBackgroundColor = Color(0xFFEBBA4B)

@@ -54,7 +54,6 @@ fun ProfileScreen(
 
     var userName by remember { mutableStateOf("") }
     var userEmail by remember { mutableStateOf("") }
-    var userPhoneNumber by remember { mutableStateOf("") }
     var userProfilePic by remember { mutableStateOf("") }
 
     LaunchedEffect(user) {
@@ -64,7 +63,6 @@ fun ProfileScreen(
                     if (document != null) {
                         userName = document.getString("name").orEmpty()
                         userEmail = document.getString("email").orEmpty()
-                        userPhoneNumber = document.getString("phoneNumber").orEmpty()
                         userProfilePic = document.getString("photoUrl").orEmpty()
                     }
                     else{
@@ -128,12 +126,6 @@ fun ProfileScreen(
                     title = "Email",
                     icon = Icons.Filled.Mail,
                     itemValue = userEmail
-                )
-
-                ProfileScreenItem(
-                    title = "Phone Number",
-                    icon = Icons.Filled.Phone,
-                    itemValue = userPhoneNumber
                 )
             }
         }

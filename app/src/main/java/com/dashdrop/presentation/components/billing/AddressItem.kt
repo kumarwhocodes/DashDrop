@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.utils.UiState
 import com.dashdrop.presentation.viewmodels.BillingViewModel
+import com.dashdrop.ui.theme.PrimaryColor
 
 @Composable
 fun AddressItem(
@@ -64,16 +65,15 @@ fun AddressItem(
             ) {
                 RadioButton(
                     selected = isSelected,
-                    onClick = { onAddressSelected() }
+                    onClick = { onAddressSelected() },
+                    colors = androidx.compose.material3.RadioButtonDefaults.colors(
+                        selectedColor = PrimaryColor
+                    )
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(text = address.name.toString())
                     Text(text = "${address.address}, ${address.city}, ${address.state} ${address.pincode}")
-                    Row{
-                        Text(text = "Mobile: ")
-                        Text(text = address.phoneNumber!!)
-                    }
                 }
 
             }

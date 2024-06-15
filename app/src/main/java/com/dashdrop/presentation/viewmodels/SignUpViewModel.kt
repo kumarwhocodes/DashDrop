@@ -123,11 +123,11 @@ class SignUpViewModel : ViewModel() {
                             }
 
                         val cartData = hashMapOf(
-                            "itemId" to arrayListOf<String>(),
-                            "itemQuantity" to arrayListOf<String>()
+                            "item_id" to arrayListOf<String>(),
+                            "item_quantity" to arrayListOf<String>()
                         )
                         val favouriteData = hashMapOf(
-                            "itemId" to arrayListOf<String>()
+                            "item_id" to arrayListOf<String>()
                         )
 
                         FirebaseFirestore.getInstance()

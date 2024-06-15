@@ -28,18 +28,6 @@ val images = listOf(
     R.drawable.banner3
 )
 
-@Composable
-fun ImageSliderItem(
-    image: Int
-) {
-    Image(
-        painter = painterResource(id = image), contentDescription = null,
-        modifier = Modifier
-            .size(width = 390.dp, height = 180.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-    )
-}
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ImageSliderWithIndicator(
@@ -49,7 +37,7 @@ fun ImageSliderWithIndicator(
 
     LaunchedEffect(pagerState) {
         while (true) {
-            delay(3000)
+            delay(2000)
             val nextPage = (pagerState.currentPage + 1) % images.size
             pagerState.animateScrollToPage(nextPage)
         }
@@ -59,10 +47,16 @@ fun ImageSliderWithIndicator(
         HorizontalPager(
             count = images.size,
             state = pagerState,
+            key = { images[it] },
             modifier = Modifier
                 .fillMaxWidth()
-        ) { page ->
-            ImageSliderItem(image = images[page])
+        ) { index ->
+            Image(
+                painter = painterResource(id = images[index]), contentDescription = null,
+                modifier = Modifier
+                    .size(width = 390.dp, height = 180.dp)
+                    .clip(shape = RoundedCornerShape(20.dp))
+            )
         }
 
         HorizontalPagerIndicator(
