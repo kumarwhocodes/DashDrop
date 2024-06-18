@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -44,6 +45,7 @@ import com.dashdrop.ui.theme.bg
 import com.dashdrop.ui.theme.rubikRegularStyle
 import com.dashdrop.ui.theme.rubikSemiBoldStyle
 import com.dashdrop.ui.theme.scaffoldIconBackgroundColor
+import okhttp3.Interceptor.Companion.invoke
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -344,4 +346,42 @@ fun CheckoutBottomBar(
 
     }
 
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddressScaffoldTop(
+    cancelButtonClicked: () -> Unit,
+    containerColor: Color = PrimaryColor,
+    iconColor: Color = Color.White,
+    iconBackgroundColor: Color = scaffoldIconBackgroundColor
+) {
+
+    TopAppBar(
+        modifier = Modifier,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = containerColor
+        ),
+        title = {},
+        actions = {
+            IconButton(
+                onClick = {
+                    cancelButtonClicked.invoke()
+                },
+                colors = IconButtonColors(
+                    contentColor = iconColor,
+                    containerColor = iconBackgroundColor,
+                    disabledContentColor = iconColor,
+                    disabledContainerColor = iconBackgroundColor
+                )
+            ) {
+                HeadingText(
+                    value = "Cancel",
+                    size = 10.sp,
+                    color = Color.Black,
+                    font = rubikRegularStyle
+                )
+            }
+        }
+    )
 }

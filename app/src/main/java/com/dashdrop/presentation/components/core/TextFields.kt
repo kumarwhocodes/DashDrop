@@ -1,14 +1,20 @@
 package com.dashdrop.presentation.components.core
 
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,8 +29,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,9 +48,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dashdrop.ui.theme.backgroundColor
+import com.dashdrop.ui.theme.rubikRegularStyle
 import com.dashdrop.ui.theme.rubikSemiBoldStyle
 
 @Composable
@@ -111,29 +122,41 @@ fun AddressInputField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    action: ImeAction = ImeAction.Next
+    action: ImeAction = ImeAction.Next,
+    size: Int = 400,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .background(backgroundColor)
+    ) {
         Text(
             text = label,
-            fontSize = 16.sp,
+            modifier = Modifier.padding(top = 14.dp, start = 6.dp),
+            fontSize = 15.sp,
             color = Color.Black,
-            fontFamily = rubikSemiBoldStyle
+            fontFamily = rubikRegularStyle
         )
-        Spacer(modifier = Modifier.height(5.dp))
-        OutlinedTextField(
-            keyboardOptions = KeyboardOptions(imeAction = action),
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            maxLines = 1,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedLabelColor = MaterialTheme.colorScheme.primary,
-                focusedTextColor = Color.Black,
-                unfocusedLabelColor = MaterialTheme.colorScheme.primary,
-                unfocusedTextColor = MaterialTheme.colorScheme.secondary,
+        val customModifier = modifier
+            .border(1.dp, Color.Black)
+            .padding(5.dp)
+
+        Box(
+            modifier = customModifier
+        ) {
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                textStyle = TextStyle(
+                    fontSize = 20.sp,
+                    fontFamily = rubikRegularStyle,
+                    color = Color.Black
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = action),
+                maxLines = 1,
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .size(size.dp, 40.dp)
             )
-        )
+        }
     }
 }
 

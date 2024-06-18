@@ -1,5 +1,6 @@
 package com.dashdrop.presentation.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,12 +9,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -23,12 +27,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.repo.address.addAddress
+import com.dashdrop.data.repo.order.addOrder
+import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.BillingUIEvent
 import com.dashdrop.presentation.viewmodels.BillingViewModel
 import com.dashdrop.presentation.components.core.AddressInputField
+import com.dashdrop.presentation.components.core.AddressScaffoldTop
+import com.dashdrop.presentation.components.core.CheckoutBottomBar
 import com.dashdrop.presentation.components.core.PrimaryButton
+import com.dashdrop.presentation.components.core.ScaffoldTop
 import com.dashdrop.presentation.components.core.SecondaryButton
 import com.dashdrop.ui.theme.backgroundColor
+
+val AddressData = listOf(
+    "Country",
+    "Full Name",
+    "Mobile Number",
+    "Flat, House no., Building, Company, Apartment",
+    "Area, Street, Sector, Village",
+    "Landmark",
+    "Pincode",
+    "Town/City",
+    "State",
+)
 
 @Composable
 fun AddressForm(
@@ -38,123 +59,140 @@ fun AddressForm(
 ) {
     val uiState by billingViewModel.billingUIState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .background(backgroundColor)
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-
-        AddressInputField(
-            label = "Name",
-            value = uiState.name,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.NameChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Phone Number",
-            value = uiState.phoneNumber,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.PhoneNumberChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Pincode",
-            value = uiState.pinCode,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.PincodeChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "State",
-            value = uiState.state,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.StateChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "City",
-            value = uiState.city,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.CityChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Locality",
-            value = uiState.locality,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.LocalityChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Address",
-            value = uiState.address,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.AddressChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Landmark",
-            value = uiState.landmark,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.LandmarkChanged(it))
-            }
-        )
-
-        AddressInputField(
-            label = "Country",
-            value = uiState.country,
-            onValueChange = {
-                billingViewModel.onEvent(BillingUIEvent.CountryChanged(it))
-            },
-            action = ImeAction.Done
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            PrimaryButton(onClick = {
-                val newAddress = DeliveryAddress(
-                    addressId = uiState.addressId,
-                    name = uiState.name,
-                    phoneNumber = uiState.phoneNumber,
-                    pincode = uiState.pinCode,
-                    locality = uiState.locality,
-                    address = uiState.address,
-                    city = uiState.city,
-                    state = uiState.state,
-                    landmark = uiState.landmark,
-                    country = uiState.country
-                )
-                addAddress(newAddress, navController, total!!)
-            }) {
-                Text(
-                    text = "SAVE",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
-            }
-
-            SecondaryButton(onClick = {
-                navController.navigate("billing/$total"){
-                    popUpTo("billing/$total")
+    Scaffold(
+        topBar = {
+            AddressScaffoldTop(
+                cancelButtonClicked = {
+                    navController.navigate("billing/$total") {
+                        popUpTo("billing/$total")
+                    }
                 }
-            }) {
-                Text(
-                    text = "CANCEL",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+            )
+        }
+    ) { paddingValues ->
+        BackHandler {
+            navController.navigate(Screen.CartScreen.route) {
+                popUpTo(Screen.CartScreen.route) { inclusive = true }
+            }
+        }
+        Column(
+            modifier = Modifier
+                .background(backgroundColor)
+                .padding(paddingValues)
+                .padding(3.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+
+            AddressInputField(
+                label = "Country",
+                value = uiState.country,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.CountryChanged(it))
+                },
+                action = ImeAction.Done
+            )
+
+            AddressInputField(
+                label = "Full Name",
+                value = uiState.name,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.NameChanged(it))
+                }
+            )
+
+            AddressInputField(
+                label = "Mobile Number",
+                value = uiState.phoneNumber,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.PhoneNumberChanged(it))
+                }
+            )
+
+            AddressInputField(
+                label = "Flat, House no., Building, Company, Apartment",
+                value = uiState.address,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.AddressChanged(it))
+                }
+            )
+
+            AddressInputField(
+                label = "Area, Street, Sector, Village",
+                value = uiState.locality,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.LocalityChanged(it))
+                }
+            )
+
+            AddressInputField(
+                label = "Landmark",
+                value = uiState.landmark,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.LandmarkChanged(it))
+                }
+            )
+
+            Row{
+                AddressInputField(
+                    label = "Pincode",
+                    value = uiState.pinCode,
+                    onValueChange = {
+                        billingViewModel.onEvent(BillingUIEvent.PincodeChanged(it))
+                    },
+                    size = 175
                 )
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                AddressInputField(
+                    label = "Town/City",
+                    value = uiState.city,
+                    onValueChange = {
+                        billingViewModel.onEvent(BillingUIEvent.CityChanged(it))
+                    },
+                    size = 175
+                )
+            }
+
+            AddressInputField(
+                label = "State",
+                value = uiState.state,
+                onValueChange = {
+                    billingViewModel.onEvent(BillingUIEvent.StateChanged(it))
+                }
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                PrimaryButton(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .fillMaxWidth(0.8f),
+                    onClick = {
+                        val newAddress = DeliveryAddress(
+                            addressId = uiState.addressId,
+                            name = uiState.name,
+                            phoneNumber = uiState.phoneNumber,
+                            pincode = uiState.pinCode,
+                            locality = uiState.locality,
+                            address = uiState.address,
+                            city = uiState.city,
+                            state = uiState.state,
+                            landmark = uiState.landmark,
+                            country = uiState.country
+                        )
+                    addAddress(newAddress, navController, total!!)
+                    }
+                ) {
+                    Text(
+                        text = "SAVE",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
             }
         }
     }

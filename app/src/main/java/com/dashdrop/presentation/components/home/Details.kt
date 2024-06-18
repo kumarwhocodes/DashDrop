@@ -22,7 +22,6 @@ fun DetailsImage(
         contentDescription = imageDesc,
         modifier = Modifier
             .size(430.dp,345.dp)
-            .clip(shape = RoundedCornerShape(10.dp))
             .background(detailIconBackgroundColor)
             .padding(50.dp)
     )
