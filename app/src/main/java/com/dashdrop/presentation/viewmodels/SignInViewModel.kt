@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.dashdrop.data.utils.Validator
+import com.dashdrop.data.utils.ValidatorSignUp
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
@@ -45,11 +45,11 @@ class SignInViewModel : ViewModel() {
     }
 
     private fun validateLoginUIDataWithRules() {
-        val emailResult = Validator.validateEmail(
+        val emailResult = ValidatorSignUp.validateEmail(
             email = loginUIState.value.email
         )
 
-        val passwordResult = Validator.validatePassword(
+        val passwordResult = ValidatorSignUp.validatePassword(
             password = loginUIState.value.password
         )
 

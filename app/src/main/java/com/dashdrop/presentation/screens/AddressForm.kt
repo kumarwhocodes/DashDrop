@@ -27,29 +27,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dashdrop.data.model.DeliveryAddress
 import com.dashdrop.data.repo.address.addAddress
-import com.dashdrop.data.repo.order.addOrder
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.BillingUIEvent
 import com.dashdrop.presentation.viewmodels.BillingViewModel
 import com.dashdrop.presentation.components.core.AddressInputField
 import com.dashdrop.presentation.components.core.AddressScaffoldTop
-import com.dashdrop.presentation.components.core.CheckoutBottomBar
 import com.dashdrop.presentation.components.core.PrimaryButton
-import com.dashdrop.presentation.components.core.ScaffoldTop
-import com.dashdrop.presentation.components.core.SecondaryButton
 import com.dashdrop.ui.theme.backgroundColor
-
-val AddressData = listOf(
-    "Country",
-    "Full Name",
-    "Mobile Number",
-    "Flat, House no., Building, Company, Apartment",
-    "Area, Street, Sector, Village",
-    "Landmark",
-    "Pincode",
-    "Town/City",
-    "State",
-)
 
 @Composable
 fun AddressForm(
@@ -88,8 +72,7 @@ fun AddressForm(
                 value = uiState.country,
                 onValueChange = {
                     billingViewModel.onEvent(BillingUIEvent.CountryChanged(it))
-                },
-                action = ImeAction.Done
+                }
             )
 
             AddressInputField(
@@ -159,7 +142,8 @@ fun AddressForm(
                 value = uiState.state,
                 onValueChange = {
                     billingViewModel.onEvent(BillingUIEvent.StateChanged(it))
-                }
+                },
+                action = ImeAction.Done
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -185,7 +169,8 @@ fun AddressForm(
                             country = uiState.country
                         )
                     addAddress(newAddress, navController, total!!)
-                    }
+                    },
+                    enabled = billingViewModel.allValidationsPassed.value
                 ) {
                     Text(
                         text = "SAVE",

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.dashdrop.data.model.LocalUser
-import com.dashdrop.data.utils.Validator
+import com.dashdrop.data.utils.ValidatorSignUp
 import com.dashdrop.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -62,13 +62,13 @@ class SignUpViewModel : ViewModel() {
     }
 
     private fun validateDataWithRules() {
-        val nameResult = Validator.validateName(
+        val nameResult = ValidatorSignUp.validateName(
             name = registrationUIState.value.name
         )
-        val emailResult = Validator.validateEmail(
+        val emailResult = ValidatorSignUp.validateEmail(
             email = registrationUIState.value.email
         )
-        val passwordResult = Validator.validatePassword(
+        val passwordResult = ValidatorSignUp.validatePassword(
             password = registrationUIState.value.password
         )
 

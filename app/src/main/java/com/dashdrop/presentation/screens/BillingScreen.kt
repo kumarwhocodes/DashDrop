@@ -53,7 +53,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun BillingScreen(
     signInViewModel: SignInViewModel = viewModel(),
-    cartViewModel: CartViewModel = hiltViewModel(),
     navController: NavController,
     total: String?
 ) {
@@ -84,7 +83,6 @@ fun BillingScreen(
                         addOrder(total, selectedAddress, selectedPayment) {
                             orderPlaced = true
                         }
-                        cartViewModel.clearCart()
                     } else {
                         if (selectedAddress == null && selectedPayment == null) {
                             Toast.makeText(
@@ -188,11 +186,13 @@ fun BillingScreen(
 @Composable
 fun OrderPlacedDialog(
     showDialog: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     if (showDialog) {
         LaunchedEffect(Unit) {
             delay(2000)
+            cartViewModel.clearCart()
             onDismiss()
         }
         BasicAlertDialog(
