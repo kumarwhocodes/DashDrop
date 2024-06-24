@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dashdrop.R
+import com.dashdrop.data.utils.Constants
 import com.dashdrop.navigation.Screen
 import com.dashdrop.presentation.viewmodels.SignUpUIEvent
 import com.dashdrop.presentation.viewmodels.SignUpViewModel
@@ -66,7 +67,7 @@ fun SignUpScreen(
 
         }
     )
-    val token = stringResource(id = R.string.web_client_id)
+    val token = Constants.WEB_CLIENT_ID
 
     Box(
         modifier = Modifier.fillMaxSize(),
