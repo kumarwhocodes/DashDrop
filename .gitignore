@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+app/google-services.json
+com/dashdrop/data/utils/Constants.kt
+

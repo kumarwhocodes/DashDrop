@@ -56,6 +56,7 @@ fun BillingScreen(
     navController: NavController,
     total: String?
 ) {
+
     val context = LocalContext.current
     var selectedAddress by remember { mutableStateOf<DeliveryAddress?>(null) }
     var selectedPayment by remember { mutableStateOf<Payment?>(null) }
