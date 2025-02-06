@@ -26,7 +26,7 @@ import kotlinx.coroutines.tasks.await
 fun GoogleSignInButton(
     context: Context,
     onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit,
+    onAuthError: (Exception) -> Unit, // Changed to Exception for general error handling
     token: String
 ) {
     val googleSignInClient = rememberGoogleSignInClient(context, token)
@@ -39,7 +39,7 @@ fun GoogleSignInButton(
             }
         },
         image = painterResource(id = R.drawable.google),
-        desc = "google"
+        desc = "Sign in with Google"
     )
 }
 
@@ -48,8 +48,6 @@ fun rememberGoogleSignInClient(context: Context, token: String): GoogleSignInCli
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken(token)
         .requestEmail()
-        .requestProfile()
-        .requestId()
         .build()
 
     return GoogleSignIn.getClient(context, gso)
@@ -58,25 +56,38 @@ fun rememberGoogleSignInClient(context: Context, token: String): GoogleSignInCli
 @Composable
 fun rememberFirebaseAuthLauncher(
     onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit
+    onAuthError: (Exception) -> Unit // Changed to Exception for consistency
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     val scope = rememberCoroutineScope()
 
     return rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
-            val account = task.getResult(ApiException::class.java)!!
-            Log.d("mera_tag", "account $account")
+            val account = task.getResult(ApiException::class.java)
+            if (account != null) {
+                Log.d("GoogleAuth", "Google account retrieved: ${account.email}")
 
-            val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
-            scope.launch {
-                val authResult = FirebaseAuth.getInstance().signInWithCredential(credential).await()
-                onAuthComplete(authResult)
-                Log.d("mera_tag", "${account.displayName} has logged in")
+                scope.launch {
+                    try {
+                        val authResult = FirebaseAuth.getInstance().signInWithCredential(credential).await()
+                        onAuthComplete(authResult)
+
+                        // Fetch the ID Token for current user
+                        val idToken = FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.await()?.token
+                        Log.d("GoogleAuth", "Firebase ID Token: $idToken")
+                    } catch (e: Exception) {
+                        Log.e("GoogleAuth", "Firebase sign-in failed: ${e.message}", e)
+                        onAuthError(e)
+                    }
+                }
+            } else {
+                Log.e("GoogleAuth", "Google sign-in account is null")
+                onAuthError(IllegalStateException("Google account is null"))
             }
         } catch (e: ApiException) {
-            Log.d("mera_tag", "$e Google sign-in failed")
+            Log.e("GoogleAuth", "Google sign-in failed: ${e.statusCode}", e)
             onAuthError(e)
         }
     }
